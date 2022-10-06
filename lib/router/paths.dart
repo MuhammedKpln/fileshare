@@ -1,7 +1,10 @@
 /// Route meta data
 enum RouteMetaData {
   /// Home start screen
-  home('home', '/');
+  home('home', '/'),
+
+  /// Todos
+  todos('todos', '/todos');
 
   /// Route name
   final String routeName;

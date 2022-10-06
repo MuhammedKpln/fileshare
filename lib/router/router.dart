@@ -1,12 +1,13 @@
 import 'package:boilerplate/router/paths.dart';
-import 'package:boilerplate/screens/Home/views/home.view.dart';
 import 'package:boilerplate/screens/core/error.view.dart';
+import 'package:boilerplate/screens/home/views/home.view.dart';
+import 'package:boilerplate/screens/todos/todos.view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 /// It's a class that defines routes
 class AppRouter {
-/// It's a constructor.
+  /// It's a constructor.
   AppRouter();
 
   /// Routes
@@ -15,10 +16,18 @@ class AppRouter {
     urlPathStrategy: UrlPathStrategy.path,
     routes: [
       GoRoute(
-        path: RouteMetaData.home.routePath,
         name: RouteMetaData.home.routeName,
+        path: RouteMetaData.home.routePath,
         pageBuilder: (context, state) => MaterialPage<HomeViewScreen>(
           child: const HomeViewScreen(),
+          key: state.pageKey,
+        ),
+      ),
+      GoRoute(
+        name: RouteMetaData.todos.routeName,
+        path: RouteMetaData.todos.routePath,
+        pageBuilder: (context, state) => MaterialPage<TodosView>(
+          child: const TodosView(),
           key: state.pageKey,
         ),
       )
