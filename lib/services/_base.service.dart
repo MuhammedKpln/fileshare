@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:io';
+
 import 'package:boilerplate/constants%20/services.dart';
 import 'package:dio/dio.dart';
 
@@ -17,15 +19,20 @@ enum ApiEndpoints {
 
 /// It's a class that has a Dio object as a property and a getter that returns
 /// Dio object
-abstract class BaseService {
-  final _dio = Dio(
-    BaseOptions(
-      baseUrl: ServiceConstants.appUrl,
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-    ),
-  );
+class BaseService {
+  /// It creates a new instance of Dio.
+  BaseService() {
+    _instance = Dio(
+      BaseOptions(
+        baseUrl: ServiceConstants.appUrl,
+        connectTimeout: 5000,
+        receiveTimeout: 3000,
+        validateStatus: (status) => status == HttpStatus.ok,
+      ),
+    );
+  }
+  late final Dio _instance;
 
   /// It's a getter that returns the Dio object.
-  Dio get api => _dio;
+  Dio get api => _instance;
 }

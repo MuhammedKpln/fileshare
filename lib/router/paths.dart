@@ -4,7 +4,10 @@ enum RouteMetaData {
   home('home', '/'),
 
   /// Todos
-  todos('todos', '/todos');
+  todos('todos', '/todos'),
+
+  ///Todo Details
+  todoDetails('todo_details', '/todo/:todoId');
 
   /// Route name
   final String routeName;

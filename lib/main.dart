@@ -3,7 +3,9 @@ import 'package:boilerplate/router/router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(App());
+  runApp(
+    App(),
+  );
 }
 
 /// `App` Entry Point.
@@ -20,8 +22,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      routeInformationParser: _appRouter.router.routeInformationParser,
-      routerDelegate: _appRouter.router.routerDelegate,
+      routerConfig: _appRouter.router,
     );
   }
 }

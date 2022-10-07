@@ -1,7 +1,8 @@
 import 'package:boilerplate/router/paths.dart';
 import 'package:boilerplate/screens/core/error.view.dart';
 import 'package:boilerplate/screens/home/views/home.view.dart';
-import 'package:boilerplate/screens/todos/todos.view.dart';
+import 'package:boilerplate/screens/todo_details/views/todo_details.view.dart';
+import 'package:boilerplate/screens/todos/views/todos.view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,7 +14,6 @@ class AppRouter {
   /// Routes
   late final router = GoRouter(
     debugLogDiagnostics: true,
-    urlPathStrategy: UrlPathStrategy.path,
     routes: [
       GoRoute(
         name: RouteMetaData.home.routeName,
@@ -28,6 +28,16 @@ class AppRouter {
         path: RouteMetaData.todos.routePath,
         pageBuilder: (context, state) => MaterialPage<TodosView>(
           child: const TodosView(),
+          key: state.pageKey,
+        ),
+      ),
+      GoRoute(
+        name: RouteMetaData.todoDetails.routeName,
+        path: RouteMetaData.todoDetails.routePath,
+        pageBuilder: (context, state) => MaterialPage<TodoDetailsView>(
+          child: TodoDetailsView(
+            todoId: int.parse(state.params['todoId']!),
+          ),
           key: state.pageKey,
         ),
       )

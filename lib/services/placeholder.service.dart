@@ -1,11 +1,5 @@
 import 'package:boilerplate/models/todo.model.dart';
 import 'package:boilerplate/services/_base.service.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-/// It's creating a provider for the PlaceholderService.
-final placeholderService = Provider<PlaceholderService>((ref) {
-  return PlaceholderService();
-});
 
 /// This class is a service that fetches all todos from the API.
 class PlaceholderService extends BaseService {
@@ -21,12 +15,22 @@ class PlaceholderService extends BaseService {
   /// Returns:
   ///   A Future<List<Todo>?>
   Future<List<Todo>?> fetchAllTodos() async {
-    try {
-      final request = await api.get<List<Todo>>(ApiEndpoints.Todos.path);
+    final request = await api.get<List<dynamic>>(
+      ApiEndpoints.Todos.path,
+    );
 
-      return request.data;
-    } catch (err) {
-      rethrow;
-    }
+    final responseBody = request.data;
+
+    return responseBody
+        ?.map((e) => Todo.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<Todo?> fetchTodo(int todoId) async {
+    final request = await api.get<dynamic>(
+      '${ApiEndpoints.Todos.path}/$todoId',
+    );
+
+    return Todo.fromJson(request.data as Map<String, dynamic>);
   }
 }
