@@ -2,13 +2,16 @@
 
 import 'dart:io';
 
-import 'package:boilerplate/constants%20/services.dart';
+import 'package:boilerplate/constants/services.dart';
 import 'package:dio/dio.dart';
 
 /// Api Endpoints
 enum ApiEndpoints {
   /// It's a enum that has a path property.
-  Todos('/todos');
+  Todos('/todos'),
+
+  /// It's a enum that has a path property.
+  AuthLogin('/login');
 
   /// Endpoint path
   final String path;
@@ -24,7 +27,7 @@ class BaseService {
   BaseService() {
     _instance = Dio(
       BaseOptions(
-        baseUrl: ServiceConstants.appUrl,
+        baseUrl: ServiceConstants.apiUrl,
         connectTimeout: 5000,
         receiveTimeout: 3000,
         validateStatus: (status) => status == HttpStatus.ok,

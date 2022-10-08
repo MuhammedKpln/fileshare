@@ -7,7 +7,10 @@ enum RouteMetaData {
   todos('todos', '/todos'),
 
   ///Todo Details
-  todoDetails('todo_details', '/todo/:todoId');
+  todoDetails('todo_details', '/todo/:todoId'),
+
+  ///Login
+  login('login', '/auth/login');
 
   /// Route name
   final String routeName;

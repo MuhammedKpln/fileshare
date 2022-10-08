@@ -11,7 +11,13 @@ class HomeViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     void navigateTodos() {
       final name = RouteMetaData.todos.routeName;
-      GoRouter.of(context).pushNamed(name);
+      context.pushNamed(name);
+    }
+
+    void navigateLogin() {
+      final name = RouteMetaData.login.routeName;
+
+      context.pushNamed(name);
     }
 
     return Scaffold(
@@ -19,12 +25,16 @@ class HomeViewScreen extends StatelessWidget {
         title: const Text('Title'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             ElevatedButton(
               onPressed: navigateTodos,
               child: const Text('Todos'),
+            ),
+            ElevatedButton(
+              onPressed: navigateLogin,
+              child: const Text('Login'),
             )
           ],
         ),
