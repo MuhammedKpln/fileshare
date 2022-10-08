@@ -15,14 +15,11 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = AuthViewController();
     final appController = context.read<AppController>();
+    final controller = AuthViewController(appController);
 
     Future<void> login() async {
-      final email = controller.textControllers[FormFieldType.emailAdress]!.text;
-      final password = controller.textControllers[FormFieldType.password]!.text;
-
-      await controller.login(email, password).then((value) {
+      await controller.login().then((value) {
         appController.setLoginState(LoginState.loggedIn);
         context.toast
             .showToast('Login successfull!', toastType: ToastType.success);
@@ -38,10 +35,9 @@ class LoginView extends StatelessWidget {
       body: Column(
         children: [
           TextFormField(
-            controller: controller.textControllers[FormFieldType.emailAdress],
-            keyboardType: TextInputType.emailAddress,
+            controller: controller.textControllers[FormFieldType.username],
             decoration: const InputDecoration(
-              label: Text('E-mail'),
+              label: Text('Username'),
             ),
           ),
           TextFormField(

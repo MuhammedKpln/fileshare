@@ -11,7 +11,7 @@ enum ApiEndpoints {
   Todos('/todos'),
 
   /// It's a enum that has a path property.
-  AuthLogin('/login');
+  AuthLogin('/auth/login');
 
   /// Endpoint path
   final String path;

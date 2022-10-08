@@ -1,5 +1,5 @@
-import 'package:boilerplate/auth/storage/user.adapter.dart';
-import 'package:boilerplate/constants/storage.dart';
+import 'package:boilerplate/auth/models/user.model.dart';
+import 'package:boilerplate/core/storage/constants.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 /// It saves a user to a box
@@ -9,14 +9,14 @@ class AuthBox {
   ///
   /// Args:
   ///   token (String): The token that you get from the server.
-  Future<void> saveUser(String token) async {
+  Future<void> saveUser(User user) async {
     final box = await Hive.openLazyBox<User>(StorageBoxes.auth.box);
 
     if (box.containsKey(AuthStorageKeys.user.key)) {
       await box.delete(AuthStorageKeys.user.key);
     }
 
-    await box.put(AuthStorageKeys.user.key, User(token));
+    await box.put(AuthStorageKeys.user.key, user);
   }
 
   /// > Get the user from the auth box in the hive database
