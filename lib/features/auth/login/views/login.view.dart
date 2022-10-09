@@ -1,5 +1,5 @@
+import 'package:boilerplate/core/extensions/toast.extension.dart';
 import 'package:boilerplate/core/theme/toast.dart';
-import 'package:boilerplate/extensions/toast.extension.dart';
 import 'package:boilerplate/features/auth/controllers/auth.controller.dart';
 import 'package:boilerplate/features/auth/enums.dart';
 import 'package:boilerplate/features/core/controllers/app.controller.dart';

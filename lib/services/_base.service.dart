@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:boilerplate/constants/services.dart';
+import 'package:boilerplate/core/constants/services.dart';
 import 'package:dio/dio.dart';
 
 /// Api Endpoints

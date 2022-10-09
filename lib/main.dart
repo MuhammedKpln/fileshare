@@ -1,4 +1,4 @@
-import 'package:boilerplate/constants/core.dart';
+import 'package:boilerplate/core/constants/core.dart';
 import 'package:boilerplate/features/auth/models/user.model.dart';
 import 'package:boilerplate/features/core/controllers/app.controller.dart';
 import 'package:boilerplate/router/router.dart';
