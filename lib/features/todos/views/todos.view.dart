@@ -1,5 +1,5 @@
+import 'package:boilerplate/features/todos/controllers/todo_view.controller.dart';
 import 'package:boilerplate/router/paths.dart';
-import 'package:boilerplate/screens/todos/controllers/todo_view.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';

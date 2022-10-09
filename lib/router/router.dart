@@ -1,11 +1,11 @@
 import 'package:boilerplate/auth/controllers/app.controller.dart';
 import 'package:boilerplate/auth/enums.dart';
+import 'package:boilerplate/features/auth/login/views/login.view.dart';
+import 'package:boilerplate/features/core/error.view.dart';
+import 'package:boilerplate/features/home/views/home.view.dart';
+import 'package:boilerplate/features/todo_details/views/todo_details.view.dart';
+import 'package:boilerplate/features/todos/views/todos.view.dart';
 import 'package:boilerplate/router/paths.dart';
-import 'package:boilerplate/screens/auth/login/views/login.view.dart';
-import 'package:boilerplate/screens/core/error.view.dart';
-import 'package:boilerplate/screens/home/views/home.view.dart';
-import 'package:boilerplate/screens/todo_details/views/todo_details.view.dart';
-import 'package:boilerplate/screens/todos/views/todos.view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

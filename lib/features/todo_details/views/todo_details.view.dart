@@ -1,4 +1,4 @@
-import 'package:boilerplate/screens/todo_details/controllers/todo_details.controller.dart';
+import 'package:boilerplate/features/todo_details/controllers/todo_details.controller.dart';
 import 'package:flutter/material.dart';
 
 /// It's a `StatelessWidget` that displays a `Scaffold` with an `AppBar` and a `FutureBuilder` that
