@@ -33,4 +33,12 @@ class AuthBox {
 
     return null;
   }
+
+  /// It opens the auth box, clears it, and then closes it
+  Future<void> clear() async {
+    final box = await Hive.openLazyBox<User>(StorageBoxes.auth.box);
+
+    await box.clear();
+    await box.close();
+  }
 }

@@ -4,6 +4,7 @@ import 'package:boilerplate/features/auth/services/auth.repository.dart';
 import 'package:boilerplate/features/auth/storage/auth.storage.dart';
 import 'package:boilerplate/services/app.service.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 
 part 'auth.controller.g.dart';
@@ -12,6 +13,7 @@ part 'auth.controller.g.dart';
 enum FormFieldType { username, password }
 
 /// `AuthViewController` that uses `AuthController` to manage its state
+@LazySingleton()
 class AuthViewController = AuthController with _$AuthViewController;
 
 /// It's a class that manages the state of the login page
@@ -72,5 +74,15 @@ abstract class AuthController with Store {
       loading = false;
       throw Exception(err);
     }
+  }
+
+  @action
+
+  /// `_appController.setLoginState(LoginState.none);`
+  ///
+  /// This is the only line of code that matters
+  Future<void> logout() async {
+    await _authBox.clear();
+    _appController.setLoginState(LoginState.none);
   }
 }

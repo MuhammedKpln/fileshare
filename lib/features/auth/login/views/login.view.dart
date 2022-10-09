@@ -1,11 +1,12 @@
+import 'package:boilerplate/core/di/di.dart';
 import 'package:boilerplate/core/extensions/toast.extension.dart';
 import 'package:boilerplate/core/theme/toast.dart';
 import 'package:boilerplate/features/auth/controllers/auth.controller.dart';
-import 'package:boilerplate/features/auth/enums.dart';
+import 'package:boilerplate/router/paths.dart';
 import 'package:boilerplate/services/app.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 /// It's a stateless widget that contains a form with two text fields
 /// The button calls the login method on the controller
@@ -15,12 +16,12 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appController = context.read<AppService>();
+    final appController = getIt<AppService>();
     final controller = AuthViewController(appController);
 
     Future<void> login() async {
       await controller.login().then((value) {
-        appController.setLoginState(LoginState.loggedIn);
+        context.replaceNamed(RouteMetaData.posts.routeName);
         context.toast
             .showToast('Login successfull!', toastType: ToastType.success);
       }).onError((err, _) {

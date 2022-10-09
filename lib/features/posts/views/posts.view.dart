@@ -2,6 +2,7 @@
 
 import 'package:boilerplate/core/di/di.dart';
 import 'package:boilerplate/core/extensions/async_value.extension.dart';
+import 'package:boilerplate/features/auth/controllers/auth.controller.dart';
 import 'package:boilerplate/features/posts/controllers/posts_view.controller.dart';
 import 'package:boilerplate/features/posts/models/base_posts.model.dart';
 import 'package:boilerplate/features/posts/views/components/posts/posts.dart';
@@ -17,9 +18,19 @@ class PostsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = getIt<PostsViewController>();
+    final authController = getIt<AuthViewController>();
+
+    Future<void> logout() async {
+      await authController.logout();
+    }
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Posts'),
+        actions: [
+          IconButton(onPressed: logout, icon: const Icon(Icons.logout))
+        ],
+      ),
       body: Observer(
         builder: (context) {
           return controller.posts!.asyncValue<BasePosts>(

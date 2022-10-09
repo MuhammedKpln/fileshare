@@ -1,8 +1,10 @@
 import 'package:boilerplate/features/auth/enums.dart';
 import 'package:boilerplate/features/auth/storage/auth.storage.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 /// App State
+@LazySingleton()
 class AppService extends ChangeNotifier {
   /// Setting the default value of the loginState to none.
   LoginState? loginState = LoginState.none;

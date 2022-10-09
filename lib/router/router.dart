@@ -8,8 +8,10 @@ import 'package:boilerplate/router/paths.dart';
 import 'package:boilerplate/services/app.service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:injectable/injectable.dart';
 
 /// It's a class that defines routes
+@LazySingleton()
 class AppRouter {
   /// It's a constructor.
   AppRouter(this._appController);
@@ -59,6 +61,7 @@ class AppRouter {
     redirect: (context, state) {
       final loginState = _appController.loginState;
       final loginLocation = state.namedLocation(RouteMetaData.login.routeName);
+      final homeLocation = state.namedLocation(RouteMetaData.posts.routeName);
       final isInLoginPage = state.location == loginLocation;
 
       if (!_appController.isInit) {
@@ -69,8 +72,8 @@ class AppRouter {
         return loginLocation;
       }
 
-      if (loginState == LoginState.loggedIn && isInLoginPage) {
-        return null;
+      if (loginState == LoginState.loggedIn && state.location == '/') {
+        return homeLocation;
       }
 
       return null;

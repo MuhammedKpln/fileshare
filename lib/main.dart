@@ -5,7 +5,6 @@ import 'package:boilerplate/router/router.dart';
 import 'package:boilerplate/services/app.service.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   configureDependencies();
@@ -25,7 +24,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final appController = AppService();
+  final appController = getIt<AppService>();
 
   @override
   void initState() {
@@ -35,27 +34,15 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AppService>(
-          create: (context) => appController,
-        ),
-        Provider<AppRouter>(
-          create: (context) => AppRouter(appController),
-        ),
-      ],
-      builder: (context, child) {
-        final goRouter = Provider.of<AppRouter>(context, listen: false).router;
+    final goRouter = getIt<AppRouter>().router;
 
-        return MaterialApp.router(
-          title: CoreConstants.appTitle,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            useMaterial3: true,
-          ),
-          routerConfig: goRouter,
-        );
-      },
+    return MaterialApp.router(
+      title: CoreConstants.appTitle,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        useMaterial3: true,
+      ),
+      routerConfig: goRouter,
     );
   }
 }
