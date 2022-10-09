@@ -8,7 +8,7 @@ import 'package:dio/dio.dart';
 /// Api Endpoints
 enum ApiEndpoints {
   /// It's a enum that has a path property.
-  Todos('/todos'),
+  Posts('/posts'),
 
   /// It's a enum that has a path property.
   AuthLogin('/auth/login');
@@ -22,19 +22,15 @@ enum ApiEndpoints {
 
 /// It's a class that has a Dio object as a property and a getter that returns
 /// Dio object
-class BaseService {
-  /// It creates a new instance of Dio.
-  BaseService() {
-    _instance = Dio(
-      BaseOptions(
-        baseUrl: ServiceConstants.apiUrl,
-        connectTimeout: 5000,
-        receiveTimeout: 3000,
-        validateStatus: (status) => status == HttpStatus.ok,
-      ),
-    );
-  }
-  late final Dio _instance;
+class BaseRepository {
+  final Dio _instance = Dio(
+    BaseOptions(
+      baseUrl: ServiceConstants.apiUrl,
+      connectTimeout: 5000,
+      receiveTimeout: 3000,
+      validateStatus: (status) => status == HttpStatus.ok,
+    ),
+  );
 
   /// It's a getter that returns the Dio object.
   Dio get api => _instance;

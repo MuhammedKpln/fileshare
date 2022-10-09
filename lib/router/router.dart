@@ -2,6 +2,8 @@ import 'package:boilerplate/features/auth/enums.dart';
 import 'package:boilerplate/features/auth/login/views/login.view.dart';
 import 'package:boilerplate/features/core/error.view.dart';
 import 'package:boilerplate/features/home/views/home.view.dart';
+import 'package:boilerplate/features/posts/views/post_details.view.dart';
+import 'package:boilerplate/features/posts/views/posts.view.dart';
 import 'package:boilerplate/router/paths.dart';
 import 'package:boilerplate/services/app.service.dart';
 import 'package:flutter/material.dart';
@@ -34,12 +36,29 @@ class AppRouter {
           child: const LoginView(),
           key: state.pageKey,
         ),
+      ),
+      GoRoute(
+        name: RouteMetaData.posts.routeName,
+        path: RouteMetaData.posts.routePath,
+        pageBuilder: (context, state) => MaterialPage<PostsView>(
+          child: const PostsView(),
+          key: state.pageKey,
+        ),
+      ),
+      GoRoute(
+        name: RouteMetaData.post.routeName,
+        path: RouteMetaData.post.routePath,
+        pageBuilder: (context, state) => MaterialPage<PostDetailsView>(
+          child: PostDetailsView(
+            postId: int.parse(state.params['id'] ?? '0'),
+          ),
+          key: state.pageKey,
+        ),
       )
     ],
     redirect: (context, state) {
       final loginState = _appController.loginState;
       final loginLocation = state.namedLocation(RouteMetaData.login.routeName);
-      final homeLocation = state.namedLocation(RouteMetaData.todos.routeName);
       final isInLoginPage = state.location == loginLocation;
 
       if (!_appController.isInit) {
@@ -51,7 +70,7 @@ class AppRouter {
       }
 
       if (loginState == LoginState.loggedIn && isInLoginPage) {
-        return homeLocation;
+        return null;
       }
 
       return null;

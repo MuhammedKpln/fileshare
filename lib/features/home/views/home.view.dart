@@ -10,7 +10,7 @@ class HomeViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void navigateTodos() {
-      final name = RouteMetaData.todos.routeName;
+      final name = RouteMetaData.posts.routeName;
       context.pushNamed(name);
     }
 

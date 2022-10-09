@@ -1,6 +1,6 @@
 import 'package:boilerplate/features/auth/enums.dart';
 import 'package:boilerplate/features/auth/models/auth.model.dart';
-import 'package:boilerplate/features/auth/services/auth.service.dart';
+import 'package:boilerplate/features/auth/services/auth.repository.dart';
 import 'package:boilerplate/features/auth/storage/auth.storage.dart';
 import 'package:boilerplate/services/app.service.dart';
 import 'package:flutter/material.dart';

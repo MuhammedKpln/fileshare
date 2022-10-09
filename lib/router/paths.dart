@@ -3,11 +3,11 @@ enum RouteMetaData {
   /// Home start screen
   home('home', '/'),
 
-  /// Todos
-  todos('todos', '/todos'),
+  /// Posts
+  posts('posts', '/posts'),
 
-  ///Todo Details
-  todoDetails('todo_details', '/todo/:todoId'),
+  /// Post
+  post('post', '/posts/:id'),
 
   ///Login
   login('login', '/auth/login');

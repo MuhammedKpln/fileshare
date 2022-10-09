@@ -1,4 +1,5 @@
 import 'package:boilerplate/core/constants/core.dart';
+import 'package:boilerplate/core/di/di.dart';
 import 'package:boilerplate/features/auth/models/user.model.dart';
 import 'package:boilerplate/router/router.dart';
 import 'package:boilerplate/services/app.service.dart';
@@ -7,6 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
+  configureDependencies();
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
 
@@ -49,6 +51,7 @@ class _AppState extends State<App> {
           title: CoreConstants.appTitle,
           theme: ThemeData(
             primarySwatch: Colors.blue,
+            useMaterial3: true,
           ),
           routerConfig: goRouter,
         );
