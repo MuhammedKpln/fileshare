@@ -2,7 +2,7 @@ import 'package:boilerplate/core/extensions/toast.extension.dart';
 import 'package:boilerplate/core/theme/toast.dart';
 import 'package:boilerplate/features/auth/controllers/auth.controller.dart';
 import 'package:boilerplate/features/auth/enums.dart';
-import 'package:boilerplate/features/core/controllers/app.controller.dart';
+import 'package:boilerplate/services/app.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +15,7 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appController = context.read<AppController>();
+    final appController = context.read<AppService>();
     final controller = AuthViewController(appController);
 
     Future<void> login() async {

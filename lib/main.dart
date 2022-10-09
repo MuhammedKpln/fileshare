@@ -1,7 +1,7 @@
 import 'package:boilerplate/core/constants/core.dart';
 import 'package:boilerplate/features/auth/models/user.model.dart';
-import 'package:boilerplate/features/core/controllers/app.controller.dart';
 import 'package:boilerplate/router/router.dart';
+import 'package:boilerplate/services/app.service.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final appController = AppController();
+  final appController = AppService();
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AppController>(
+        ChangeNotifierProvider<AppService>(
           create: (context) => appController,
         ),
         Provider<AppRouter>(

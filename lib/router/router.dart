@@ -1,11 +1,9 @@
 import 'package:boilerplate/features/auth/enums.dart';
 import 'package:boilerplate/features/auth/login/views/login.view.dart';
-import 'package:boilerplate/features/core/controllers/app.controller.dart';
 import 'package:boilerplate/features/core/error.view.dart';
 import 'package:boilerplate/features/home/views/home.view.dart';
-import 'package:boilerplate/features/todo_details/views/todo_details.view.dart';
-import 'package:boilerplate/features/todos/views/todos.view.dart';
 import 'package:boilerplate/router/paths.dart';
+import 'package:boilerplate/services/app.service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,7 +11,7 @@ import 'package:go_router/go_router.dart';
 class AppRouter {
   /// It's a constructor.
   AppRouter(this._appController);
-  late final AppController _appController;
+  late final AppService _appController;
 
   /// Routes
   late final router = GoRouter(
@@ -26,24 +24,6 @@ class AppRouter {
         path: RouteMetaData.home.routePath,
         pageBuilder: (context, state) => MaterialPage<HomeViewScreen>(
           child: const HomeViewScreen(),
-          key: state.pageKey,
-        ),
-      ),
-      GoRoute(
-        name: RouteMetaData.todos.routeName,
-        path: RouteMetaData.todos.routePath,
-        pageBuilder: (context, state) => MaterialPage<TodosView>(
-          child: const TodosView(),
-          key: state.pageKey,
-        ),
-      ),
-      GoRoute(
-        name: RouteMetaData.todoDetails.routeName,
-        path: RouteMetaData.todoDetails.routePath,
-        pageBuilder: (context, state) => MaterialPage<TodoDetailsView>(
-          child: TodoDetailsView(
-            todoId: int.parse(state.params['todoId']!),
-          ),
           key: state.pageKey,
         ),
       ),

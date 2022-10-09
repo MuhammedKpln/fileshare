@@ -3,7 +3,7 @@ import 'package:boilerplate/features/auth/storage/auth.storage.dart';
 import 'package:flutter/material.dart';
 
 /// App State
-class AppController extends ChangeNotifier {
+class AppService extends ChangeNotifier {
   /// Setting the default value of the loginState to none.
   LoginState? loginState = LoginState.none;
   bool isInit = false;

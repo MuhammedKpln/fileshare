@@ -2,7 +2,7 @@ import 'package:boilerplate/features/auth/enums.dart';
 import 'package:boilerplate/features/auth/models/auth.model.dart';
 import 'package:boilerplate/features/auth/services/auth.service.dart';
 import 'package:boilerplate/features/auth/storage/auth.storage.dart';
-import 'package:boilerplate/features/core/controllers/app.controller.dart';
+import 'package:boilerplate/services/app.service.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
@@ -20,7 +20,7 @@ abstract class AuthController with Store {
 
   final _authService = AuthService();
   final _authBox = AuthBox();
-  final AppController _appController;
+  final AppService _appController;
 
   final Map<FormFieldType, TextEditingController> textControllers = {
     FormFieldType.username: TextEditingController(text: 'kminchelle'),
