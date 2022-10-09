@@ -1,5 +1,5 @@
-import 'package:boilerplate/auth/models/user.model.dart';
 import 'package:boilerplate/core/storage/constants.dart';
+import 'package:boilerplate/features/auth/models/user.model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 /// It saves a user to a box

@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:boilerplate/auth/models/auth.model.dart';
-import 'package:boilerplate/auth/models/user.model.dart';
+import 'package:boilerplate/features/auth/models/auth.model.dart';
+import 'package:boilerplate/features/auth/models/user.model.dart';
 import 'package:boilerplate/services/_base.service.dart';
 import 'package:dio/dio.dart';
 

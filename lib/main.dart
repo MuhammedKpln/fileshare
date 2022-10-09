@@ -1,6 +1,6 @@
-import 'package:boilerplate/auth/controllers/app.controller.dart';
-import 'package:boilerplate/auth/models/user.model.dart';
 import 'package:boilerplate/constants/core.dart';
+import 'package:boilerplate/features/auth/models/user.model.dart';
+import 'package:boilerplate/features/core/controllers/app.controller.dart';
 import 'package:boilerplate/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';

@@ -1,5 +1,5 @@
-import 'package:boilerplate/auth/enums.dart';
-import 'package:boilerplate/auth/storage/auth.storage.dart';
+import 'package:boilerplate/features/auth/enums.dart';
+import 'package:boilerplate/features/auth/storage/auth.storage.dart';
 import 'package:flutter/material.dart';
 
 /// App State

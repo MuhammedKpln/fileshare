@@ -1,8 +1,8 @@
-import 'package:boilerplate/auth/controllers/app.controller.dart';
-import 'package:boilerplate/auth/controllers/auth.controller.dart';
-import 'package:boilerplate/auth/enums.dart';
 import 'package:boilerplate/core/theme/toast.dart';
 import 'package:boilerplate/extensions/toast.extension.dart';
+import 'package:boilerplate/features/auth/controllers/auth.controller.dart';
+import 'package:boilerplate/features/auth/enums.dart';
+import 'package:boilerplate/features/core/controllers/app.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';

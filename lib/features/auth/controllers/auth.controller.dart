@@ -1,8 +1,8 @@
-import 'package:boilerplate/auth/controllers/app.controller.dart';
-import 'package:boilerplate/auth/enums.dart';
-import 'package:boilerplate/auth/models/auth.model.dart';
-import 'package:boilerplate/auth/services/auth.service.dart';
-import 'package:boilerplate/auth/storage/auth.storage.dart';
+import 'package:boilerplate/features/auth/enums.dart';
+import 'package:boilerplate/features/auth/models/auth.model.dart';
+import 'package:boilerplate/features/auth/services/auth.service.dart';
+import 'package:boilerplate/features/auth/storage/auth.storage.dart';
+import 'package:boilerplate/features/core/controllers/app.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
