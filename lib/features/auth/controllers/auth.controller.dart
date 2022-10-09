@@ -18,11 +18,11 @@ class AuthViewController = AuthController with _$AuthViewController;
 
 /// It's a class that manages the state of the login page
 abstract class AuthController with Store {
-  AuthController(this._appController);
+  AuthController(this._appController, this._authBox, this._authService);
 
-  final _authService = AuthService();
-  final _authBox = AuthBox();
   final AppService _appController;
+  final AuthService _authService;
+  final AuthBox _authBox;
 
   final Map<FormFieldType, TextEditingController> textControllers = {
     FormFieldType.username: TextEditingController(text: 'kminchelle'),

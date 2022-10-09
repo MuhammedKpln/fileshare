@@ -17,7 +17,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appController = getIt<AppService>();
-    final controller = AuthViewController(appController);
+    final controller = getIt<AuthViewController>();
 
     Future<void> login() async {
       await controller.login().then((value) {

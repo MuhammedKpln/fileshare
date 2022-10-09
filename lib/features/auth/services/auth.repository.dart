@@ -4,9 +4,11 @@ import 'package:boilerplate/features/auth/models/auth.model.dart';
 import 'package:boilerplate/features/auth/models/user.model.dart';
 import 'package:boilerplate/repositories/_base.repository.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 /// It takes an email and password, sends them to the server, and returns the response
 
+@LazySingleton()
 class AuthService extends BaseRepository {
   /// It takes an email and password, sends them to the server, and returns the response
   ///

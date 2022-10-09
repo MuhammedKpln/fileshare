@@ -1,8 +1,10 @@
 import 'package:boilerplate/core/storage/constants.dart';
 import 'package:boilerplate/features/auth/models/user.model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:injectable/injectable.dart';
 
 /// It saves a user to a box
+@LazySingleton()
 class AuthBox {
   /// > It opens the `auth` box, deletes the `user` key if it exists
   /// and then saves the `user` key with  the `token` value
