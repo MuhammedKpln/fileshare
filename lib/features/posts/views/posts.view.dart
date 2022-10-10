@@ -6,8 +6,11 @@ import 'package:boilerplate/features/auth/controllers/auth.controller.dart';
 import 'package:boilerplate/features/posts/controllers/posts_view.controller.dart';
 import 'package:boilerplate/features/posts/models/base_posts.model.dart';
 import 'package:boilerplate/features/posts/views/components/posts/posts.dart';
+import 'package:boilerplate/router/paths.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 
 /// `PostsView` is a `StatelessWidget` that displays a
 /// `Scaffold` with an `AppBar` and a `Posts` widget that displays a list of `Post`
@@ -24,9 +27,17 @@ class PostsView extends StatelessWidget {
       await authController.logout();
     }
 
+    void navigateToSettings() {
+      context.pushNamed(RouteMetaData.settings.routeName);
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Posts'),
+        title: const Text('postsViewTitle').tr(),
+        leading: IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: navigateToSettings,
+        ),
         actions: [
           IconButton(onPressed: logout, icon: const Icon(Icons.logout))
         ],

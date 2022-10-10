@@ -1,0 +1,10 @@
+{
+  "postsViewTitle": "Posts",
+  "loginViewTitle": "Login",
+  "loginViewUsername": "Username",
+  "loginViewPassword": "Password",
+  "loginViewBtnTxt": "Login",
+  "settingsViewTitle": "Settings",
+  "appLocaleSettingsTxt": "Language",
+  "appLocaleNotFoundError": "Selected language not found!"
+}

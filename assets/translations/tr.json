@@ -1,0 +1,10 @@
+{
+  "postsViewTitle": "Yazılar",
+  "loginViewTitle": "Giriş yap",
+  "loginViewUsername": "Kullanıcı adı",
+  "loginViewPassword": "Şifre",
+  "loginViewBtnTxt": "Giriş yap",
+  "settingsViewTitle": "Ayarlar",
+  "appLocaleSettingsTxt": "Dil",
+  "appLocaleNotFoundError": "Seçtiğiniz dil bulunmamakta!"
+}

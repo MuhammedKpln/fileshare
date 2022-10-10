@@ -7,10 +7,13 @@ enum RouteMetaData {
   posts('posts', '/posts'),
 
   /// Post
-  post('post', '/posts/:id'),
+  post('post', ':id'),
 
   ///Login
-  login('login', '/auth/login');
+  login('login', '/auth/login'),
+
+  ///Settings
+  settings('settings', '/settings');
 
   /// Route name
   final String routeName;

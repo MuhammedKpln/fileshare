@@ -19,7 +19,7 @@ class Posts extends StatelessWidget {
     /// Args:
     ///   postId (int): The id of the post to navigate to.
     void navigateToPost(int postId) {
-      context.pushNamed(
+      context.goNamed(
         RouteMetaData.post.routeName,
         params: {'id': postId.toString()},
       );

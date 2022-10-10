@@ -21,6 +21,7 @@ dependencies:
   hive_flutter: ^1.1.0
   get_it: ^7.2.0
   injectable: ^1.5.3
+  easy_localization: ^3.0.1
 
 
 dev_dependencies:
@@ -36,3 +37,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/translations/

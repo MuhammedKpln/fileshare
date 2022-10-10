@@ -4,6 +4,7 @@ import 'package:boilerplate/features/core/error.view.dart';
 import 'package:boilerplate/features/home/views/home.view.dart';
 import 'package:boilerplate/features/posts/views/post_details.view.dart';
 import 'package:boilerplate/features/posts/views/posts.view.dart';
+import 'package:boilerplate/features/settings/views/settings.view.dart';
 import 'package:boilerplate/router/paths.dart';
 import 'package:boilerplate/services/app.service.dart';
 import 'package:flutter/material.dart';
@@ -46,23 +47,34 @@ class AppRouter {
           child: const PostsView(),
           key: state.pageKey,
         ),
+        routes: [
+          GoRoute(
+            name: RouteMetaData.post.routeName,
+            path: RouteMetaData.post.routePath,
+            pageBuilder: (context, state) => MaterialPage<PostDetailsView>(
+              child: PostDetailsView(
+                postId: int.parse(state.params['id'] ?? '0'),
+              ),
+              key: state.pageKey,
+            ),
+          )
+        ],
       ),
       GoRoute(
-        name: RouteMetaData.post.routeName,
-        path: RouteMetaData.post.routePath,
-        pageBuilder: (context, state) => MaterialPage<PostDetailsView>(
-          child: PostDetailsView(
-            postId: int.parse(state.params['id'] ?? '0'),
-          ),
+        name: RouteMetaData.settings.routeName,
+        path: RouteMetaData.settings.routePath,
+        pageBuilder: (context, state) => MaterialPage<SettingsView>(
+          child: SettingsView(),
           key: state.pageKey,
         ),
-      )
+      ),
     ],
     redirect: (context, state) {
       final loginState = _appController.loginState;
       final loginLocation = state.namedLocation(RouteMetaData.login.routeName);
       final homeLocation = state.namedLocation(RouteMetaData.posts.routeName);
       final isInLoginPage = state.location == loginLocation;
+      final isInRootPage = state.location == '/';
 
       if (!_appController.isInit) {
         return null;
@@ -72,7 +84,7 @@ class AppRouter {
         return loginLocation;
       }
 
-      if (loginState == LoginState.loggedIn && state.location == '/') {
+      if (loginState == LoginState.loggedIn && isInRootPage) {
         return homeLocation;
       }
 
