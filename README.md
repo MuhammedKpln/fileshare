@@ -28,6 +28,10 @@
 - Mobx for state management (https://pub.dev/packages/mobx)
 - Dio for fetching APIs (https://pub.dev/packages/dio)
 - GetIt/Injectable for Dependecy Injection (DI) (https://pub.dev/packages/get_It and https://pub.dev/packages/injectable)
+- Authentication flow
+- Localization via via https://pub.dev/packages/easy_localization
+- Theme manager
+
 
 
 ## Getting Started
