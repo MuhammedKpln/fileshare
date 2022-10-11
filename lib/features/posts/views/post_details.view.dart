@@ -56,14 +56,16 @@ class PostDetailsView extends StatelessWidget {
     );
   }
 
-  /// > It returns an Observer widget that renders a Text widget with the title of the post
+  /// > It returns an Observer widget that renders a Text widget with the title
+  ///    of the post
   ///
   /// Args:
-  ///   controller (PostDetailsViewController): The controller that will be used to render the view.
+  ///   controller (PostDetailsViewController): The controller that will be used
+  ///   to render the view.
   ///
   /// Returns:
-  ///   An Observer widget that will listen to the controller's post stream and update the text of the
-  /// Text widget.
+  ///   An Observer widget that will listen to the controller's post stream and
+  ///  update the text of the Text widget.
   Observer renderTitle(PostDetailsViewController controller) {
     return Observer(
       builder: (context) => Text(controller.post?.value?.title ?? ''),
@@ -73,6 +75,7 @@ class PostDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = getIt<PostDetailsViewController>();
+    // ignore: cascade_invocations
     controller.fetchPost(postId);
 
     return Scaffold(

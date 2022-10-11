@@ -19,6 +19,7 @@ class ErrorInterceptor implements Interceptor {
   }
 
   @override
+  // ignore: strict_raw_type
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     return handler.next(response);
   }
