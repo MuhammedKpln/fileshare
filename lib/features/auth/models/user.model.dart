@@ -11,7 +11,7 @@ import 'package:hive/hive.dart';
 part 'user.model.freezed.dart';
 part 'user.model.g.dart';
 
-@HiveType(typeId: StorageTypeAdapterId.UserModel)
+@HiveType(typeId: StorageTypeAdapterId.userModel)
 @Freezed(makeCollectionsUnmodifiable: false)
 abstract class User with _$User {
   const factory User({

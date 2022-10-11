@@ -27,7 +27,7 @@ class AppService extends ChangeNotifier {
   /// logged in
   Future<void> checkLoginState() async {
     final authBox = AuthBox();
-    final user = await authBox.getUser();
+    final user = await authBox.getAuth();
 
     if (user != null) {
       loginState = LoginState.loggedIn;

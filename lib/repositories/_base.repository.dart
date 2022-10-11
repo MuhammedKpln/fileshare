@@ -3,6 +3,8 @@
 import 'dart:io';
 
 import 'package:boilerplate/core/constants/services.dart';
+import 'package:boilerplate/repositories/interceptors/auth.interceptor.dart';
+import 'package:boilerplate/repositories/interceptors/error.interceptor.dart';
 import 'package:dio/dio.dart';
 
 /// Api Endpoints
@@ -23,6 +25,12 @@ enum ApiEndpoints {
 /// It's a class that has a Dio object as a property and a getter that returns
 /// Dio object
 class BaseRepository {
+  /// It adds the interceptors to the instance of the Dio class.
+  BaseRepository() {
+    _instance.interceptors
+      ..add(ErrorInterceptor())
+      ..add(AuthInterceptor());
+  }
   final Dio _instance = Dio(
     BaseOptions(
       baseUrl: ServiceConstants.apiUrl,

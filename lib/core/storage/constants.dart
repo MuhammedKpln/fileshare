@@ -10,7 +10,8 @@ enum StorageBoxes {
 
 /// Hive box names
 enum AuthStorageKeys {
-  user('user');
+  user('user'),
+  accessToken('access_token');
 
   final String key;
   const AuthStorageKeys(this.key);
