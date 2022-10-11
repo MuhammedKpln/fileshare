@@ -1,4 +1,5 @@
 import 'package:boilerplate/core/constants/locale.dart';
+import 'package:boilerplate/core/theme/theme.dart';
 import 'package:boilerplate/features/auth/enums.dart';
 import 'package:boilerplate/features/auth/storage/auth.storage.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +9,13 @@ import 'package:injectable/injectable.dart';
 @LazySingleton()
 class AppService extends ChangeNotifier {
   /// A constructor.
-  AppService(this.locale);
+  AppService(this.locale, this.theme);
 
   /// Application locale
   final AppLocale locale;
+
+  /// App theme
+  AppTheme theme;
 
   /// Setting the default value of the loginState to none.
   LoginState? loginState = LoginState.none;

@@ -1,4 +1,5 @@
 import 'package:boilerplate/features/settings/components/changeLocale.dart';
+import 'package:boilerplate/features/settings/components/changeTheme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 class SettingsView extends StatelessWidget {
   SettingsView({super.key});
 
-  final List<Widget> _settings = [const ChangeLocale()];
+  final List<Widget> _settings = [const ChangeLocale(), const ChangeTheme()];
 
   @override
   Widget build(BuildContext context) {

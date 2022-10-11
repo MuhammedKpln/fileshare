@@ -6,5 +6,6 @@
   "loginViewBtnTxt": "Giriş yap",
   "settingsViewTitle": "Ayarlar",
   "appLocaleSettingsTxt": "Dil",
-  "appLocaleNotFoundError": "Seçtiğiniz dil bulunmamakta!"
+  "appLocaleNotFoundError": "Seçtiğiniz dil bulunmamakta!",
+  "darkModeTxt": "Karanlık mod"
 }

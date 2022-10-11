@@ -6,5 +6,6 @@
   "loginViewBtnTxt": "Login",
   "settingsViewTitle": "Settings",
   "appLocaleSettingsTxt": "Language",
-  "appLocaleNotFoundError": "Selected language not found!"
+  "appLocaleNotFoundError": "Selected language not found!",
+  "darkModeTxt": "Dark mode"
 }
