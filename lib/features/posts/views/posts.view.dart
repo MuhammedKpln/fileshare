@@ -31,10 +31,6 @@ class PostsView extends StatelessWidget {
       context.pushNamed(RouteMetaData.settings.routeName);
     }
 
-    void peer() {
-      context.pushNamed(RouteMetaData.peer.routeName);
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('postsViewTitle').tr(),
@@ -43,8 +39,7 @@ class PostsView extends StatelessWidget {
           onPressed: navigateToSettings,
         ),
         actions: [
-          IconButton(onPressed: logout, icon: const Icon(Icons.logout)),
-          IconButton(onPressed: peer, icon: const Icon(Icons.network_cell))
+          IconButton(onPressed: logout, icon: const Icon(Icons.logout))
         ],
       ),
       body: Observer(
