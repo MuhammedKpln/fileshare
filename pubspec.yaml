@@ -24,6 +24,8 @@ dependencies:
   easy_localization: ^3.0.1
   logger: ^1.1.0
   flutter_svg: ^1.1.5
+  ionicons: ^0.2.1
+  google_fonts: ^3.0.1
 
 
 dev_dependencies:
@@ -38,7 +40,7 @@ dev_dependencies:
   injectable_generator: ^1.5.4
 
 flutter:
-  uses-material-design: true
+  uses-material-design: false
 
   assets:
     - assets/translations/

@@ -1,5 +1,6 @@
 import 'package:boilerplate/core/theme/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 
@@ -23,7 +24,19 @@ abstract class ThemeState with Store {
   /// A getter that returns a ThemeData object. It is a computed value
   /// that returns a different value depending on the value of isDarkMode.
   @computed
-  ThemeData get themeData => isDarkMode ? _darkTheme : _lightTheme;
+  ThemeData get themeData => _getFonts();
+
+  ThemeData _getFonts() {
+    if (isDarkMode) {
+      return _darkTheme.copyWith(
+        textTheme: GoogleFonts.poppinsTextTheme(_lightTheme.textTheme),
+      );
+    }
+
+    return _lightTheme.copyWith(
+      textTheme: GoogleFonts.poppinsTextTheme(_lightTheme.textTheme),
+    );
+  }
 
   ThemeData get _darkTheme => _lightTheme.copyWith(
         brightness: Brightness.dark,
@@ -42,11 +55,15 @@ abstract class ThemeState with Store {
                 borderRadius: BorderRadius.circular(ThemeRadius.medium.radius),
               ),
             ),
+            overlayColor: MaterialStateProperty.all(
+              ColorPalette.primary.color.withOpacity(0.3),
+            ),
             padding: MaterialStateProperty.all(
-              EdgeInsets.all(ThemePadding.large.padding),
+              EdgeInsets.all(ThemePadding.small.padding),
             ),
             textStyle: MaterialStateProperty.all(
               const TextStyle(
+                fontWeight: FontWeight.w600,
                 fontSize: 13,
                 color: Colors.white,
               ),
@@ -54,6 +71,11 @@ abstract class ThemeState with Store {
             foregroundColor: MaterialStateProperty.all(
               ColorPalette.text.color,
             ),
+          ),
+        ),
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            fontWeight: FontWeight.w600,
           ),
         ),
       );

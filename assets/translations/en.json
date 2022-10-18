@@ -7,5 +7,13 @@
   "settingsViewTitle": "Settings",
   "appLocaleSettingsTxt": "Language",
   "appLocaleNotFoundError": "Selected language not found!",
-  "darkModeTxt": "Dark mode"
+  "darkModeTxt": "Dark mode",
+  "//": "//",
+  "latestActivities": "Latest activities",
+  "sendAgain": "Send again",
+  "sendBtnTxt": "Send",
+  "receiveBtnTxt": "Receive",
+  "dashboardTitle": "Dashboard",
+  "seeAllBtnTxt": "See all >",
+  "sendToTxt": "Send to {name}"
 }

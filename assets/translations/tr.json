@@ -7,5 +7,6 @@
   "settingsViewTitle": "Ayarlar",
   "appLocaleSettingsTxt": "Dil",
   "appLocaleNotFoundError": "Seçtiğiniz dil bulunmamakta!",
-  "darkModeTxt": "Karanlık mod"
+  "darkModeTxt": "Karanlık mod",
+  "latestActivities": "Latest activities"
 }
