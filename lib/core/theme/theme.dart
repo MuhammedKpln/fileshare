@@ -1,3 +1,4 @@
+import 'package:boilerplate/core/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
@@ -24,14 +25,37 @@ abstract class ThemeState with Store {
   @computed
   ThemeData get themeData => isDarkMode ? _darkTheme : _lightTheme;
 
-  ThemeData get _darkTheme => ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
+  ThemeData get _darkTheme => _lightTheme.copyWith(
         brightness: Brightness.dark,
       );
+
   ThemeData get _lightTheme => ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,
+        primaryColor: ColorPalette.primary.color,
+        scaffoldBackgroundColor: ColorPalette.background.color,
+        backgroundColor: ColorPalette.background.color,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(ThemeRadius.medium.radius),
+              ),
+            ),
+            padding: MaterialStateProperty.all(
+              EdgeInsets.all(ThemePadding.large.padding),
+            ),
+            textStyle: MaterialStateProperty.all(
+              const TextStyle(
+                fontSize: 13,
+                color: Colors.white,
+              ),
+            ),
+            foregroundColor: MaterialStateProperty.all(
+              ColorPalette.text.color,
+            ),
+          ),
+        ),
       );
 
   /// `setTheme` is an action that sets the theme mode to the theme mode passed in

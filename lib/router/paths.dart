@@ -3,12 +3,6 @@ enum RouteMetaData {
   /// Home start screen
   home('home', '/'),
 
-  /// Posts
-  posts('posts', '/posts'),
-
-  /// Post
-  post('post', ':id'),
-
   ///Login
   login('login', '/auth/login'),
 

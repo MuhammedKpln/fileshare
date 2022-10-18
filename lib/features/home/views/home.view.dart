@@ -1,11 +1,37 @@
-import 'package:boilerplate/core/di/di.dart';
-import 'package:boilerplate/core/extensions/toast.extension.dart';
-import 'package:boilerplate/core/theme/toast.dart';
-import 'package:boilerplate/features/auth/controllers/auth.controller.dart';
-import 'package:boilerplate/features/auth/storage/auth.storage.dart';
-import 'package:boilerplate/router/paths.dart';
+import 'package:boilerplate/core/theme/palette.dart';
+import 'package:boilerplate/features/home/views/components/Card.dart';
+import 'package:boilerplate/shared/components/avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
+class _Appbar extends StatelessWidget {
+  const _Appbar();
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      centerTitle: false,
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Dashboard',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          Text(
+            '22 jan, 2022',
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall
+                ?.copyWith(color: ColorPalette.grey.color),
+          ),
+        ],
+      ),
+      actions: const [Avatar()],
+      toolbarHeight: 100,
+    );
+  }
+}
 
 /// A stateless widget that displays a title, a text, and a button
 class HomeViewScreen extends StatelessWidget {
@@ -14,48 +40,30 @@ class HomeViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authController = getIt<AuthViewController>();
-
-    void navigateTodos() {
-      final name = RouteMetaData.posts.routeName;
-      context.pushNamed(name);
-    }
-
-    void navigateLogin() {
-      final name = RouteMetaData.login.routeName;
-
-      context.pushNamed(name);
-    }
-
-    Future<void> logout() async {
-      print('object');
-      await authController.logout();
-
-      context.toast.showToast('OK', toastType: ToastType.success);
-    }
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Title'),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(100),
+        child: _Appbar(),
       ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: navigateTodos,
-              child: const Text('Todos'),
-            ),
-            ElevatedButton(
-              onPressed: navigateLogin,
-              child: const Text('Login'),
-            ),
-            ElevatedButton(
-              onPressed: logout,
-              child: const Text('Logout'),
-            )
-          ],
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              HomeCard(
+                color: ColorPalette.pink.color,
+                onPressed: () => null,
+                label: 'Send',
+              ),
+              HomeCard(
+                color: ColorPalette.primary.color,
+                onPressed: () => null,
+                label: 'Receive',
+              )
+            ],
+          )
+        ],
       ),
     );
   }
