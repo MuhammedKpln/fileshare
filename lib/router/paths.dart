@@ -13,7 +13,10 @@ enum RouteMetaData {
   login('login', '/auth/login'),
 
   ///Settings
-  settings('settings', '/settings');
+  settings('settings', '/settings'),
+
+  ///Settings
+  peer('peer', '/peer');
 
   /// Route name
   final String routeName;

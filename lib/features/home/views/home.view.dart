@@ -2,7 +2,6 @@ import 'package:boilerplate/core/di/di.dart';
 import 'package:boilerplate/core/extensions/toast.extension.dart';
 import 'package:boilerplate/core/theme/toast.dart';
 import 'package:boilerplate/features/auth/controllers/auth.controller.dart';
-import 'package:boilerplate/features/auth/storage/auth.storage.dart';
 import 'package:boilerplate/router/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -34,6 +33,10 @@ class HomeViewScreen extends StatelessWidget {
       context.toast.showToast('OK', toastType: ToastType.success);
     }
 
+    Future<void> peer() async {
+      context.pushNamed(RouteMetaData.peer.routeName);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Title'),
@@ -53,6 +56,10 @@ class HomeViewScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: logout,
               child: const Text('Logout'),
+            ),
+            ElevatedButton(
+              onPressed: peer,
+              child: const Text('Peer'),
             )
           ],
         ),

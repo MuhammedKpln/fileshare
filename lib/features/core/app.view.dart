@@ -1,6 +1,6 @@
 import 'package:boilerplate/core/constants/core.dart';
 import 'package:boilerplate/core/di/di.dart';
-import 'package:boilerplate/router/router.dart';
+import 'package:boilerplate/router/router.gr.dart';
 import 'package:boilerplate/services/app.service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    final goRouter = getIt<AppRouter>().router;
+    final appRouter = AppRouter();
     final appService = getIt<AppService>();
 
     return Observer(
@@ -37,7 +37,8 @@ class _AppState extends State<App> {
           locale: context.locale,
           theme: appService.theme.themeData,
           themeMode: appService.theme.mode,
-          routerConfig: goRouter,
+          routeInformationProvider: appRouter.routeInfoProvider(),
+          routerDelegate: appRouter.delegate(),
         );
       },
     );
