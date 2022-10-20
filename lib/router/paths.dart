@@ -7,7 +7,10 @@ enum RouteMetaData {
   login('login', '/auth/login'),
 
   ///Settings
-  settings('settings', '/settings');
+  settings('settings', '/settings'),
+
+  /// Send file
+  sendFile('send_file', '/send_file');
 
   /// Route name
   final String routeName;

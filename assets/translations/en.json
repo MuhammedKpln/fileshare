@@ -15,5 +15,6 @@
   "receiveBtnTxt": "Receive",
   "dashboardTitle": "Dashboard",
   "seeAllBtnTxt": "See all >",
-  "sendToTxt": "Send to {name}"
+  "sendToTxt": "Send to {name}",
+  "transferingProcessTitleTxt": "Transfering process"
 }

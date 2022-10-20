@@ -1,5 +1,5 @@
 import 'package:boilerplate/core/theme/palette.dart';
-import 'package:boilerplate/shared/components/Button.dart';
+import 'package:boilerplate/shared/components/button.dart';
 import 'package:flutter/material.dart';
 
 class _RoundedIcon extends StatelessWidget {

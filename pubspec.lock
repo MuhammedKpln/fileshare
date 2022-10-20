@@ -29,6 +29,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
+  auto_route:
+    dependency: "direct main"
+    description:
+      name: auto_route
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.2"
+  auto_route_generator:
+    dependency: "direct dev"
+    description:
+      name: auto_route_generator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -266,13 +280,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  go_router:
-    dependency: "direct main"
-    description:
-      name: go_router
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.0.5"
   google_fonts:
     dependency: "direct main"
     description:
@@ -777,4 +784,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.18.0 <3.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.0.0"

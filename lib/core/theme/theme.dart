@@ -43,7 +43,30 @@ abstract class ThemeState with Store {
       );
 
   ThemeData get _lightTheme => ThemeData(
-        primarySwatch: Colors.blue,
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          titleTextStyle: TextStyle(
+            fontSize: 15,
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        primarySwatch: MaterialColor(
+          ColorPalette.primary.color.value,
+          {
+            50: const Color(0x1a8e5ed4),
+            100: const Color(0x1a8e5ed4),
+            200: const Color(0x338e5ed4),
+            300: const Color(0x4d8e5ed4),
+            400: const Color(0x668e5ed4),
+            500: Color(ColorPalette.primary.color.value),
+            600: const Color(0x998e5ed4),
+            700: const Color(0xb38e5ed4),
+            800: const Color(0xcc8e5ed4),
+            900: const Color(0xe68e5ed4)
+          },
+        ),
         useMaterial3: true,
         primaryColor: ColorPalette.primary.color,
         scaffoldBackgroundColor: ColorPalette.background.color,
