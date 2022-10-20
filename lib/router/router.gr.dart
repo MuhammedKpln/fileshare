@@ -14,9 +14,9 @@
 import 'package:auto_route/auto_route.dart' as _i5;
 import 'package:boilerplate/features/auth/login/views/login.view.dart' as _i4;
 import 'package:boilerplate/features/auth/main/views/main.view.dart' as _i1;
+import 'package:boilerplate/features/file_transfer/views/file_transfer.view.dart'
+    as _i2;
 import 'package:boilerplate/features/home/views/home.view.dart' as _i3;
-import 'package:boilerplate/features/send/views/send_file.view.dart'
-    deferred as _i2;
 import 'package:flutter/material.dart' as _i6;
 
 class AppRouter extends _i5.RootStackRouter {
@@ -31,14 +31,14 @@ class AppRouter extends _i5.RootStackRouter {
         child: const _i1.MainView(),
       );
     },
-    SendFileRoute.name: (routeData) {
+    FileTransferRoute.name: (routeData) {
+      final args = routeData.argsAs<FileTransferRouteArgs>();
       return _i5.AdaptivePage<dynamic>(
         routeData: routeData,
-        child: _i5.DeferredWidget(
-          _i2.loadLibrary,
-          () => _i2.SendFileView(),
+        child: _i2.FileTransferView(
+          key: args.key,
+          sendingFile: args.sendingFile,
         ),
-        fullscreenDialog: true,
       );
     },
     HomeRoute.name: (routeData) {
@@ -74,9 +74,8 @@ class AppRouter extends _i5.RootStackRouter {
           ],
         ),
         _i5.RouteConfig(
-          SendFileRoute.name,
-          path: '/send-file-view',
-          deferredLoading: true,
+          FileTransferRoute.name,
+          path: '/file-transfer-view',
         ),
       ];
 }
@@ -95,15 +94,37 @@ class MainRoute extends _i5.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.SendFileView]
-class SendFileRoute extends _i5.PageRouteInfo<void> {
-  const SendFileRoute()
-      : super(
-          SendFileRoute.name,
-          path: '/send-file-view',
+/// [_i2.FileTransferView]
+class FileTransferRoute extends _i5.PageRouteInfo<FileTransferRouteArgs> {
+  FileTransferRoute({
+    _i6.Key? key,
+    required bool sendingFile,
+  }) : super(
+          FileTransferRoute.name,
+          path: '/file-transfer-view',
+          args: FileTransferRouteArgs(
+            key: key,
+            sendingFile: sendingFile,
+          ),
         );
 
-  static const String name = 'SendFileRoute';
+  static const String name = 'FileTransferRoute';
+}
+
+class FileTransferRouteArgs {
+  const FileTransferRouteArgs({
+    this.key,
+    required this.sendingFile,
+  });
+
+  final _i6.Key? key;
+
+  final bool sendingFile;
+
+  @override
+  String toString() {
+    return 'FileTransferRouteArgs{key: $key, sendingFile: $sendingFile}';
+  }
 }
 
 /// generated route for

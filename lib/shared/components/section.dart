@@ -7,15 +7,11 @@ class Section extends StatelessWidget {
   const Section({
     super.key,
     required this.title,
-    required this.child,
     this.trailing = const SizedBox.shrink(),
   });
 
   /// Section title
   final String title;
-
-  /// Section child
-  final Widget child;
 
   /// Trailing for title
   final Widget? trailing;
@@ -41,7 +37,6 @@ class Section extends StatelessWidget {
               ],
             ),
           ),
-          child
         ],
       ),
     );

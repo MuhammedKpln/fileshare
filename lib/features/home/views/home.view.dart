@@ -3,9 +3,9 @@ import 'package:boilerplate/core/theme/palette.dart';
 import 'package:boilerplate/features/home/components/appbar.dart';
 import 'package:boilerplate/features/home/components/latest_activities.dart';
 import 'package:boilerplate/features/home/components/recent_users.dart';
-import 'package:boilerplate/features/home/components/section.dart';
 import 'package:boilerplate/features/home/views/components/Card.dart';
 import 'package:boilerplate/router/router.gr.dart';
+import 'package:boilerplate/shared/components/section.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
@@ -34,13 +34,15 @@ class HomeView extends StatelessWidget {
                 children: [
                   HomeCard(
                     color: ColorPalette.red.color,
-                    onPressed: () => context.router.push(const SendFileRoute()),
+                    onPressed: () =>
+                        navigateToFileShare(sending: true, context: context),
                     label: 'sendBtnTxt'.tr(),
                     icon: Ionicons.paper_plane_outline,
                   ),
                   HomeCard(
                     color: ColorPalette.primary.color,
-                    onPressed: () => null,
+                    onPressed: () =>
+                        navigateToFileShare(sending: false, context: context),
                     label: 'receiveBtnTxt'.tr(),
                     icon: Ionicons.cloud_download_outline,
                   ),
@@ -48,10 +50,10 @@ class HomeView extends StatelessWidget {
               ),
               Section(
                 title: 'sendAgain'.tr(),
-                child: const SizedBox(
-                  height: 50,
-                  child: RecentUsers(),
-                ),
+              ),
+              const SizedBox(
+                height: 50,
+                child: RecentUsers(),
               ),
               Section(
                 title: 'latestActivities'.tr(),
@@ -59,11 +61,31 @@ class HomeView extends StatelessWidget {
                   'seeAllBtnTxt',
                   style: Theme.of(context).textTheme.titleSmall,
                 ).tr(),
-                child: const LatestActivities(),
-              )
+              ),
+              const LatestActivities()
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  /// It navigates to the FileTransferRoute.
+  ///
+  /// Args:
+  ///   sending (bool): A boolean value that determines whether the user is
+  ///   sending or receiving a file. context (BuildContext): The context of the
+  ///   current screen.
+  ///
+  /// Returns:
+  ///   A Future<void>
+  Future<void> navigateToFileShare({
+    required bool sending,
+    required BuildContext context,
+  }) async {
+    return context.router.navigate(
+      FileTransferRoute(
+        sendingFile: sending,
       ),
     );
   }

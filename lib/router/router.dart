@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:boilerplate/features/auth/login/views/login.view.dart';
 import 'package:boilerplate/features/auth/main/views/main.view.dart';
+import 'package:boilerplate/features/file_transfer/views/file_transfer.view.dart';
 import 'package:boilerplate/features/home/views/home.view.dart';
-import 'package:boilerplate/features/send/views/send_file.view.dart';
 
 @AdaptiveAutoRouter(
   replaceInRouteName: 'View,Route',
@@ -16,9 +16,8 @@ import 'package:boilerplate/features/send/views/send_file.view.dart';
       ],
     ),
     AutoRoute(
-      page: SendFileView,
-      fullscreenDialog: true,
-      deferredLoading: true,
+      page: FileTransferView,
+      deferredLoading: false,
     )
   ],
 )

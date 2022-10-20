@@ -26,6 +26,7 @@ dependencies:
   ionicons: ^0.2.1
   google_fonts: ^3.0.1
   auto_route: ^5.0.2
+  flutter_gen: ^5.0.3
 
 
 dev_dependencies:
@@ -39,9 +40,21 @@ dev_dependencies:
   hive_generator: 1.1.3
   injectable_generator: ^1.5.3
   auto_route_generator: ^5.0.2
+  flutter_gen_runner: ^5.0.0
 
 flutter:
   uses-material-design: false
 
   assets:
     - assets/translations/
+    - assets/images/layers.svg
+    - assets/images/files.svg
+
+
+flutter_gen:
+  output: lib/gen/
+  line_length: 80
+
+  # Optional
+  integrations:
+    flutter_svg: true

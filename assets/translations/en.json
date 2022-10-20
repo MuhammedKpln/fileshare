@@ -16,5 +16,7 @@
   "dashboardTitle": "Dashboard",
   "seeAllBtnTxt": "See all >",
   "sendToTxt": "Send to {name}",
-  "transferingProcessTitleTxt": "Transfering process"
+  "transferingProcessTitleTxt": "Transfering process",
+  "fileTransferDetailsSectionTitle": "Details",
+  "fileTransferDetailsPhotosCategory": "Photos"
 }

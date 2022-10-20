@@ -1,33 +1,7 @@
 import 'package:boilerplate/core/theme/palette.dart';
 import 'package:boilerplate/shared/components/button.dart';
+import 'package:boilerplate/shared/components/rounded_icon.dart';
 import 'package:flutter/material.dart';
-
-class _RoundedIcon extends StatelessWidget {
-  const _RoundedIcon({required this.color, required this.icon});
-
-  final Color color;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(ThemePadding.medium.padding),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: color,
-      ),
-      child: CircleAvatar(
-        radius: 30,
-        backgroundColor: Colors.white,
-        child: Icon(
-          icon,
-          color: color,
-          size: 25,
-        ),
-      ),
-    );
-  }
-}
 
 class HomeCard extends StatelessWidget {
   const HomeCard({
@@ -64,7 +38,7 @@ class HomeCard extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
-            child: _RoundedIcon(
+            child: RoundedIcon(
               color: color,
               icon: icon,
             ),

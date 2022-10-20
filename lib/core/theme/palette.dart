@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 /// Color palette
 enum ColorPalette {
-  primary(Color(0xFF8E5ED4)),
-  secondary(Color(0xFFBF83FF)),
+  primary(Color(0xFF7968F8)),
+  secondary(Color.fromARGB(255, 191, 131, 255)),
   grey(Color(0xFFB8C4E2)),
   background(Colors.white),
   text(Color(0xFF303E65)),
