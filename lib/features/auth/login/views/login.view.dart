@@ -26,6 +26,15 @@ class LoginView extends StatelessWidget {
       });
     }
 
+    Future<void> register() async {
+      await controller.register().then((value) {
+        context.toast
+            .showToast('Login successfull!', toastType: ToastType.success);
+      }).catchError((err, _) {
+        context.toast.showToast('Opps!! $err.', toastType: ToastType.error);
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
@@ -33,9 +42,10 @@ class LoginView extends StatelessWidget {
       body: Column(
         children: [
           TextFormField(
-            controller: controller.textControllers[FormFieldType.username],
+            controller: controller.textControllers[FormFieldType.email],
+            keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
-              label: Text('Username'),
+              label: Text('Email'),
             ),
           ),
           TextFormField(
@@ -46,11 +56,27 @@ class LoginView extends StatelessWidget {
           ),
           Observer(
             builder: (context) {
-              return ElevatedButton(
-                onPressed: login,
-                child: !controller.loading
-                    ? const Text('Login')
-                    : const CircularProgressIndicator(),
+              return Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: login,
+                    child: !controller.loading
+                        ? const Text('Login')
+                        : const CircularProgressIndicator(),
+                  ),
+                  ElevatedButton(
+                    onPressed: register,
+                    child: !controller.loading
+                        ? const Text('Register')
+                        : const CircularProgressIndicator(),
+                  ),
+                  ElevatedButton(
+                    onPressed: controller.logout,
+                    child: !controller.loading
+                        ? const Text('Logout')
+                        : const CircularProgressIndicator(),
+                  ),
+                ],
               );
             },
           )

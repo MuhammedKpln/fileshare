@@ -1,45 +1,31 @@
 // ignore_for_file: constant_identifier_names
 
-import 'dart:io';
+import 'package:injectable/injectable.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'package:boilerplate/core/constants/services.dart';
-import 'package:boilerplate/repositories/interceptors/auth.interceptor.dart';
-import 'package:boilerplate/repositories/interceptors/error.interceptor.dart';
-import 'package:dio/dio.dart';
+/// `SupabaseRepository` is a class that contains a `SupabaseClient` object and
+/// a `from` method that returns a `SupabaseQueryBuilder` object
+@LazySingleton()
+class SupabaseRepository {
+  final SupabaseClient _supabase = Supabase.instance.client;
 
-/// Api Endpoints
-enum ApiEndpoints {
-  /// It's a enum that has a path property.
-  Posts('/posts'),
-
-  /// It's a enum that has a path property.
-  AuthLogin('/auth/login');
-
-  /// Endpoint path
-  final String path;
-
-  // ignore: public_member_api_docs,sort_constructors_first
-  const ApiEndpoints(this.path);
-}
-
-/// It's a class that has a Dio object as a property and a getter that returns
-/// Dio object
-class BaseRepository {
-  /// It adds the interceptors to the instance of the Dio class.
-  BaseRepository() {
-    _instance.interceptors
-      ..add(ErrorInterceptor())
-      ..add(AuthInterceptor());
+  /// `from` returns a `SupabaseQueryBuilder` object which is used to build
+  ///  a query
+  ///
+  /// Args:
+  ///   table (String): The name of the table you want to query.
+  ///
+  /// Returns:
+  ///   SupabaseQueryBuilder
+  SupabaseQueryBuilder from({required String table}) {
+    return _supabase.from(table);
   }
-  final Dio _instance = Dio(
-    BaseOptions(
-      baseUrl: ServiceConstants.apiUrl,
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-      validateStatus: (status) => status == HttpStatus.ok,
-    ),
-  );
 
-  /// It's a getter that returns the Dio object.
-  Dio get api => _instance;
+  /// `auth()` returns a `GoTrueClient` object
+  ///
+  /// Returns:
+  ///   The auth() method returns the GoTrueClient object.
+  GoTrueClient auth() {
+    return _supabase.auth;
+  }
 }

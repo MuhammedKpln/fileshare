@@ -8,13 +8,20 @@ part 'auth.adapter.g.dart';
 @HiveType(typeId: StorageTypeAdapterId.authAdapterModel)
 class AuthModel {
   /// A constructor.
-  AuthModel({required this.user, required this.accessToken});
+  AuthModel(
+      {required this.user,
+      required this.accessToken,
+      required this.refreshToken});
 
   /// User
   @HiveField(0)
-  final User user;
+  final UserModel user;
 
   /// Access token
   @HiveField(1)
   final String accessToken;
+
+  /// Access token
+  @HiveField(2)
+  final String refreshToken;
 }
