@@ -101,6 +101,14 @@ abstract class ThemeState with Store {
             fontWeight: FontWeight.w600,
           ),
         ),
+        inputDecorationTheme: InputDecorationTheme(
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: ColorPalette.grey.color),
+          ),
+          labelStyle: const TextStyle(
+            fontSize: 14,
+          ),
+        ),
       );
 
   /// `setTheme` is an action that sets the theme mode to the theme mode passed in

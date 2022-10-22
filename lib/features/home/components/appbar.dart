@@ -1,4 +1,6 @@
+import 'package:boilerplate/core/di/di.dart';
 import 'package:boilerplate/core/theme/palette.dart';
+import 'package:boilerplate/features/auth/controllers/auth.controller.dart';
 import 'package:boilerplate/shared/components/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +11,8 @@ class Appbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = getIt<AuthViewController>();
+
     return AppBar(
       elevation: 0,
       centerTitle: false,
@@ -30,12 +34,15 @@ class Appbar extends StatelessWidget {
         ],
       ),
       actions: [
-        Padding(
-          padding: EdgeInsets.only(right: ThemePadding.medium.padding),
-          child: Avatar(
-            child: SvgPicture.network(
-              'https://www.svgrepo.com/show/30132/avatar.svg',
-              fit: BoxFit.cover,
+        InkWell(
+          onTap: controller.logout,
+          child: Padding(
+            padding: EdgeInsets.only(right: ThemePadding.medium.padding),
+            child: Avatar(
+              child: SvgPicture.network(
+                'https://www.svgrepo.com/show/30132/avatar.svg',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         )

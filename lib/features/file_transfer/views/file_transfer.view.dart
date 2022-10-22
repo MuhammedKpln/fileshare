@@ -1,6 +1,6 @@
 import 'package:boilerplate/core/theme/gradient.dart';
 import 'package:boilerplate/core/theme/palette.dart';
-import 'package:boilerplate/gen/assets.gen.dart';
+import 'package:boilerplate/generated/assets.gen.dart';
 import 'package:boilerplate/shared/components/back_button.dart';
 import 'package:boilerplate/shared/components/refresh_button.dart';
 import 'package:boilerplate/shared/components/section.dart';

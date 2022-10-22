@@ -19,8 +19,6 @@ void main() async {
     ..registerAdapter(AuthModelAdapter());
   await EasyLocalization.ensureInitialized();
 
-  print(Env.SUPABASE_URL);
-  print(Env.SUPABASE_KEY);
   await Supabase.initialize(
     url: Env.SUPABASE_URL,
     anonKey: Env.SUPABASE_KEY,

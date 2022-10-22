@@ -69,11 +69,11 @@ class AuthBox {
     } else {
       if (key == null) {
         await _setEncryption();
-        await fetchBox<T>(boxName);
+        return fetchBox<T>(boxName);
       }
 
       box =
-          await Hive.openBox<T>(boxName, encryptionCipher: HiveAesCipher(key!));
+          await Hive.openBox<T>(boxName, encryptionCipher: HiveAesCipher(key));
     }
     return box;
   }

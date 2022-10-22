@@ -8,10 +8,10 @@ part 'user.model.freezed.dart';
 part 'user.model.g.dart';
 
 @Freezed(makeCollectionsUnmodifiable: false)
-abstract class UserModel with _$UserModel {
+class UserModel with _$UserModel {
   @HiveType(typeId: StorageTypeAdapterId.userModel)
   const factory UserModel({
-    @HiveField(0) required int id,
+    @HiveField(0) required String id,
     @HiveField(1) required String username,
     // ignore: non_constant_identifier_names
     @HiveField(2) String? avatar_url,

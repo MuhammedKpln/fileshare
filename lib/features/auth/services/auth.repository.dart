@@ -3,6 +3,7 @@ import 'package:boilerplate/features/auth/models/auth.model.dart';
 import 'package:boilerplate/features/auth/models/user.model.dart';
 import 'package:boilerplate/features/auth/storage/auth.adapter.dart';
 import 'package:boilerplate/repositories/_base.repository.dart';
+import 'package:boilerplate/repositories/enums/supabase.dart';
 import 'package:injectable/injectable.dart';
 
 /// It takes an email and password, sends them to the server, and returns the response
@@ -33,9 +34,10 @@ class AuthService {
           .signInWithPassword(email: args.email, password: args.password);
 
       final userProfile = await supabase
-          .from(table: 'users')
+          .from(table: SupabaseTables.profiles.name)
           .select()
-          .eq('user_id', signIn.user!.id);
+          .eq('id', signIn.user!.id)
+          .single();
 
       final userModel = UserModel.fromJson(userProfile as Map<String, dynamic>);
 

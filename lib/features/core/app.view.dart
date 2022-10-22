@@ -1,5 +1,6 @@
 import 'package:boilerplate/core/constants/core.dart';
 import 'package:boilerplate/core/di/di.dart';
+import 'package:boilerplate/router/guards/auth.guard.dart';
 import 'package:boilerplate/router/router.gr.dart';
 import 'package:boilerplate/services/app.service.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -25,7 +26,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    final appRouter = AppRouter();
+    final appRouter = AppRouter(authGuard: AuthGuard());
     final appService = getIt<AppService>();
 
     return Observer(

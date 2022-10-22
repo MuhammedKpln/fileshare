@@ -1,7 +1,7 @@
 {
   "postsViewTitle": "Posts",
   "loginViewTitle": "Login",
-  "loginViewUsername": "Username",
+  "loginViewEmail": "E-mail",
   "loginViewPassword": "Password",
   "loginViewBtnTxt": "Login",
   "settingsViewTitle": "Settings",
@@ -18,5 +18,11 @@
   "sendToTxt": "Send to {name}",
   "transferingProcessTitleTxt": "Transfering process",
   "fileTransferDetailsSectionTitle": "Details",
-  "fileTransferDetailsPhotosCategory": "Photos"
+  "fileTransferDetailsPhotosCategory": "Photos",
+  "orDividerTxt": "OR",
+  "loginWithGoogle": "Login with Google",
+  "forgotPassword": "Forgot password?",
+  "validEmailErrorTxt": "Invalid email format!",
+  "validPasswordErrorTxt": "Password should be more than 4 characters",
+  "validateLoginFormErrorTxt": "Please check your email and password!"
 }

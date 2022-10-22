@@ -1,9 +1,9 @@
 /// Supabase tables
-enum SupabaseTables { profiles }
+enum SupabaseTables { profiles, files }
 
 /// It's a way to create a custom error message.
 enum SupabaseErrors {
-  emailNotConfirmed(''),
+  emailNotConfirmed('Email not confirmed'),
   invalidCredentials('Invalid login credentials'),
   unkown('unkown');
 

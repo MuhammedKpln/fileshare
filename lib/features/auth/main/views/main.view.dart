@@ -9,7 +9,7 @@ class MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter.pageView(
-      routes: const [HomeRoute(), LoginRoute()],
+      routes: const [HomeRoute()],
       builder: (context, child, pageController) {
         final tabsRouter = context.tabsRouter;
         return Scaffold(
