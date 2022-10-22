@@ -40,11 +40,17 @@ class LoginView extends StatelessWidget {
       });
     }
 
+    void signUp() {
+      context.router.navigate(const RegisterRoute());
+    }
+
     return AppScaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Assets.animations.login.lottie(),
+          Assets.animations.login.lottie(
+            height: MediaQuery.of(context).size.height * .40,
+          ),
           Text(
             'loginViewTitle',
             style: Theme.of(context)
@@ -71,6 +77,11 @@ class LoginView extends StatelessWidget {
             },
           ),
           const AppDivider(),
+          Button(
+            onPressed: signUp,
+            label: 'signUpViewTitle'.tr(),
+            buttonType: ButtonType.primary,
+          ),
           Button(
             onPressed: () => null,
             label: 'loginWithGoogle'.tr(),

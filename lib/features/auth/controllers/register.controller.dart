@@ -13,19 +13,19 @@ import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-part 'auth.controller.g.dart';
+part 'register.controller.g.dart';
 
 /// It's a way to create a list of constants.
-enum FormFieldType { email, password }
+enum FormFieldType { email, username, password, passwordConfirmation }
 
 /// `AuthViewController` that uses `AuthController` to manage its state
 @LazySingleton()
-class AuthViewController = AuthController with _$AuthViewController;
+class RegisterViewController = RegisterController with _$RegisterViewController;
 
 /// It's a class that manages the state of the login page
-abstract class AuthController with Store {
+abstract class RegisterController with Store {
   // ignore: public_member_api_docs
-  AuthController(
+  RegisterController(
     this._appController,
     this._authBox,
     this._authService,
@@ -41,6 +41,8 @@ abstract class AuthController with Store {
   final Map<FormFieldType, TextEditingController> textControllers = {
     FormFieldType.email: TextEditingController(),
     FormFieldType.password: TextEditingController(),
+    FormFieldType.passwordConfirmation: TextEditingController(),
+    FormFieldType.username: TextEditingController(),
   };
 
   /// It's a way to access the form state.
@@ -54,21 +56,28 @@ abstract class AuthController with Store {
   @observable
   ObservableList<String> errors = ObservableList();
 
+  /// It's a way to observe the state of the future.
   @observable
-  ObservableFuture<AuthModel>? s;
+  ObservableFuture<AuthModel>? registerFuture;
 
   /// A getter that returns the value of the `emailController.text`
   String get email => textControllers[FormFieldType.email]!.text;
 
+  /// A getter that returns the value of the `emailController.text`
+  String get username => textControllers[FormFieldType.username]!.text;
+
   /// A getter that returns the value of the `passwordController.text`
   String get password => textControllers[FormFieldType.password]!.text;
 
-  /// It's a getter that returns a boolean that indicates if the form is valid
-  /// or not.
-  bool? get _formIsValid => formKey.currentState?.validate();
+  /// A getter that returns the value of the `passwordController.text`
+  String get passwordConfirmation =>
+      textControllers[FormFieldType.passwordConfirmation]!.text;
 
   /// It's a getter that returns a function that validates the email.
   String? Function(String? value) get emailValidator => _validateEmail;
+
+  /// It's a getter that returns a function that validates the email.
+  String? Function(String? value) get usernameValidator => _validateUsername;
 
   /// It's a getter that returns a function that validates the password.
   String? Function(String? value) get passwordValidator => _validatePassword;
@@ -81,12 +90,26 @@ abstract class AuthController with Store {
     return 'validEmailErrorTxt'.tr();
   }
 
-  String? _validatePassword(String? value) {
+  String? _validateUsername(String? value) {
     if (value != null && value.length > 4) {
       return null;
     }
 
-    return 'validPasswordErrorTxt'.tr();
+    return 'validEmailErrorTxt'.tr();
+  }
+
+  String? _validatePassword(String? value) {
+    final isMatchingConfirmation = password == passwordConfirmation;
+
+    if (value != null && value.length < 4) {
+      return 'validPasswordErrorTxt'.tr();
+    }
+
+    if (!isMatchingConfirmation) {
+      return 'passwordIsNotEqualError'.tr();
+    }
+
+    return null;
   }
 
   /// It toggles the value of the showPasswordField variable.
@@ -94,47 +117,26 @@ abstract class AuthController with Store {
     showPaswordField = !showPaswordField;
   }
 
-  /// It logs in the user and saves the token in the box.
-  ///
-  /// Args:
-  ///   email (String): The email of the user
-  ///   password (String): The password of the user.
   @action
-  Future<void> login() async {
-    if (_formIsValid != null && _formIsValid == false) {
-      errors.add('validateLoginFormErrorTxt'.tr());
-
-      throw Error();
-    }
-
+  Future<void> register() async {
     try {
-      final args = AuthLoginArgs(
+      final args = AuthRegisterModel(
         password: password,
         email: email,
+        username: 'MAMI',
       );
-      s = ObservableFuture(_authService.login(args));
+      final registerRepo = _authService.register(args);
 
-      await s!.then((value) async {
+      registerFuture = ObservableFuture(registerRepo);
+
+      await registerFuture?.then((value) async {
         await _authBox.saveUser(value);
         _appController.setLoginState(LoginState.loggedIn);
       });
     } on AuthException catch (err) {
       errors.add(err.error());
       _logger.error(err);
-      throw err.error();
+      throw Exception(err.error());
     }
-  }
-
-  @action
-
-  /// `_appController.setLoginState(LoginState.none);`
-  ///
-  /// This is the only line of code that matters
-  Future<void> logout() async {
-    print('object');
-    await _authBox.clear();
-    await Supabase.instance.client.auth.signOut();
-
-    _appController.setLoginState(LoginState.none);
   }
 }
