@@ -15,16 +15,23 @@ import 'package:lottie/lottie.dart';
 class $AssetsAnimationsGen {
   const $AssetsAnimationsGen();
 
+  /// File path: assets/animations/empty.json
+  LottieGenImage get empty =>
+      const LottieGenImage('assets/animations/empty.json');
+
   /// File path: assets/animations/login.json
   LottieGenImage get login =>
       const LottieGenImage('assets/animations/login.json');
+
+  /// File path: assets/animations/qr.json
+  LottieGenImage get qr => const LottieGenImage('assets/animations/qr.json');
 
   /// File path: assets/animations/register.json
   LottieGenImage get register =>
       const LottieGenImage('assets/animations/register.json');
 
   /// List of all assets
-  List<LottieGenImage> get values => [login, register];
+  List<LottieGenImage> get values => [empty, login, qr, register];
 }
 
 class $AssetsImagesGen {

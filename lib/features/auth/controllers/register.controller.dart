@@ -123,7 +123,7 @@ abstract class RegisterController with Store {
       final args = AuthRegisterModel(
         password: password,
         email: email,
-        username: 'MAMI',
+        username: username,
       );
       final registerRepo = _authService.register(args);
 

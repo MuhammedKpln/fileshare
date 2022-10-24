@@ -11,9 +11,6 @@
 	<key>com.apple.security.network.server</key>
 	<true/>
 	<key>keychain-access-groups</key>
-	<array>
-		<string>$(AppIdentifierPrefix)com.example.boilerplate</string>
-		<string>$(AppIdentifierPrefix)com.example.boilerplate 1</string>
-	</array>
+	<array/>
 </dict>
 </plist>

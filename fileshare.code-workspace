@@ -1,0 +1,13 @@
+{
+  "folders": [
+	{
+		"path": "."
+	},
+	{
+		"path": "../peerdart"
+	}
+],
+  "settings": {
+    "docwriter.hotkey.mac": "⌥ + ."
+  }
+}

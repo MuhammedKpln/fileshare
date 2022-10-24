@@ -20,6 +20,7 @@ class Button extends StatelessWidget {
     this.icon,
     this.disabled,
     this.loading,
+    this.customStyle,
   });
 
   /// A function that takes no arguments and returns nothing.
@@ -40,6 +41,9 @@ class Button extends StatelessWidget {
   /// Is button disabled
   final bool? loading;
 
+  /// A custom style for the button.
+  final ButtonStyle? customStyle;
+
   /// A getter that returns a color based on the button type.
   Color? get txtColor {
     if (buttonType == ButtonType.primary) {
@@ -57,7 +61,7 @@ class Button extends StatelessWidget {
       onPressed: disabled != null && disabled! ? null : onPressed,
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(buttonType?.color),
-      ),
+      ).merge(customStyle),
       child: isLoading ? _renderLoading() : _renderButton(),
     );
   }

@@ -3,6 +3,8 @@ import 'package:boilerplate/features/auth/main/views/main.view.dart';
 import 'package:boilerplate/features/auth/views/login/login.view.dart';
 import 'package:boilerplate/features/auth/views/register/register.view.dart';
 import 'package:boilerplate/features/file_transfer/views/file_transfer.view.dart';
+import 'package:boilerplate/features/find_user/views/find_user.view.dart';
+import 'package:boilerplate/features/find_user/views/scan_qr_code.dart';
 import 'package:boilerplate/features/home/views/home.view.dart';
 import 'package:boilerplate/router/guards/auth.guard.dart';
 
@@ -27,6 +29,16 @@ import 'package:boilerplate/router/guards/auth.guard.dart';
     ),
     AutoRoute(
       page: FileTransferView,
+      deferredLoading: true,
+    ),
+    AutoRoute(
+      page: FindUserView,
+      deferredLoading: true,
+      fullscreenDialog: true,
+    ),
+    AutoRoute(
+      page: ScanQRCodeView,
+      fullscreenDialog: true,
       deferredLoading: true,
     ),
   ],

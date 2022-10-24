@@ -84,9 +84,7 @@ class HomeView extends StatelessWidget {
     required BuildContext context,
   }) async {
     return context.router.navigate(
-      FileTransferRoute(
-        sendingFile: sending,
-      ),
+      const FindUserRoute(),
     );
   }
 }

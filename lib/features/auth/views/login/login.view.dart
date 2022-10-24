@@ -45,49 +45,51 @@ class LoginView extends StatelessWidget {
     }
 
     return AppScaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Assets.animations.login.lottie(
-            height: MediaQuery.of(context).size.height * .40,
-          ),
-          Text(
-            'loginViewTitle',
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge
-                ?.copyWith(fontWeight: FontWeight.w600),
-          ).tr(),
-          _LoginForm(appController: appController),
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-              onPressed: () => null,
-              child: const Text('forgotPassword').tr(),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Assets.animations.login.lottie(
+              height: MediaQuery.of(context).size.height * .40,
             ),
-          ),
-          Observer(
-            builder: (_) {
-              return Button(
-                onPressed: login,
-                label: 'loginViewTitle'.tr(),
-                buttonType: ButtonType.primary,
-                loading: appController.s?.status == FutureStatus.pending,
-              );
-            },
-          ),
-          const AppDivider(),
-          Button(
-            onPressed: signUp,
-            label: 'signUpViewTitle'.tr(),
-            buttonType: ButtonType.primary,
-          ),
-          Button(
-            onPressed: () => null,
-            label: 'loginWithGoogle'.tr(),
-            icon: Ionicons.logo_google,
-          )
-        ],
+            Text(
+              'loginViewTitle',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(fontWeight: FontWeight.w600),
+            ).tr(),
+            _LoginForm(appController: appController),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () => null,
+                child: const Text('forgotPassword').tr(),
+              ),
+            ),
+            Observer(
+              builder: (_) {
+                return Button(
+                  onPressed: login,
+                  label: 'loginViewTitle'.tr(),
+                  buttonType: ButtonType.primary,
+                  loading: appController.s?.status == FutureStatus.pending,
+                );
+              },
+            ),
+            const AppDivider(),
+            Button(
+              onPressed: signUp,
+              label: 'signUpViewTitle'.tr(),
+              buttonType: ButtonType.primary,
+            ),
+            Button(
+              onPressed: () => null,
+              label: 'loginWithGoogle'.tr(),
+              icon: Ionicons.logo_google,
+            )
+          ],
+        ),
       ),
     );
   }

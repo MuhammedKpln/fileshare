@@ -16,37 +16,30 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final appController = getIt<AppService>();
+  final appService = getIt<AppService>();
+  final appRouter = AppRouter(authGuard: AuthGuard());
 
   @override
   void initState() {
     super.initState();
-    appController.checkLoginState();
+    appService.checkLoginState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final appRouter = AppRouter(authGuard: AuthGuard());
-    final appService = getIt<AppService>();
-
     return Observer(
-      builder: (context) {
-        try {
-          return MaterialApp.router(
-            title: CoreConstants.appTitle,
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            theme: appService.theme.themeData,
-            themeMode: appService.theme.mode,
-            routerDelegate: appRouter.delegate(),
-            routeInformationProvider: appRouter.routeInfoProvider(),
-            routeInformationParser: appRouter.defaultRouteParser(),
-          );
-        } catch (err) {
-          print(err);
-          return const SizedBox.shrink();
-        }
+      builder: (_) {
+        return MaterialApp.router(
+          title: CoreConstants.appTitle,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          theme: appService.theme.themeData,
+          themeMode: appService.theme.mode,
+          routerDelegate: appRouter.delegate(),
+          routeInformationParser: appRouter.defaultRouteParser(),
+          routeInformationProvider: appRouter.routeInfoProvider(),
+        );
       },
     );
   }

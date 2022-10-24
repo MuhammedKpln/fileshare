@@ -11,7 +11,7 @@ class CustomAppBar extends StatelessWidget {
     void navigateBack() {
       final canPop = context.router.canPop();
       if (canPop) {
-        context.router.navigateBack();
+        context.router.pop();
       }
     }
 

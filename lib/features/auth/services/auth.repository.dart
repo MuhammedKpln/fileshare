@@ -69,7 +69,10 @@ class AuthService {
         data: {'username': args.username},
       );
 
-      final user = UserModel.fromJson(register.user!.toJson());
+      final user = UserModel(
+          id: register.user!.id,
+          updated_at: DateTime.parse(register.user!.updatedAt!),
+          username: register.user!.userMetadata!['username'] as String);
 
       return AuthModel(
         user: user,

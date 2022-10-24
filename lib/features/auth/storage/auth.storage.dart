@@ -85,6 +85,7 @@ class AuthBox {
         await storage.containsKey(key: SecureStorageKeys.HiveKey.key);
 
     if (containsKey) {
+      print(await storage.readAll());
       final key = await storage.read(key: SecureStorageKeys.HiveKey.key);
 
       return base64Decode(key!);
