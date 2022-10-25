@@ -8,7 +8,7 @@ import 'package:boilerplate/features/auth/models/auth.model.dart';
 import 'package:boilerplate/features/auth/services/auth.repository.dart';
 import 'package:boilerplate/features/auth/storage/auth.adapter.dart';
 import 'package:boilerplate/features/auth/storage/auth.storage.dart';
-import 'package:boilerplate/services/app.service.dart';
+import 'package:boilerplate/shared/services/auth.service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -27,15 +27,15 @@ class RegisterViewController = RegisterController with _$RegisterViewController;
 /// It's a class that manages the state of the login page
 abstract class RegisterController with Store {
   RegisterController(
-    this._appController,
     this._authBox,
+    this._authRepository,
     this._authService,
     this._logger,
   );
 
-  final AppService _appController;
-  final AuthService _authService;
+  final AuthRepository _authRepository;
   final AuthBox _authBox;
+  final AuthService _authService;
   final LogService _logger;
 
   /// It's a way to create a list of constants.
@@ -126,13 +126,13 @@ abstract class RegisterController with Store {
         email: email,
         username: username,
       );
-      final registerRepo = _authService.register(args);
+      final registerRepo = _authRepository.register(args);
 
       registerFuture = ObservableFuture(registerRepo);
 
       await registerFuture?.then((value) async {
         await _authBox.saveUser(value);
-        _appController.setLoginState(LoginState.loggedIn);
+        _authService.setLoginState(LoginState.loggedIn);
       });
     } on AuthException catch (err) {
       errors.add(err.error());

@@ -4,7 +4,7 @@ import 'package:boilerplate/features/home/components/appbar.dart';
 import 'package:boilerplate/features/home/components/latest_activities.dart';
 import 'package:boilerplate/features/home/components/recent_users.dart';
 import 'package:boilerplate/features/home/views/components/card.dart';
-import 'package:boilerplate/router/router.gr.dart';
+import 'package:boilerplate/routers/app_router.gr.dart';
 import 'package:boilerplate/shared/components/section.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

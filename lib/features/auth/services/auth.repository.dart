@@ -10,9 +10,9 @@ import 'package:injectable/injectable.dart';
 /// response
 
 @LazySingleton()
-class AuthService {
+class AuthRepository {
   // ignore: public_member_api_docs
-  AuthService(this.supabase, this._logger);
+  AuthRepository(this.supabase, this._logger);
 
   /// A dependency injection.
   SupabaseRepository supabase;

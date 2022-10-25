@@ -27,7 +27,7 @@ class UserModel extends Equatable {
         id: data['id'] as String,
         username: data['username'] as String,
         avatarUrl: data['avatar_url'] as String?,
-        updated_at: data['updated_at'] as DateTime,
+        updated_at: DateTime.parse(data["updated_at"] as String),
       );
 
   /// It converts a JSON string into a UserModel object.

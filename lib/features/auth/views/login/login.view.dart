@@ -4,7 +4,7 @@ import 'package:boilerplate/core/extensions/toast.extension.dart';
 import 'package:boilerplate/core/theme/toast.dart';
 import 'package:boilerplate/features/auth/controllers/auth.controller.dart';
 import 'package:boilerplate/generated/assets.gen.dart';
-import 'package:boilerplate/router/router.gr.dart';
+import 'package:boilerplate/routers/auth_router.gr.dart';
 import 'package:boilerplate/shared/components/button.dart';
 import 'package:boilerplate/shared/components/core/custom_divider.dart';
 import 'package:boilerplate/shared/components/core/scaffold.dart';
@@ -33,10 +33,8 @@ class LoginView extends StatelessWidget {
     );
 
     void login() {
-      appController.login().then((value) async {
+      appController.login().then((value) {
         context.toast.showToast('Login succes', toastType: ToastType.success);
-
-        await context.router.replace(const MainRoute());
       });
     }
 

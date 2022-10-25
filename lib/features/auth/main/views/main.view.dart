@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:boilerplate/router/router.gr.dart';
+import 'package:boilerplate/routers/app_router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 

@@ -8,12 +8,17 @@ import 'package:boilerplate/generated/codegen_loader.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
   configureDependencies();
   await Hive.initFlutter();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   Hive
     ..registerAdapter(UserModelAdapter())
     ..registerAdapter(AuthModelAdapter());

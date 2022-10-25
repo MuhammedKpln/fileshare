@@ -4,7 +4,7 @@ import 'package:boilerplate/core/extensions/toast.extension.dart';
 import 'package:boilerplate/core/theme/toast.dart';
 import 'package:boilerplate/features/auth/controllers/register.controller.dart';
 import 'package:boilerplate/generated/assets.gen.dart';
-import 'package:boilerplate/router/router.gr.dart';
+import 'package:boilerplate/routers/app_router.gr.dart';
 import 'package:boilerplate/shared/components/button.dart';
 import 'package:boilerplate/shared/components/core/custom_appbar.dart';
 import 'package:boilerplate/shared/components/core/custom_divider.dart';

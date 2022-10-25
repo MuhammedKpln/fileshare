@@ -8,7 +8,7 @@ import 'package:boilerplate/features/auth/models/auth.model.dart';
 import 'package:boilerplate/features/auth/services/auth.repository.dart';
 import 'package:boilerplate/features/auth/storage/auth.adapter.dart';
 import 'package:boilerplate/features/auth/storage/auth.storage.dart';
-import 'package:boilerplate/services/app.service.dart';
+import 'package:boilerplate/shared/services/auth.service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -27,14 +27,14 @@ class AuthViewController = AuthController with _$AuthViewController;
 /// It's a class that manages the state of the login page
 abstract class AuthController with Store {
   AuthController(
-    this._appController,
     this._authBox,
     this._authService,
+    this._authRepository,
     this._logger,
   );
 
-  final AppService _appController;
   final AuthService _authService;
+  final AuthRepository _authRepository;
   final AuthBox _authBox;
   final LogService _logger;
 
@@ -113,11 +113,11 @@ abstract class AuthController with Store {
         password: password,
         email: email,
       );
-      s = ObservableFuture(_authService.login(args));
+      s = ObservableFuture(_authRepository.login(args));
 
       await s!.then((value) async {
         await _authBox.saveUser(value);
-        _appController.setLoginState(LoginState.loggedIn);
+        _authService.setLoginState(LoginState.loggedIn);
       });
     } on AuthException catch (err) {
       errors.add(err.error());
@@ -135,6 +135,6 @@ abstract class AuthController with Store {
     await _authBox.clear();
     await Supabase.instance.client.auth.signOut();
 
-    _appController.setLoginState(LoginState.none);
+    _authService.setLoginState(LoginState.none);
   }
 }
