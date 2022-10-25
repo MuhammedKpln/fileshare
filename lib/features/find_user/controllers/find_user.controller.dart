@@ -13,11 +13,7 @@ class FindUserViewController = _FindUserViewControllerBase
     with _$FindUserViewController;
 
 abstract class _FindUserViewControllerBase with Store {
-  Peer peer = Peer(
-    options: PeerOptions(
-      host: '4754-78-82-142-36.eu.ngrok.io',
-    ),
-  );
+  Peer peer = Peer();
   DataConnection? connection;
 
   @observable
@@ -62,7 +58,7 @@ abstract class _FindUserViewControllerBase with Store {
 
     peer.on('data').listen(
       (event) {
-        final rtcEvent = RtcEvent.fromJson(event as Map<String, dynamic>);
+        final rtcEvent = RtcEvent.fromJson(event as String);
 
         switch (rtcEvent.event) {
           case RTCEventType.data:

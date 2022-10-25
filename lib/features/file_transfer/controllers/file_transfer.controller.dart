@@ -62,17 +62,13 @@ abstract class _FileTransferViewControllerBase with Store {
     required String connectedUserPeerId,
   }) {
     autorunDisposer = autorun((_) {
-      if (choosedFiles != null) {
-        sendFileInformations();
-      }
+      // Work around to get autorun running.
+      choosedFiles?.length;
+      sendFileInformations();
     });
 
     _peer = Peer(
       id: peerId,
-      options: PeerOptions(
-        host: '4754-78-82-142-36.eu.ngrok.io',
-        debug: LogLevel.All,
-      ),
     );
 
     _peer?.on('open').listen((id) async {
@@ -84,13 +80,15 @@ abstract class _FileTransferViewControllerBase with Store {
     });
 
     _peer?.on('data').listen((data) async {
-      final event = RtcEvent.fromJson(data as Map<String, dynamic>);
+      final event = RtcEvent.fromMap(data as Map<String, dynamic>);
 
+      print(data);
       switch (event.event) {
         case RTCEventType.fileInformation:
           final remoteFiles = event.data['fileInformations'] as List<dynamic>;
+          print(remoteFiles);
           final mappedData = remoteFiles
-              .map((e) => FileInformation.fromJson(e as Map<String, dynamic>))
+              .map((e) => FileInformation.fromJson(e as String))
               .toList();
 
           receveidFiles = ObservableList.of(mappedData);
@@ -141,7 +139,7 @@ abstract class _FileTransferViewControllerBase with Store {
       RtcEvent(
         event: RTCEventType.data,
         data: {'username': user?.userMetadata?['username']},
-      ).toJson(),
+      ).toMap(),
     );
   }
 
@@ -169,8 +167,8 @@ abstract class _FileTransferViewControllerBase with Store {
     await connection?.send(
       RtcEvent(
         event: RTCEventType.fileInformation,
-        data: {'fileInformations': choosedFiles},
-      ).toJson(),
+        data: {'fileInformations': choosedFiles ?? []},
+      ).toMap(),
     );
   }
 

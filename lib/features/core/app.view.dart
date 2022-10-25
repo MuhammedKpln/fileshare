@@ -37,10 +37,14 @@ class _AppState extends State<App> {
     }
 
     if (service.loginState == LoginState.loggedIn) {
+      FlutterNativeSplash.remove();
+
       return appRouter;
     }
 
     if (service.loginState == LoginState.none) {
+      FlutterNativeSplash.remove();
+
       return authRouter;
     }
 

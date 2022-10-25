@@ -30,8 +30,8 @@ class FileInformation extends Equatable {
   /// `dart:convert`
   ///
   /// Parses the string and returns the resulting Json object as [FileInformation].
-  factory FileInformation.fromJson(Map<String, dynamic> data) {
-    return FileInformation.fromMap(data);
+  factory FileInformation.fromJson(String data) {
+    return FileInformation.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`

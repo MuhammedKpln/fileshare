@@ -8,7 +8,10 @@ enum RTCEventType {
   fileInformation,
 
   /// It's a named constructor.
-  data
+  data;
+
+  @override
+  String toString() => this.name.toString();
 }
 
 /// It's a class that represents a WebRTC events
@@ -19,8 +22,8 @@ class RtcEvent extends Equatable {
   /// `dart:convert`
   ///
   /// Parses the string and returns the resulting Json object as [RtcEvent].
-  factory RtcEvent.fromJson(Map<String, dynamic> data) {
-    return RtcEvent.fromMap(data);
+  factory RtcEvent.fromJson(String data) {
+    return RtcEvent.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// A factory constructor that takes a Map<String, dynamic> and returns a
@@ -29,7 +32,8 @@ class RtcEvent extends Equatable {
   /// Args:
   ///   data (Map<String, dynamic>): The data to be sent.
   factory RtcEvent.fromMap(Map<String, dynamic> data) => RtcEvent(
-        event: data['event'] as RTCEventType,
+        event: RTCEventType.values
+            .singleWhere((element) => element.name == data["event"]),
         data: data['data'] as Map<String, dynamic>,
       );
 
@@ -43,7 +47,7 @@ class RtcEvent extends Equatable {
 
   /// It returns a map with the event and data fields
   Map<String, dynamic> toMap() => {
-        'event': event,
+        'event': event.toString(),
         'data': data,
       };
 
