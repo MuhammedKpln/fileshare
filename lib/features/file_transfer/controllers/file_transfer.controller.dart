@@ -84,11 +84,11 @@ abstract class _FileTransferViewControllerBase with Store {
     });
 
     _peer?.on('data').listen((data) async {
-      final event = RTCEvent.fromJson(data as Map<String, dynamic>);
+      final event = RtcEvent.fromJson(data as Map<String, dynamic>);
 
       switch (event.event) {
         case RTCEventType.fileInformation:
-          final remoteFiles = event.data as List<dynamic>;
+          final remoteFiles = event.data['fileInformations'] as List<dynamic>;
           final mappedData = remoteFiles
               .map((e) => FileInformation.fromJson(e as Map<String, dynamic>))
               .toList();
@@ -97,9 +97,7 @@ abstract class _FileTransferViewControllerBase with Store {
           break;
 
         case RTCEventType.data:
-          if (event.data['username'] != null) {
-            connectedPeerUsername = event.data['username'] as String;
-          }
+          connectedPeerUsername = event.data['username'] as String;
 
           break;
       }
@@ -140,7 +138,7 @@ abstract class _FileTransferViewControllerBase with Store {
     final user = supabase.auth.currentUser;
 
     await connection?.send(
-      RTCEvent(
+      RtcEvent(
         event: RTCEventType.data,
         data: {'username': user?.userMetadata?['username']},
       ).toJson(),
@@ -169,9 +167,9 @@ abstract class _FileTransferViewControllerBase with Store {
 
   Future<void> sendFileInformations() async {
     await connection?.send(
-      RTCEvent(
+      RtcEvent(
         event: RTCEventType.fileInformation,
-        data: choosedFiles,
+        data: {'fileInformations': choosedFiles},
       ).toJson(),
     );
   }
@@ -183,6 +181,12 @@ abstract class _FileTransferViewControllerBase with Store {
   }
 }
 
+/// Dispose of the file transfer view controller.
+///
+/// Args:
+///   instance (FileTransferViewController): The instance of the view controller
+///  that you want to
+/// dispose.
 FutureOr disposeFileTransferView(FileTransferViewController instance) {
   instance.dispose();
 }

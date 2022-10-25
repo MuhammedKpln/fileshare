@@ -1,11 +1,15 @@
 import 'package:boilerplate/core/theme/palette.dart';
 import 'package:flutter/material.dart';
 
+/// Defining a enum with a constructor.
 enum ButtonType {
+  // ignore: public_member_api_docs
   primary(Color(0xFF7968F8));
 
+  /// A variable that is being passed in from the parent widget.
   final Color color;
 
+  // ignore: public_member_api_docs, sort_constructors_first
   const ButtonType(this.color);
 }
 
@@ -53,6 +57,7 @@ class Button extends StatelessWidget {
     return null;
   }
 
+  /// A getter that returns a boolean value.
   bool get isLoading => loading != null && loading == true;
 
   @override

@@ -55,3 +55,7 @@ lib/core/di/di.config.dart
 
 
 .env
+
+# "JSON to Dart Model" generator tracker files locations.
+/.json_models/
+models.jsonc

@@ -1,17 +1,19 @@
 import 'package:boilerplate/core/storage/types.dart';
 import 'package:boilerplate/features/auth/models/user.model.dart';
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 part 'auth.adapter.g.dart';
 
 /// This class is a way to tell Hive how to store the data.
 @HiveType(typeId: StorageTypeAdapterId.authAdapterModel)
-class AuthModel {
+class AuthModel extends Equatable {
   /// A constructor.
-  AuthModel(
-      {required this.user,
-      required this.accessToken,
-      required this.refreshToken});
+  const AuthModel({
+    required this.user,
+    required this.accessToken,
+    required this.refreshToken,
+  });
 
   /// User
   @HiveField(0)
@@ -24,4 +26,7 @@ class AuthModel {
   /// Access token
   @HiveField(2)
   final String refreshToken;
+
+  @override
+  List<Object?> get props => [user, accessToken, refreshToken];
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:boilerplate/core/constants/form.dart';
 import 'package:boilerplate/core/extensions/supabase_errors.extension.dart';
 import 'package:boilerplate/core/logger/logger.dart';
@@ -24,7 +26,6 @@ class RegisterViewController = RegisterController with _$RegisterViewController;
 
 /// It's a class that manages the state of the login page
 abstract class RegisterController with Store {
-  // ignore: public_member_api_docs
   RegisterController(
     this._appController,
     this._authBox,
@@ -120,7 +121,7 @@ abstract class RegisterController with Store {
   @action
   Future<void> register() async {
     try {
-      final args = AuthRegisterModel(
+      final args = AuthRegisterArgs(
         password: password,
         email: email,
         username: username,

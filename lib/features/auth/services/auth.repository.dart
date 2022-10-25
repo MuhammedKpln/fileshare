@@ -6,7 +6,8 @@ import 'package:boilerplate/repositories/_base.repository.dart';
 import 'package:boilerplate/repositories/enums/supabase.dart';
 import 'package:injectable/injectable.dart';
 
-/// It takes an email and password, sends them to the server, and returns the response
+/// It takes an email and password, sends them to the server, and returns the
+/// response
 
 @LazySingleton()
 class AuthService {
@@ -61,7 +62,7 @@ class AuthService {
   /// Args:
   ///   args (AuthLoginArgs): The arguments passed to the function.
 
-  Future<AuthModel> register(AuthRegisterModel args) async {
+  Future<AuthModel> register(AuthRegisterArgs args) async {
     try {
       final register = await supabase.auth().signUp(
         email: args.email,
@@ -70,9 +71,10 @@ class AuthService {
       );
 
       final user = UserModel(
-          id: register.user!.id,
-          updated_at: DateTime.parse(register.user!.updatedAt!),
-          username: register.user!.userMetadata!['username'] as String);
+        id: register.user!.id,
+        updated_at: DateTime.parse(register.user!.updatedAt!),
+        username: register.user!.userMetadata!['username'] as String,
+      );
 
       return AuthModel(
         user: user,

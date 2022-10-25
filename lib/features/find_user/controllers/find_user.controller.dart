@@ -62,7 +62,7 @@ abstract class _FindUserViewControllerBase with Store {
 
     peer.on('data').listen(
       (event) {
-        final rtcEvent = RTCEvent.fromJson(event as Map<String, dynamic>);
+        final rtcEvent = RtcEvent.fromJson(event as Map<String, dynamic>);
 
         switch (rtcEvent.event) {
           case RTCEventType.data:
@@ -137,7 +137,7 @@ abstract class _FindUserViewControllerBase with Store {
 
   Future<void> pingUserToNavigate() async {
     await connection?.send(
-      RTCEvent(
+      RtcEvent(
         event: RTCEventType.data,
         data: {'navigate': true, 'peerId': _peerId},
       ).toJson(),

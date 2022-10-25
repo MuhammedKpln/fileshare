@@ -4,6 +4,7 @@ import 'package:ionicons/ionicons.dart';
 
 /// This is a custom app bar that has a back button that navigates back.
 class CustomAppBar extends StatelessWidget {
+  // ignore: public_member_api_docs
   const CustomAppBar({super.key});
 
   @override

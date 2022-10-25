@@ -3,7 +3,11 @@ import 'package:boilerplate/router/router.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
+/// `AutoTabsRouter.pageView` is a `PageView` that automatically manages its
+/// children's routes and the `PageController`'s `initialPage`
+/// and `viewportFraction` properties
 class MainView extends StatelessWidget {
+  // ignore: public_member_api_docs
   const MainView({super.key});
 
   @override

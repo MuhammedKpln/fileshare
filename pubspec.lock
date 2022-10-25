@@ -262,6 +262,13 @@ packages:
       url: "https://github.com/daiki1003/envied.git"
     source: git
     version: "0.2.3"
+  equatable:
+    dependency: "direct main"
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.5"
   events_emitter:
     dependency: transitive
     description:

@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:boilerplate/core/constants/form.dart';
 import 'package:boilerplate/core/extensions/supabase_errors.extension.dart';
 import 'package:boilerplate/core/logger/logger.dart';
@@ -24,7 +26,6 @@ class AuthViewController = AuthController with _$AuthViewController;
 
 /// It's a class that manages the state of the login page
 abstract class AuthController with Store {
-  // ignore: public_member_api_docs
   AuthController(
     this._appController,
     this._authBox,
@@ -131,7 +132,6 @@ abstract class AuthController with Store {
   ///
   /// This is the only line of code that matters
   Future<void> logout() async {
-    print('object');
     await _authBox.clear();
     await Supabase.instance.client.auth.signOut();
 

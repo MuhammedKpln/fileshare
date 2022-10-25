@@ -82,11 +82,10 @@ class AuthBox {
     const storage = FlutterSecureStorage();
 
     final containsKey =
-        await storage.containsKey(key: SecureStorageKeys.HiveKey.key);
+        await storage.containsKey(key: SecureStorageKeys.hiveKey.key);
 
     if (containsKey) {
-      print(await storage.readAll());
-      final key = await storage.read(key: SecureStorageKeys.HiveKey.key);
+      final key = await storage.read(key: SecureStorageKeys.hiveKey.key);
 
       return base64Decode(key!);
     }
@@ -99,12 +98,12 @@ class AuthBox {
     final baseKey = base64Encode(key);
     const storage = FlutterSecureStorage();
     final containsKey =
-        await storage.containsKey(key: SecureStorageKeys.HiveKey.key);
+        await storage.containsKey(key: SecureStorageKeys.hiveKey.key);
 
     if (containsKey) {
       return;
     }
 
-    await storage.write(key: SecureStorageKeys.HiveKey.key, value: baseKey);
+    await storage.write(key: SecureStorageKeys.hiveKey.key, value: baseKey);
   }
 }

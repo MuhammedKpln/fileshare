@@ -12,7 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+/// `FindUserView` is a `StatefulWidget` that creates a `_FindUserViewState`
+/// when it's created
 class FindUserView extends StatefulWidget {
+  // ignore: public_member_api_docs
   const FindUserView({super.key});
 
   @override
@@ -25,7 +28,6 @@ class _FindUserViewState extends State<FindUserView> {
 
   @override
   void initState() {
-    print(appController.pId);
     appController.startListener(onNavigate: _onNavigateRequested);
 
     super.initState();

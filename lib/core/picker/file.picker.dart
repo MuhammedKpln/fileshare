@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 
+/// It allows the user to pick a file from their device
 class FilePickerWrappper {
   final FilePicker _picker = FilePicker.platform;
 

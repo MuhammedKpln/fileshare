@@ -9,6 +9,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 /// `App`
 class App extends StatefulWidget {
+  // ignore: public_member_api_docs
   const App({super.key});
 
   @override

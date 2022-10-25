@@ -111,8 +111,8 @@ abstract class ThemeState with Store {
         ),
       );
 
-  /// `setTheme` is an action that sets the theme mode to the theme mode passed in
-  ///
+  /// `setTheme` is an action that sets the theme mode to the theme mode passed
+  /// in
   /// Args:
   ///   themeMode (ThemeMode): The theme mode you want to set.
   @action

@@ -1,6 +1,5 @@
 import 'package:boilerplate/core/theme/palette.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 /// Creating a custom data type called AvatarSize.
 enum AvatarSize {

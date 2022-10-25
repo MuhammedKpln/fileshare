@@ -4,7 +4,12 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 
 @LazySingleton()
+
+/// It's a wrapper around the [Logger](https://pub.dev/packages/logger)
+/// package that allows you to log messages in debug mode
 class LogService {
+  /// It's a wrapper around the [Logger](https://pub.dev/packages/logger)
+  /// package that allows you to log messages in debug mode
   final Logger logger = Logger();
 
   /// Log a message at level [Level.verbose].

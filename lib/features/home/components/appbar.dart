@@ -5,6 +5,7 @@ import 'package:boilerplate/shared/components/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+//TODO: refactor
 /// A stateless widget that returns an AppBar with a title and an action
 class Appbar extends StatelessWidget {
   const Appbar();

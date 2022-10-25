@@ -248,7 +248,7 @@ class FindUserRoute extends _i8.PageRouteInfo<void> {
 class ScanQRCodeRoute extends _i8.PageRouteInfo<ScanQRCodeRouteArgs> {
   ScanQRCodeRoute({
     _i9.Key? key,
-    required dynamic Function(String?) onCodeScanned,
+    required void Function(String?) onCodeScanned,
   }) : super(
           ScanQRCodeRoute.name,
           path: '/scan-qr-code-view',
@@ -269,7 +269,7 @@ class ScanQRCodeRouteArgs {
 
   final _i9.Key? key;
 
-  final dynamic Function(String?) onCodeScanned;
+  final void Function(String?) onCodeScanned;
 
   @override
   String toString() {

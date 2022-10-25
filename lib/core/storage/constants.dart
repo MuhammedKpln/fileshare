@@ -19,7 +19,7 @@ enum AuthStorageKeys {
 
 /// Hive box names
 enum SecureStorageKeys {
-  HiveKey('HIVE_ENC_KEY');
+  hiveKey('HIVE_ENC_KEY');
 
   final String key;
   const SecureStorageKeys(this.key);

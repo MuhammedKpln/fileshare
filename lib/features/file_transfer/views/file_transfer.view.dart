@@ -76,13 +76,33 @@ class _FileTransferState extends State<FileTransferView> {
           return _renderEmptyFilesSection();
         }
 
-        return _renderFiles();
+        return _renderFiles(sendingFile: widget.sendingFile);
       },
     );
   }
 
-  Widget _renderFiles() {
+  Widget _renderFiles({required bool sendingFile}) {
     final files = appController.choosedFiles ?? appController.receveidFiles;
+
+    Widget renderActionButtons() {
+      if (!widget.sendingFile) const SizedBox.shrink();
+
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Button(
+            onPressed: appController.sendFiles,
+            label: 'Send files',
+            buttonType: ButtonType.primary,
+          ),
+          Button(
+            onPressed: appController.clearFiles,
+            label: 'Clear',
+          ),
+        ],
+      );
+    }
+
     return Column(
       children: [
         // _FileCategorySectionTitle(),
@@ -94,26 +114,14 @@ class _FileTransferState extends State<FileTransferView> {
 
               return _File(
                 file: file!,
+                sendingFile: sendingFile,
               );
             },
             itemCount: files?.length ?? 0,
           ),
         ),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Button(
-              onPressed: appController.sendFiles,
-              label: 'Send files',
-              buttonType: ButtonType.primary,
-            ),
-            Button(
-              onPressed: appController.clearFiles,
-              label: 'Clear',
-            ),
-          ],
-        )
+        renderActionButtons()
       ],
     );
   }
@@ -157,7 +165,6 @@ class _FileTransferState extends State<FileTransferView> {
                     ),
                     Section(
                       title: 'fileTransferDetailsSectionTitle'.tr(),
-                      trailing: const Icon(Ionicons.ellipsis_horizontal),
                     ),
                     _renderFilesSection()
                   ],
@@ -235,13 +242,25 @@ class _EmptyFilesSection extends StatelessWidget {
 class _File extends StatelessWidget {
   const _File({
     required this.file,
+    required this.sendingFile,
   });
 
   final FileInformation file;
+  final bool sendingFile;
 
   @override
   Widget build(BuildContext context) {
     final appController = getIt<FileTransferViewController>();
+
+    Widget _renderRemoveIcon() {
+      if (!sendingFile) const SizedBox.shrink();
+
+      return IconButton(
+        onPressed: () => appController.removeFile(file),
+        icon: const Icon(Ionicons.ellipsis_horizontal),
+        color: Colors.grey.shade400,
+      );
+    }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -264,7 +283,7 @@ class _File extends StatelessWidget {
                         ?.copyWith(fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    "${(file.size / 1000 / 1000).round()}MB",
+                    '${(file.size / 1000 / 1000).round()}MB',
                     style: Theme.of(context)
                         .textTheme
                         .labelSmall
@@ -275,11 +294,7 @@ class _File extends StatelessWidget {
             ),
           ],
         ),
-        IconButton(
-          onPressed: () => appController.removeFile(file),
-          icon: const Icon(Ionicons.ellipsis_horizontal),
-          color: Colors.grey.shade400,
-        )
+        _renderRemoveIcon(),
       ],
     );
   }
@@ -386,8 +401,15 @@ class _ProfileCard extends StatelessWidget {
               ),
             ],
           ),
-          _ProgressBar(
-            value: value,
+          Observer(
+            builder: (_) {
+              if (appController.gettedData == 0) return const SizedBox.shrink();
+
+              return _ProgressBar(
+                value: appController.receveidFiles!.first.size /
+                    appController.gettedData,
+              );
+            },
           )
         ],
       ),

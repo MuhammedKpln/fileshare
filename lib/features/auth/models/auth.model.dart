@@ -1,29 +1,28 @@
 // ignore_for_file: public_member_api_docs
 
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:equatable/equatable.dart';
 
-part 'auth.model.freezed.dart';
-part 'auth.model.g.dart';
+class AuthLoginArgs extends Equatable {
+  const AuthLoginArgs({required this.email, required this.password});
 
-@freezed
-class AuthLoginArgs with _$AuthLoginArgs {
-  factory AuthLoginArgs({
-    required String email,
-    required String password,
-  }) = _AuthLoginArgs;
+  final String email;
+  final String password;
 
-  factory AuthLoginArgs.fromJson(Map<String, dynamic> json) =>
-      _$AuthLoginArgsFromJson(json);
+  @override
+  List<Object?> get props => [email, password];
 }
 
-@freezed
-class AuthRegisterModel with _$AuthRegisterModel {
-  factory AuthRegisterModel({
-    required String email,
-    required String username,
-    required String password,
-  }) = _AuthRegisterModel;
+class AuthRegisterArgs extends Equatable {
+  const AuthRegisterArgs({
+    required this.email,
+    required this.username,
+    required this.password,
+  });
 
-  factory AuthRegisterModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthRegisterModelFromJson(json);
+  final String email;
+  final String username;
+  final String password;
+
+  @override
+  List<Object?> get props => [email, username, password];
 }

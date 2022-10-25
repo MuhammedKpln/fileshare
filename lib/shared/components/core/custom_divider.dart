@@ -2,7 +2,9 @@ import 'package:boilerplate/core/theme/palette.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+/// A widget that displays a divider with a text in the middle
 class AppDivider extends StatelessWidget {
+  // ignore: public_member_api_docs
   const AppDivider({super.key});
 
   @override

@@ -43,4 +43,5 @@ import 'package:boilerplate/router/guards/auth.guard.dart';
     ),
   ],
 )
+// ignore: public_member_api_docs
 class $AppRouter {}

@@ -21,7 +21,6 @@ class LatestActivities extends StatelessWidget {
         ),
       ),
       itemBuilder: (context, index) {
-        print(index % 2);
         return LatestActivitiesItem(
           sendedItem: index % 2 == 0 ? true : false,
           username: 'Selam $index',

@@ -3,7 +3,9 @@ import 'package:boilerplate/shared/components/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+/// A list of avatars that scrolls horizontally
 class RecentUsers extends StatelessWidget {
+  // ignore: public_member_api_docs
   const RecentUsers({
     super.key,
   });

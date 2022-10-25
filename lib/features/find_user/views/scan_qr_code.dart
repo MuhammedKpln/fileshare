@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+/// `ScanQRCodeView` is a `StatefulWidget` that takes a
+/// `Function(String? codeId)` as a parameter and
+/// calls it when a QR code is scanned
 class ScanQRCodeView extends StatefulWidget {
+  // ignore: public_member_api_docs
   const ScanQRCodeView({super.key, required this.onCodeScanned});
-  final Function(String? codeId) onCodeScanned;
+
+  /// A function that takes a string and returns void.
+  final void Function(String? codeId) onCodeScanned;
 
   @override
   State<ScanQRCodeView> createState() => _ScanQRCodeViewState();
