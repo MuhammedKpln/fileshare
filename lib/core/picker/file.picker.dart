@@ -9,7 +9,8 @@ class FilePickerWrappper {
   /// Returns:
   ///   A list of PlatformFile objects.
   Future<List<PlatformFile>?> pickFile() async {
-    final file = await _picker.pickFiles(withReadStream: true);
+    final file = await _picker.pickFiles(
+        withData: false, withReadStream: true, allowMultiple: true);
 
     return file?.files;
   }

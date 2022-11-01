@@ -4,11 +4,17 @@ import 'package:equatable/equatable.dart';
 
 /// Defining the types of events that can be sent over the WebRTC connection.
 enum RTCEventType {
-  /// It's a named constructor.
-  fileInformation,
+  /// Sender file informations
+  fileInformations,
 
-  /// It's a named constructor.
-  data;
+  /// Exchange username
+  username,
+
+  /// Sends a notification to sender to return with the next queue.
+  fileFetched,
+
+  /// Ping peer to navigate to transfer file
+  navigatePing;
 
   @override
   String toString() => this.name.toString();

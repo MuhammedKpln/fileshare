@@ -61,7 +61,7 @@ abstract class _FindUserViewControllerBase with Store {
         final rtcEvent = RtcEvent.fromJson(event as String);
 
         switch (rtcEvent.event) {
-          case RTCEventType.data:
+          case RTCEventType.navigatePing:
             if (rtcEvent.data['navigate'] != null &&
                 rtcEvent.data['navigate'] == true) {
               connecting = true;
@@ -75,9 +75,6 @@ abstract class _FindUserViewControllerBase with Store {
               });
             }
 
-            break;
-          case RTCEventType.fileInformation:
-            // TODO: Handle this case.
             break;
         }
       },
@@ -134,7 +131,7 @@ abstract class _FindUserViewControllerBase with Store {
   Future<void> pingUserToNavigate() async {
     await connection?.send(
       RtcEvent(
-        event: RTCEventType.data,
+        event: RTCEventType.navigatePing,
         data: {'navigate': true, 'peerId': _peerId},
       ).toJson(),
     );

@@ -2,6 +2,7 @@ import 'package:boilerplate/core/di/di.dart';
 import 'package:boilerplate/core/theme/gradient.dart';
 import 'package:boilerplate/core/theme/palette.dart';
 import 'package:boilerplate/features/file_transfer/controllers/file_transfer.controller.dart';
+import 'package:boilerplate/features/file_transfer/helpers/transfer.helper.dart';
 import 'package:boilerplate/features/find_user/models/file_information.dart';
 import 'package:boilerplate/generated/assets.gen.dart';
 import 'package:boilerplate/shared/components/back_button.dart';
@@ -81,6 +82,10 @@ class _FileTransferState extends State<FileTransferView> {
     );
   }
 
+  void _onPressed() async {
+    TransferHelper.startIsolate();
+  }
+
   Widget _renderFiles({required bool sendingFile}) {
     final files = appController.choosedFiles ?? appController.receveidFiles;
 
@@ -91,7 +96,7 @@ class _FileTransferState extends State<FileTransferView> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Button(
-            onPressed: appController.sendFiles,
+            onPressed: _onPressed,
             label: 'Send files',
             buttonType: ButtonType.primary,
           ),
@@ -110,10 +115,10 @@ class _FileTransferState extends State<FileTransferView> {
           height: 300,
           child: ListView.builder(
             itemBuilder: (context, index) {
-              final file = files?[index];
+              final file = files![index];
 
               return _File(
-                file: file!,
+                file: file,
                 sendingFile: sendingFile,
               );
             },
@@ -283,12 +288,28 @@ class _File extends StatelessWidget {
                         ?.copyWith(fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    '${(file.size / 1000 / 1000).round()}MB',
+                    TransferHelper.formatBytes(file.size),
                     style: Theme.of(context)
                         .textTheme
                         .labelSmall
                         ?.copyWith(color: Colors.grey.shade400),
-                  )
+                  ),
+                  Observer(builder: (_) {
+                    if (file == null) return SizedBox.shrink();
+
+                    return Text(
+                      file.transfered
+                          ? "Done"
+                          : appController.fileTransfering?.name == file.name &&
+                                  appController.gettedData > 0
+                              ? "Transfering.."
+                              : "",
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: !file.transfered
+                              ? Colors.orange
+                              : ColorPalette.primary.color),
+                    );
+                  })
                 ],
               ),
             ),
@@ -407,7 +428,8 @@ class _ProfileCard extends StatelessWidget {
 
               return _ProgressBar(
                 value: appController.receveidFiles!.first.size /
-                    appController.gettedData,
+                    appController.gettedData /
+                    100,
               );
             },
           )
@@ -430,8 +452,6 @@ class _ProgressBar extends StatelessWidget {
         width: double.infinity,
         child: LinearProgressIndicator(
           value: value,
-          color: ColorPalette.primary.color,
-          backgroundColor: Colors.white,
           minHeight: 20,
         ),
       ),
@@ -471,3 +491,5 @@ class _ProfileCardInfo extends StatelessWidget {
     );
   }
 }
+
+void runMyIsolate(List<dynamic> args) {}

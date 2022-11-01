@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:collection';
+import 'dart:io';
+import 'dart:isolate';
 
 import 'package:boilerplate/core/picker/file.picker.dart';
+import 'package:boilerplate/features/file_transfer/helpers/transfer.helper.dart';
 import 'package:boilerplate/features/find_user/models/event.dart';
 import 'package:boilerplate/features/find_user/models/file_information.dart';
 import 'package:file_picker/file_picker.dart';
@@ -10,7 +14,7 @@ import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:peerdart/peerdart.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
+import 'package:path_provider/path_provider.dart';
 part 'file_transfer.controller.g.dart';
 
 @LazySingleton(
@@ -32,8 +36,14 @@ abstract class _FileTransferViewControllerBase with Store {
   @observable
   int gettedData = 0;
 
+  FileInformation? get fileTransfering => receveidFilesQueue?.first;
+
+  List<int> bytes = List.empty(growable: true);
+
   @observable
   ObservableList<FileInformation>? receveidFiles;
+
+  Queue<FileInformation>? receveidFilesQueue;
 
   @computed
   List<FileInformation>? get choosedFiles {
@@ -50,11 +60,14 @@ abstract class _FileTransferViewControllerBase with Store {
     return mappedData;
   }
 
+  Queue<PlatformFile>? choosedFilesQueue;
+
   @observable
   ObservableList<PlatformFile>? choosedFilesRaw;
 
-  StreamSubscription? _dataChannelStream;
+  StreamSubscription<dynamic>? _dataChannelStream;
   ReactionDisposer? autorunDisposer;
+  ReactionDisposer? queueAutoRunDisposer;
 
   @action
   void startPeerListeners({
@@ -62,14 +75,27 @@ abstract class _FileTransferViewControllerBase with Store {
     required String connectedUserPeerId,
   }) {
     autorunDisposer = autorun((_) {
-      // Work around to get autorun running.
+      /// Each time `choosedFiles` changes, it send over new file informations to the receiver
+
       choosedFiles?.length;
       sendFileInformations();
     });
+    queueAutoRunDisposer = autorun((_) {
+      /// Each time `choosedFilesRaw` or `receveidFiles` changes, it send over new file informations to the receiver
 
-    _peer = Peer(
-      id: peerId,
-    );
+      if (choosedFilesRaw != null) {
+        choosedFilesQueue = Queue.from(choosedFilesRaw!.toList());
+      }
+
+      if (receveidFiles != null) {
+        receveidFilesQueue = Queue.from(receveidFiles!.toList());
+      }
+
+      print(choosedFilesQueue);
+      print(receveidFilesQueue);
+    });
+
+    _peer = Peer(id: peerId, options: PeerOptions(debug: LogLevel.All));
 
     _peer?.on('open').listen((id) async {
       _peerId = id as String;
@@ -82,28 +108,83 @@ abstract class _FileTransferViewControllerBase with Store {
     _peer?.on('data').listen((data) async {
       final event = RtcEvent.fromMap(data as Map<String, dynamic>);
 
-      print(data);
       switch (event.event) {
-        case RTCEventType.fileInformation:
-          final remoteFiles = event.data['fileInformations'] as List<dynamic>;
-          print(remoteFiles);
-          final mappedData = remoteFiles
-              .map((e) => FileInformation.fromJson(e as String))
-              .toList();
+        case RTCEventType.fileInformations:
+          final remoteFiles =
+              event.data[RTCEventType.fileInformations.name] as List<dynamic>;
 
-          receveidFiles = ObservableList.of(mappedData);
+          if (remoteFiles.length > 0) {
+            final mappedData = remoteFiles
+                .map((e) => FileInformation.fromJson(e as String))
+                .toList();
+            receveidFiles = ObservableList.of(mappedData);
+          } else {
+            receveidFiles = null;
+          }
+
           break;
 
-        case RTCEventType.data:
+        case RTCEventType.username:
           connectedPeerUsername = event.data['username'] as String;
+          break;
 
+        case RTCEventType.fileFetched:
+          if (choosedFilesQueue != null && choosedFilesQueue!.isNotEmpty) {
+            choosedFilesQueue?.removeFirst();
+
+            if (choosedFilesQueue!.length > 0) {
+              TransferHelper.startIsolate();
+            }
+          }
           break;
       }
     });
 
-    _peer?.on<Uint8List>('binary').listen((event) async {
-      gettedData += event.lengthInBytes;
+    _peer?.on<Uint8List>('binary').listen((_bytes) async {
+      gettedData += _bytes.lengthInBytes;
+
+      bytes.addAll(_bytes);
+
+      print("${fileTransfering?.name} $gettedData - ${fileTransfering?.size}");
+      if (fileTransfering != null) {
+        if (fileTransfering?.size == gettedData) {
+          /// Writing file to data
+          await _writeData();
+
+          /// Sending a notification to sender.
+          final event = RtcEvent(
+            event: RTCEventType.fileFetched,
+            data: {"name": fileTransfering!.name, "fetched": true},
+          ).toMap();
+          await connection?.send(event);
+
+          /// Resetting the data
+          ///
+
+          final changedlist = receveidFiles!.map((element) {
+            if (element.name == fileTransfering!.name) {
+              return element.copyWith(transfered: true);
+            }
+
+            return element;
+          });
+
+          receveidFiles = ObservableList.of(changedlist);
+
+          gettedData = 0;
+          receveidFilesQueue?.removeFirst();
+          bytes.clear();
+        }
+      }
     });
+  }
+
+  Future<void> _writeData() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final dirPath = directory.path;
+    final fileWriter = File("$dirPath/${fileTransfering?.name}");
+
+    await fileWriter.writeAsBytes(bytes, mode: FileMode.append);
   }
 
   void connectToPeer(String peerId) {
@@ -119,16 +200,18 @@ abstract class _FileTransferViewControllerBase with Store {
     });
   }
 
-  void sendFiles() {
+  void sendFiles() async {
     if (choosedFilesRaw == null) {
       return;
     }
 
-    for (final file in choosedFilesRaw!) {
-      file.readStream?.listen((bytes) async {
-        await connection?.sendBinary(Uint8List.fromList(bytes));
-      });
-    }
+    final port = ReceivePort();
+
+    port.listen((message) async {
+      await connection?.sendBinary(message as Uint8List);
+    });
+
+    // TransferHelper.sendFiles(port, choosedFilesRaw!);
   }
 
   Future<void> sendUserProfile() async {
@@ -137,7 +220,7 @@ abstract class _FileTransferViewControllerBase with Store {
 
     await connection?.send(
       RtcEvent(
-        event: RTCEventType.data,
+        event: RTCEventType.username,
         data: {'username': user?.userMetadata?['username']},
       ).toMap(),
     );
@@ -163,19 +246,22 @@ abstract class _FileTransferViewControllerBase with Store {
     choosedFilesRaw?.removeWhere((element) => element.name == file.name);
   }
 
-  Future<void> sendFileInformations() async {
+  Future<void> sendFileInformations({RtcEvent? event}) async {
     await connection?.send(
-      RtcEvent(
-        event: RTCEventType.fileInformation,
-        data: {'fileInformations': choosedFiles ?? []},
-      ).toMap(),
+      event?.toMap() ??
+          RtcEvent(
+            event: RTCEventType.fileInformations,
+            data: {RTCEventType.fileInformations.name: choosedFiles ?? []},
+          ).toMap(),
     );
   }
 
   void dispose() {
     autorunDisposer?.call();
+    queueAutoRunDisposer?.call();
     _dataChannelStream?.cancel();
     _peer?.dispose();
+    bytes.clear();
   }
 }
 

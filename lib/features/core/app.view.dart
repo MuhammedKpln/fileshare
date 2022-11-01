@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
+final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
 /// `App`
 class App extends StatefulWidget {
   // ignore: public_member_api_docs
@@ -57,6 +59,7 @@ class _AppState extends State<App> {
       builder: (_) {
         final loginState = appService.authService;
         return MaterialApp.router(
+          key: scaffoldKey,
           title: CoreConstants.appTitle,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
