@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:boilerplate/core/di/di.dart';
+import 'package:boilerplate/core/extensions/show_bottom_sheet.dart';
 import 'package:boilerplate/core/extensions/toast.extension.dart';
 import 'package:boilerplate/core/theme/palette.dart';
 import 'package:boilerplate/features/find_user/controllers/find_user.controller.dart';
@@ -9,6 +10,7 @@ import 'package:boilerplate/shared/components/button.dart';
 import 'package:boilerplate/shared/components/core/custom_appbar.dart';
 import 'package:boilerplate/shared/components/core/scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -25,11 +27,13 @@ class FindUserView extends StatefulWidget {
 class _FindUserViewState extends State<FindUserView> {
   final appController = getIt<FindUserViewController>();
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  final text = TextEditingController();
 
   @override
   void initState() {
     appController.startListener(onNavigate: _onNavigateRequested);
+    appController.askForConnectingFromClipboard(
+      (clipboardData) => print(clipboardData),
+    );
     super.initState();
   }
 
@@ -39,10 +43,14 @@ class _FindUserViewState extends State<FindUserView> {
     super.dispose();
   }
 
-  void generateId() {
+  void generateId() async {
     appController.generateId();
+    final id = appController.pId;
 
-    context.toast.showToast('Generated a QR Code!');
+    await Clipboard.setData(ClipboardData(text: id));
+
+    context.toast
+        .showToast('Generated a QR Code! Copied ID to your clipboard.');
   }
 
   Future<void> _onNavigateRequested(String peerId) async {
@@ -79,11 +87,52 @@ class _FindUserViewState extends State<FindUserView> {
     );
   }
 
-  void connect() {
-    print(text.text);
-    appController.connectToPeer(
-      text.text,
-      () => onConnectionSuccess(text.text),
+  void connect(BuildContext _context) {
+    if (appController.formState.currentState!.validate()) {
+      appController.connectToPeer(
+        appController.formFindUserId!,
+        () async {
+          await _context.router.pop();
+          onConnectionSuccess(appController.formFindUserId!);
+        },
+      );
+
+      return;
+    }
+  }
+
+  void showTextInputDialog() async {
+    await context.showBottomSheet<void>(
+        child: _renderBottomSheet(), title: "Title");
+  }
+
+  Widget _renderBottomSheet() {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Assets.animations.connect.lottie(repeat: false, width: 200),
+          Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              key: appController.formState,
+              child: Column(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(labelText: "Peer ID"),
+                    validator: appController.validateFormFindUserId,
+                    controller: appController.formFields["findUserId"],
+                  ),
+                ],
+              )),
+          Observer(builder: (_) {
+            return Button(
+                onPressed: () => connect(context),
+                label: "Connect",
+                loading: appController.connecting,
+                buttonType: ButtonType.primary);
+          })
+        ],
+      ),
     );
   }
 
@@ -94,90 +143,91 @@ class _FindUserViewState extends State<FindUserView> {
         preferredSize: Size.fromHeight(30),
         child: CustomAppBar(),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Column(
-              children: [
-                Observer(
-                  builder: (_) {
-                    if (appController.connecting) {
-                      return const CircularProgressIndicator();
-                    }
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Column(
+            children: [
+              Observer(
+                builder: (_) {
+                  if (appController.connecting) {
+                    return const CircularProgressIndicator();
+                  }
 
-                    return AnimatedCrossFade(
-                      firstChild: Assets.animations.qr.lottie(repeat: true),
-                      secondChild: QrImage(
-                        data: appController.peerId ?? '',
-                        size: 200,
-                      ),
-                      crossFadeState: appController.peerId != null
-                          ? CrossFadeState.showSecond
-                          : CrossFadeState.showFirst,
-                      duration: const Duration(milliseconds: 500),
-                      secondCurve: Curves.slowMiddle,
-                    );
-                  },
-                ),
-                Observer(builder: (_) {
-                  return SelectableText(appController.peerId ?? "");
-                }),
-                TextFormField(
-                  controller: text,
-                ),
-                ElevatedButton(onPressed: connect, child: Text("qwe")),
-                ElevatedButton(onPressed: generateId, child: Text("qwe")),
-                Text(
-                  'Scan QR code to connect to other peer!',
+                  return AnimatedCrossFade(
+                    firstChild: Assets.animations.qr.lottie(repeat: true),
+                    secondChild: _secondChild(),
+                    crossFadeState: appController.peerId != null
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
+                    duration: const Duration(milliseconds: 500),
+                    secondCurve: Curves.slowMiddle,
+                  );
+                },
+              ),
+              Text(
+                'Scan QR code to connect to other peer!',
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: ThemePadding.medium.padding),
+                child: Text(
+                  'Scan QR code or generate a qr code for sender.',
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
-                      .titleLarge
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                      .labelSmall
+                      ?.copyWith(color: ColorPalette.grey.color),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: ThemePadding.medium.padding),
-                  child: Text(
-                    'Scan QR code or generate a qr code for sender.',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall
-                        ?.copyWith(color: ColorPalette.grey.color),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Button(
+                onPressed: scanQrCode,
+                label: 'Send file',
+                buttonType: ButtonType.primary,
+                customStyle: ButtonStyle(
+                  padding: MaterialStatePropertyAll(
+                    EdgeInsets.all(ThemePadding.medium.padding),
                   ),
                 ),
-              ],
-            ),
-            Column(
-              children: [
-                Button(
-                  onPressed: scanQrCode,
-                  label: 'Send file',
-                  buttonType: ButtonType.primary,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: ThemePadding.medium.padding),
+                child: Button(
+                  onPressed: generateId,
+                  label: 'Receive file',
                   customStyle: ButtonStyle(
                     padding: MaterialStatePropertyAll(
                       EdgeInsets.all(ThemePadding.medium.padding),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: ThemePadding.medium.padding),
-                  child: Button(
-                    onPressed: generateId,
-                    label: 'Receive file',
-                    customStyle: ButtonStyle(
-                      padding: MaterialStatePropertyAll(
-                        EdgeInsets.all(ThemePadding.medium.padding),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
+              ),
+              TextButton(
+                  onPressed: showTextInputDialog,
+                  child: Text("Click here to put in peer id in manual"))
+            ],
+          )
+        ],
       ),
+    );
+  }
+
+  Widget _secondChild() {
+    return Column(
+      children: [
+        QrImage(
+          data: appController.peerId ?? '',
+          size: 200,
+        ),
+      ],
     );
   }
 }

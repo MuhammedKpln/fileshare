@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:boilerplate/features/find_user/constants/uuid_regex.dart';
 import 'package:boilerplate/features/find_user/models/event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
@@ -15,6 +17,7 @@ class FindUserViewController = _FindUserViewControllerBase
 abstract class _FindUserViewControllerBase with Store {
   Peer peer = Peer();
   DataConnection? connection;
+  GlobalKey<FormState> formState = GlobalKey<FormState>();
 
   @observable
   String? peerId;
@@ -26,26 +29,21 @@ abstract class _FindUserViewControllerBase with Store {
   @observable
   bool connecting = false;
 
-  // @action
-  // Future<List<PlatformFile>?> pickFile() async {
-  //   final files = await _picker.pickFile();
+  Map<String, TextEditingController> formFields = {
+    "findUserId": TextEditingController()
+  };
 
-  //   if (files != null) {
-  //     choosedFilesRaw = files;
+  @computed
+  String? get formFindUserId => formFields["findUserId"]?.text;
 
-  //     for (final file in files) {
-  //       choosedFiles.add(
-  //         FileInformation(
-  //           name: file.name,
-  //           size: file.size,
-  //           extension: file.extension,
-  //         ),
-  //       );
-  //     }
-  //   }
+  String? validateFormFindUserId(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please fill in user id before connecting.';
+    }
 
-  //   return files;
-  // }
+    return null;
+  }
+
   @action
   void startListener({required void Function(String peerId) onNavigate}) {
     peer.on<String?>('open').listen((id) {
@@ -54,6 +52,10 @@ abstract class _FindUserViewControllerBase with Store {
 
     peer.on<DataConnection>('connection').listen((conn) {
       connection = conn;
+    });
+
+    peer.on("error").listen((event) {
+      connecting = false;
     });
 
     peer.on('data').listen(
@@ -88,6 +90,7 @@ abstract class _FindUserViewControllerBase with Store {
 
   @action
   void connectToPeer(String peerId, VoidCallback onConnectionSuccess) {
+    connecting = true;
     connection = peer.connect(peerId);
 
     connection?.on('open').listen((event) {
@@ -96,7 +99,6 @@ abstract class _FindUserViewControllerBase with Store {
           pingUserToNavigate();
 
           peer.disconnect();
-          connecting = true;
 
           Future.delayed(const Duration(seconds: 3), () {
             connecting = false;
@@ -106,27 +108,6 @@ abstract class _FindUserViewControllerBase with Store {
       });
     });
   }
-
-  // Future<void> sendFileInformation(List<PlatformFile> files) async {
-  //   final fileInformations = <FileInformation>[];
-
-  //   for (final file in files) {
-  //     fileInformations.add(
-  //       FileInformation(
-  //         name: file.name,
-  //         size: file.size,
-  //         extension: file.extension,
-  //       ),
-  //     );
-  //   }
-
-  //   await connection?.send(
-  //     RTCEvent(
-  //       event: RTCEventType.fileInformation,
-  //       data: fileInformations,
-  //     ).toJson(),
-  //   );
-  // }
 
   Future<void> pingUserToNavigate() async {
     await connection?.send(
@@ -139,6 +120,31 @@ abstract class _FindUserViewControllerBase with Store {
 
   void dispose() {
     peer.dispose();
+  }
+
+  void askForConnectingFromClipboard(
+      void Function(String clipboardData) onSuccess) async {
+    final hasClipboardData = await _hasClipboardData();
+
+    if (hasClipboardData) {
+      final clipboardData = await Clipboard.getData("text/plain");
+
+      if (_isRegex(clipboardData!.text!)) {
+        onSuccess.call(clipboardData.text!);
+      }
+    }
+  }
+
+  bool _isRegex(String data) {
+    if (uuidRegex.hasMatch(data)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<bool> _hasClipboardData() async {
+    return await Clipboard.hasStrings();
   }
 }
 

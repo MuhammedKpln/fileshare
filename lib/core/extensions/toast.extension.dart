@@ -27,9 +27,12 @@ class Toast {
   }) {
     ScaffoldMessenger.of(_context).showSnackBar(
       SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(text),
         backgroundColor: toastType?.color ?? ColorPalette.primary.color,
         action: action,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(ThemeRadius.large.radius)),
       ),
     );
   }

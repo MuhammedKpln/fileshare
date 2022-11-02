@@ -15,6 +15,10 @@ import 'package:lottie/lottie.dart';
 class $AssetsAnimationsGen {
   const $AssetsAnimationsGen();
 
+  /// File path: assets/animations/connect.json
+  LottieGenImage get connect =>
+      const LottieGenImage('assets/animations/connect.json');
+
   /// File path: assets/animations/empty.json
   LottieGenImage get empty =>
       const LottieGenImage('assets/animations/empty.json');
@@ -31,7 +35,7 @@ class $AssetsAnimationsGen {
       const LottieGenImage('assets/animations/register.json');
 
   /// List of all assets
-  List<LottieGenImage> get values => [empty, login, qr, register];
+  List<LottieGenImage> get values => [connect, empty, login, qr, register];
 }
 
 class $AssetsImagesGen {
