@@ -97,12 +97,12 @@ class _FileTransferState extends State<FileTransferView> {
         children: [
           Button(
             onPressed: _onPressed,
-            label: 'Send files',
+            label: 'transferFilesBtnTxt'.tr(),
             buttonType: ButtonType.primary,
           ),
           Button(
             onPressed: appController.clearFiles,
-            label: 'Clear',
+            label: 'clearFilesBtnTxt'.tr(),
           ),
         ],
       );
@@ -217,7 +217,7 @@ class _EmptyFilesSection extends StatelessWidget {
           children: [
             Assets.animations.empty.lottie(width: 200),
             Text(
-              'No files selected.',
+              'noFilesSelectedTxt'.tr(),
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -299,10 +299,10 @@ class _File extends StatelessWidget {
 
                     return Text(
                       file.transfered
-                          ? "Done"
+                          ? "doneTransferingTxt".tr()
                           : appController.fileTransfering?.name == file.name &&
                                   appController.gettedData > 0
-                              ? "Transfering.."
+                              ? "transferingTxt..".tr()
                               : "",
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                           color: !file.transfered

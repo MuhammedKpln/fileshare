@@ -38,5 +38,10 @@
   "sendFileBtnTxt": "Send file",
   "receiveFileBtnTxt": "Receive file",
   "manualConnectingBtnTxt": "Click here to put in peer id in manual",
-  "findUserFormError": "Please fill in user id before connecting."
+  "findUserFormError": "Please fill in user id before connecting.",
+  "transferFilesBtnTxt": "Transfer files",
+  "clearFilesBtnTxt": "Clear",
+  "noFilesSelectedTxt": "No files selected.",
+  "doneTransferingTxt": "Done",
+  "transferingTxt": "Transfering"
 }
