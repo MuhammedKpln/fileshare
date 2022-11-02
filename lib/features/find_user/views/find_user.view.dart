@@ -9,6 +9,7 @@ import 'package:boilerplate/routers/app_router.gr.dart';
 import 'package:boilerplate/shared/components/button.dart';
 import 'package:boilerplate/shared/components/core/custom_appbar.dart';
 import 'package:boilerplate/shared/components/core/scaffold.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -49,8 +50,7 @@ class _FindUserViewState extends State<FindUserView> {
 
     await Clipboard.setData(ClipboardData(text: id));
 
-    context.toast
-        .showToast('Generated a QR Code! Copied ID to your clipboard.');
+    context.toast.showToast("generatedQrCode".tr());
   }
 
   Future<void> _onNavigateRequested(String peerId) async {
@@ -103,7 +103,7 @@ class _FindUserViewState extends State<FindUserView> {
 
   void showTextInputDialog() async {
     await context.showBottomSheet<void>(
-        child: _renderBottomSheet(), title: "Title");
+        child: _renderBottomSheet(), title: "connectToPeer".tr());
   }
 
   Widget _renderBottomSheet() {
@@ -118,7 +118,8 @@ class _FindUserViewState extends State<FindUserView> {
               child: Column(
                 children: [
                   TextFormField(
-                    decoration: InputDecoration(labelText: "Peer ID"),
+                    decoration:
+                        InputDecoration(labelText: "peerIdFormLabelTxt".tr()),
                     validator: appController.validateFormFindUserId,
                     controller: appController.formFields["findUserId"],
                   ),
@@ -127,7 +128,7 @@ class _FindUserViewState extends State<FindUserView> {
           Observer(builder: (_) {
             return Button(
                 onPressed: () => connect(context),
-                label: "Connect",
+                label: "connectBtnTxt".tr(),
                 loading: appController.connecting,
                 buttonType: ButtonType.primary);
           })
@@ -166,7 +167,7 @@ class _FindUserViewState extends State<FindUserView> {
                 },
               ),
               Text(
-                'Scan QR code to connect to other peer!',
+                'findUserTitle'.tr(),
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
@@ -176,7 +177,7 @@ class _FindUserViewState extends State<FindUserView> {
               Padding(
                 padding: EdgeInsets.only(top: ThemePadding.medium.padding),
                 child: Text(
-                  'Scan QR code or generate a qr code for sender.',
+                  'findUserDesc'.tr(),
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
@@ -190,7 +191,7 @@ class _FindUserViewState extends State<FindUserView> {
             children: [
               Button(
                 onPressed: scanQrCode,
-                label: 'Send file',
+                label: 'sendFileBtnTxt'.tr(),
                 buttonType: ButtonType.primary,
                 customStyle: ButtonStyle(
                   padding: MaterialStatePropertyAll(
@@ -202,7 +203,7 @@ class _FindUserViewState extends State<FindUserView> {
                 padding: EdgeInsets.only(top: ThemePadding.medium.padding),
                 child: Button(
                   onPressed: generateId,
-                  label: 'Receive file',
+                  label: 'receiveFileBtnTxt'.tr(),
                   customStyle: ButtonStyle(
                     padding: MaterialStatePropertyAll(
                       EdgeInsets.all(ThemePadding.medium.padding),
@@ -212,7 +213,7 @@ class _FindUserViewState extends State<FindUserView> {
               ),
               TextButton(
                   onPressed: showTextInputDialog,
-                  child: Text("Click here to put in peer id in manual"))
+                  child: Text("manualConnectingBtnTxt").tr())
             ],
           )
         ],

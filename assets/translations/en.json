@@ -28,5 +28,15 @@
   "signUpViewTitle": "Signup",
   "signUpUsername": "Username",
   "registerViewPasswordConfirmation": "Password (Repeat)",
-  "passwordIsNotEqualError": "Password confirmation does not match password."
+  "passwordIsNotEqualError": "Password confirmation does not match password.",
+  "generatedQrCode": "Generated a QR Code! Copied ID to your clipboard. Scan or send your id to the peer.",
+  "connectToPeer": "Connect to peer by id",
+  "peerIdFormLabelTxt": "Peer ID",
+  "connectBtnTxt": "Connect",
+  "findUserTitle": "Scan QR code to connect to other peer!",
+  "findUserDesc": "Scan QR code or generate a qr code for sender.",
+  "sendFileBtnTxt": "Send file",
+  "receiveFileBtnTxt": "Receive file",
+  "manualConnectingBtnTxt": "Click here to put in peer id in manual",
+  "findUserFormError": "Please fill in user id before connecting."
 }

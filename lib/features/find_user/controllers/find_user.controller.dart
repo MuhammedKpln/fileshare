@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:boilerplate/features/find_user/constants/uuid_regex.dart';
 import 'package:boilerplate/features/find_user/models/event.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -38,7 +39,7 @@ abstract class _FindUserViewControllerBase with Store {
 
   String? validateFormFindUserId(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please fill in user id before connecting.';
+      return 'findUserFormError'.tr();
     }
 
     return null;
