@@ -11,5 +11,4 @@ import 'package:boilerplate/features/auth/views/register/register.view.dart';
     ),
   ],
 )
-// ignore: public_member_api_docs
 class $AuthRouter {}
