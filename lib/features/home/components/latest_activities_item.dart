@@ -12,6 +12,7 @@ class LatestActivitiesItem extends StatelessWidget {
     required this.username,
     required this.totalFiles,
     required this.sendedItem,
+    required this.onClickElippsis,
   });
 
   /// Username
@@ -22,6 +23,9 @@ class LatestActivitiesItem extends StatelessWidget {
 
   /// Has authenticated user sended item?
   final bool sendedItem;
+
+  /// On click elipsis
+  final VoidCallback onClickElippsis;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +57,7 @@ class LatestActivitiesItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'sendToTxt',
+                      sendedItem ? 'sendToTxt' : 'receivedFromTxt',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -70,7 +74,7 @@ class LatestActivitiesItem extends StatelessWidget {
             ],
           ),
           IconButton(
-            onPressed: () => null,
+            onPressed: onClickElippsis,
             icon: const Icon(
               Ionicons.ellipsis_horizontal_outline,
             ),

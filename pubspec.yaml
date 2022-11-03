@@ -35,6 +35,7 @@ dependencies:
   qr_code_scanner: ^1.0.1
   equatable: ^2.0.5
   flutter_native_splash: ^2.2.12
+  adaptive_dialog: ^1.8.0+1
 
 
 dev_dependencies:

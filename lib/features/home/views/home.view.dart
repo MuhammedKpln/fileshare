@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:boilerplate/core/di/di.dart';
 import 'package:boilerplate/core/theme/palette.dart';
 import 'package:boilerplate/features/home/components/appbar.dart';
 import 'package:boilerplate/features/home/components/latest_activities.dart';
 import 'package:boilerplate/features/home/components/recent_users.dart';
+import 'package:boilerplate/features/home/controllers/home.controller.dart';
 import 'package:boilerplate/features/home/views/components/card.dart';
 import 'package:boilerplate/routers/app_router.gr.dart';
 import 'package:boilerplate/shared/components/section.dart';
@@ -11,9 +13,22 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
 /// A stateless widget that displays a title, a text, and a button
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   /// A named constructor.
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final appController = getIt<HomeViewController>();
+
+  @override
+  void initState() {
+    appController.init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
