@@ -400,9 +400,9 @@ class _ProfileCard extends StatelessWidget {
                   );
                 },
               ),
-              const _ProfileCardInfo(
-                title: 'To',
-                subtitle: '64 m/s',
+              _ProfileCardInfo(
+                title: "toUser".tr(),
+                subtitle: '',
               ),
               Observer(
                 builder: (_) {

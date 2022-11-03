@@ -43,5 +43,6 @@
   "clearFilesBtnTxt": "Clear",
   "noFilesSelectedTxt": "No files selected.",
   "doneTransferingTxt": "Done",
-  "transferingTxt": "Transfering"
+  "transferingTxt": "Transfering",
+  "toUser": "To"
 }
