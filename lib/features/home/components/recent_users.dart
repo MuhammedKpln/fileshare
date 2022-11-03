@@ -1,7 +1,15 @@
+import 'package:boilerplate/core/di/di.dart';
+import 'package:boilerplate/core/extensions/async_value.extension.dart';
 import 'package:boilerplate/core/theme/palette.dart';
+import 'package:boilerplate/features/home/controllers/home.controller.dart';
+import 'package:boilerplate/features/home/models/transfer.model.dart';
+import 'package:boilerplate/generated/locale_keys.g.dart';
 import 'package:boilerplate/shared/components/avatar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:mobx/mobx.dart';
 
 /// A list of avatars that scrolls horizontally
 class RecentUsers extends StatelessWidget {
@@ -12,22 +20,52 @@ class RecentUsers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        return Avatar(
-          child: SvgPicture.network(
-            'https://www.svgrepo.com/show/30132/avatar.svg',
-            fit: BoxFit.cover,
+    final appController = getIt<HomeViewController>();
+
+    Widget _renderList(ObservableList<Transfer> data) {
+      if (data.length < 1) {
+        return Text(LocaleKeys.noTransfersExists).tr();
+      }
+
+      return ListView.separated(
+        itemBuilder: (context, index) {
+          final transfer = data[index];
+          return Avatar(
+            child: _Avatar(transfer),
+          );
+        },
+        separatorBuilder: (context, index) => Padding(
+          padding: EdgeInsets.only(
+            right: ThemePadding.small.padding,
           ),
-        );
-      },
-      separatorBuilder: (context, index) => Padding(
-        padding: EdgeInsets.only(
-          right: ThemePadding.small.padding,
         ),
-      ),
-      itemCount: 10,
-      scrollDirection: Axis.horizontal,
-    );
+        itemCount: data.length,
+        scrollDirection: Axis.horizontal,
+      );
+    }
+
+    return Observer(builder: (_) {
+      if (appController.latestTransfers == null) {
+        return SizedBox.shrink();
+      }
+
+      return appController.latestTransfers!.asyncValue(
+        pending: () => CircularProgressIndicator(),
+        fulfilled: _renderList,
+        rejected: (error) => Text(error.toString()),
+      );
+    });
+  }
+
+  Widget _Avatar(Transfer transfer) {
+    print(transfer.to.avatarUrl);
+    if (transfer.to.avatarUrl != null) {
+      return Image.network(
+        transfer.to.avatarUrl!,
+        fit: BoxFit.cover,
+      );
+    } else {
+      return Icon(Ionicons.people);
+    }
   }
 }
