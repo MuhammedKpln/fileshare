@@ -44,6 +44,7 @@ abstract class _AuthServiceBase with Store {
     if (user != null) {
       loginState = LoginState.loggedIn;
       initialized = true;
+      setUser(user.user);
 
       return;
     }
