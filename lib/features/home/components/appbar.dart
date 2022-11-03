@@ -1,7 +1,9 @@
 import 'package:boilerplate/core/di/di.dart';
 import 'package:boilerplate/core/theme/palette.dart';
 import 'package:boilerplate/features/auth/controllers/auth.controller.dart';
+import 'package:boilerplate/generated/locale_keys.g.dart';
 import 'package:boilerplate/shared/components/avatar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -13,6 +15,7 @@ class Appbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = getIt<AuthViewController>();
+    final date = DateFormat("d MMMM yyyy").format(DateTime.now()).toUpperCase();
 
     return AppBar(
       elevation: 0,
@@ -22,11 +25,11 @@ class Appbar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Dashboard',
+            LocaleKeys.dashboardTitleTxt,
             style: Theme.of(context).textTheme.titleLarge,
-          ),
+          ).tr(),
           Text(
-            '22 jan, 2022',
+            date,
             style: Theme.of(context)
                 .textTheme
                 .titleSmall

@@ -46,5 +46,6 @@
   "transferingTxt": "Transfering",
   "toUser": "To",
   "deleteBtnTxt": "Delete",
-  "noTransfersExists": "You do not currently have any transfers"
+  "noTransfersExists": "You do not currently have any transfers",
+  "dashboardTitleTxt": "Dashboard"
 }
