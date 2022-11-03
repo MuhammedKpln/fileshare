@@ -8,7 +8,6 @@
   "appLocaleSettingsTxt": "Language",
   "appLocaleNotFoundError": "Selected language not found!",
   "darkModeTxt": "Dark mode",
-  "//": "//",
   "latestActivities": "Latest activities",
   "sendAgain": "Send again",
   "sendBtnTxt": "Send",
@@ -16,6 +15,7 @@
   "dashboardTitle": "Dashboard",
   "seeAllBtnTxt": "See all >",
   "sendToTxt": "Send to {name}",
+  "receivedFromTxt": "Received from {name}",
   "transferingProcessTitleTxt": "Transfering process",
   "fileTransferDetailsSectionTitle": "Details",
   "fileTransferDetailsPhotosCategory": "Photos",
@@ -44,5 +44,7 @@
   "noFilesSelectedTxt": "No files selected.",
   "doneTransferingTxt": "Done",
   "transferingTxt": "Transfering",
-  "toUser": "To"
+  "toUser": "To",
+  "deleteBtnTxt": "Delete",
+  "noTransfersExists": "You do not currently have any transfers"
 }
