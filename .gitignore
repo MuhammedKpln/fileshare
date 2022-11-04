@@ -48,6 +48,7 @@ app.*.map.json
 # Freezed generated object
 *.freezed.dart
 *.g.dart
+*.gen.dart
 
 
 # Injectable
