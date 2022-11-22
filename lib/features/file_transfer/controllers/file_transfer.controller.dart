@@ -12,9 +12,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:peerdart/peerdart.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:path_provider/path_provider.dart';
+
 part 'file_transfer.controller.g.dart';
 
 @LazySingleton(
@@ -36,6 +37,7 @@ abstract class _FileTransferViewControllerBase with Store {
   @observable
   int gettedData = 0;
 
+  @computed
   FileInformation? get fileTransfering => receveidFilesQueue?.first;
 
   List<int> bytes = List.empty(growable: true);
@@ -81,8 +83,11 @@ abstract class _FileTransferViewControllerBase with Store {
       sendFileInformations();
     });
     queueAutoRunDisposer = autorun((_) {
-      /// Each time `choosedFilesRaw` or `receveidFiles` changes, it send over new file informations to the receiver
+      /// Each time `choosedFilesRaw` or `receveidFiles` changes,
+      /// it send over new file informations to the receiver
 
+      print(choosedFilesQueue);
+      print(receveidFilesQueue);
       if (choosedFilesRaw != null) {
         choosedFilesQueue = Queue.from(choosedFilesRaw!.toList());
       }
@@ -90,9 +95,6 @@ abstract class _FileTransferViewControllerBase with Store {
       if (receveidFiles != null) {
         receveidFilesQueue = Queue.from(receveidFiles!.toList());
       }
-
-      print(choosedFilesQueue);
-      print(receveidFilesQueue);
     });
 
     _peer = Peer(id: peerId, options: PeerOptions(debug: LogLevel.All));
@@ -113,7 +115,7 @@ abstract class _FileTransferViewControllerBase with Store {
           final remoteFiles =
               event.data[RTCEventType.fileInformations.name] as List<dynamic>;
 
-          if (remoteFiles.length > 0) {
+          if (remoteFiles.isNotEmpty) {
             final mappedData = remoteFiles
                 .map((e) => FileInformation.fromJson(e as String))
                 .toList();
@@ -129,10 +131,24 @@ abstract class _FileTransferViewControllerBase with Store {
           break;
 
         case RTCEventType.fileFetched:
+          final name = event.data["name"];
+          final fetched = event.data["fetched"] as bool;
+
+          final changedlist = choosedFiles!.map((element) {
+            if (element.name == fileTransfering!.name) {
+              return element.copyWith(transfered: true);
+            }
+
+            return element;
+          });
+
+          choosedFilesRaw = ObservableList.of(changedlist);
+
+
           if (choosedFilesQueue != null && choosedFilesQueue!.isNotEmpty) {
             choosedFilesQueue?.removeFirst();
 
-            if (choosedFilesQueue!.length > 0) {
+            if (choosedFilesQueue!.isNotEmpty) {
               TransferHelper.startIsolate();
             }
           }
@@ -140,12 +156,12 @@ abstract class _FileTransferViewControllerBase with Store {
       }
     });
 
-    _peer?.on<Uint8List>('binary').listen((_bytes) async {
-      gettedData += _bytes.lengthInBytes;
+    _peer?.on<Uint8List>('binary').listen((receveidBytes) async {
+      gettedData += receveidBytes.lengthInBytes;
 
-      bytes.addAll(_bytes);
+      bytes.addAll(receveidBytes);
 
-      print("${fileTransfering?.name} $gettedData - ${fileTransfering?.size}");
+      print('${fileTransfering?.name} $gettedData - ${fileTransfering?.size}');
       if (fileTransfering != null) {
         if (fileTransfering?.size == gettedData) {
           /// Writing file to data
@@ -154,7 +170,7 @@ abstract class _FileTransferViewControllerBase with Store {
           /// Sending a notification to sender.
           final event = RtcEvent(
             event: RTCEventType.fileFetched,
-            data: {"name": fileTransfering!.name, "fetched": true},
+            data: {'name': fileTransfering!.name, 'fetched': true},
           ).toMap();
           await connection?.send(event);
 
@@ -182,7 +198,7 @@ abstract class _FileTransferViewControllerBase with Store {
   Future<void> _writeData() async {
     final directory = await getApplicationDocumentsDirectory();
     final dirPath = directory.path;
-    final fileWriter = File("$dirPath/${fileTransfering?.name}");
+    final fileWriter = File('$dirPath/${fileTransfering?.name}');
 
     await fileWriter.writeAsBytes(bytes, mode: FileMode.append);
   }
@@ -200,7 +216,7 @@ abstract class _FileTransferViewControllerBase with Store {
     });
   }
 
-  void sendFiles() async {
+  Future<void> sendFiles() async {
     if (choosedFilesRaw == null) {
       return;
     }

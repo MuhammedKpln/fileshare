@@ -12,7 +12,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
-/// A stateless widget that displays a title, a text, and a button
 class HomeView extends StatefulWidget {
   /// A named constructor.
   const HomeView({super.key});

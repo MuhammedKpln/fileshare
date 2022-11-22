@@ -47,8 +47,11 @@ class $AssetsImagesGen {
   /// File path: assets/images/layers.svg
   SvgGenImage get layers => const SvgGenImage('assets/images/layers.svg');
 
+  /// File path: assets/images/user.svg
+  SvgGenImage get user => const SvgGenImage('assets/images/user.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [files, layers];
+  List<SvgGenImage> get values => [files, layers, user];
 }
 
 class $AssetsTranslationsGen {

@@ -31,11 +31,11 @@ abstract class _FindUserViewControllerBase with Store {
   bool connecting = false;
 
   Map<String, TextEditingController> formFields = {
-    "findUserId": TextEditingController()
+    'findUserId': TextEditingController()
   };
 
   @computed
-  String? get formFindUserId => formFields["findUserId"]?.text;
+  String? get formFindUserId => formFields['findUserId']?.text;
 
   String? validateFormFindUserId(String? value) {
     if (value == null || value.isEmpty) {
@@ -55,7 +55,7 @@ abstract class _FindUserViewControllerBase with Store {
       connection = conn;
     });
 
-    peer.on("error").listen((event) {
+    peer.on('error').listen((event) {
       connecting = false;
     });
 
@@ -123,12 +123,13 @@ abstract class _FindUserViewControllerBase with Store {
     peer.dispose();
   }
 
-  void askForConnectingFromClipboard(
-      void Function(String clipboardData) onSuccess) async {
+  Future<void> askForConnectingFromClipboard(
+    void Function(String clipboardData) onSuccess,
+  ) async {
     final hasClipboardData = await _hasClipboardData();
 
     if (hasClipboardData) {
-      final clipboardData = await Clipboard.getData("text/plain");
+      final clipboardData = await Clipboard.getData('text/plain');
 
       if (_isRegex(clipboardData!.text!)) {
         onSuccess.call(clipboardData.text!);
@@ -145,7 +146,7 @@ abstract class _FindUserViewControllerBase with Store {
   }
 
   Future<bool> _hasClipboardData() async {
-    return await Clipboard.hasStrings();
+    return Clipboard.hasStrings();
   }
 }
 

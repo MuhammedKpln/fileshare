@@ -6,9 +6,9 @@ class FileInformation extends Equatable {
   final String name;
   final num size;
   final String? extension;
-  final bool transfered;
+  bool transfered;
 
-  const FileInformation(
+   FileInformation(
       {required this.name,
       required this.size,
       this.extension,

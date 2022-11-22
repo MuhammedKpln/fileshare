@@ -3,6 +3,7 @@ import 'package:boilerplate/core/extensions/async_value.extension.dart';
 import 'package:boilerplate/core/theme/palette.dart';
 import 'package:boilerplate/features/home/controllers/home.controller.dart';
 import 'package:boilerplate/features/home/models/transfer.model.dart';
+import 'package:boilerplate/generated/assets.gen.dart';
 import 'package:boilerplate/generated/locale_keys.g.dart';
 import 'package:boilerplate/shared/components/avatar.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -23,8 +24,8 @@ class RecentUsers extends StatelessWidget {
     final appController = getIt<HomeViewController>();
 
     Widget _renderList(ObservableList<Transfer> data) {
-      if (data.length < 1) {
-        return Text(LocaleKeys.noTransfersExists).tr();
+      if (data.isEmpty) {
+        return const Text(LocaleKeys.noTransfersExists).tr();
       }
 
       return ListView.separated(
@@ -44,28 +45,29 @@ class RecentUsers extends StatelessWidget {
       );
     }
 
-    return Observer(builder: (_) {
-      if (appController.latestTransfers == null) {
-        return SizedBox.shrink();
-      }
+    return Observer(
+      builder: (_) {
+        if (appController.latestTransfers == null) {
+          return const SizedBox.shrink();
+        }
 
-      return appController.latestTransfers!.asyncValue(
-        pending: () => CircularProgressIndicator(),
-        fulfilled: _renderList,
-        rejected: (error) => Text(error.toString()),
-      );
-    });
+        return appController.latestTransfers!.asyncValue(
+          pending: CircularProgressIndicator.new,
+          fulfilled: _renderList,
+          rejected: (error) => Text(error.toString()),
+        );
+      },
+    );
   }
 
   Widget _Avatar(Transfer transfer) {
-    print(transfer.to.avatarUrl);
     if (transfer.to.avatarUrl != null) {
       return Image.network(
         transfer.to.avatarUrl!,
         fit: BoxFit.cover,
       );
     } else {
-      return Icon(Ionicons.people);
+      return Assets.images.user.svg(fit: BoxFit.cover);
     }
   }
 }

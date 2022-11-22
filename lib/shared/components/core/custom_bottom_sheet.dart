@@ -1,17 +1,39 @@
 import 'package:boilerplate/core/theme/palette.dart';
 import 'package:flutter/material.dart';
 
+/// It's a widget that takes a title, a title icon, and a child widget,
+///  and renders them in a bottom
+/// sheet
 class CustomBottomSheet extends StatelessWidget {
-  const CustomBottomSheet(
-      {super.key, required this.child, required this.title, this.titleIcon});
+  // ignore: public_member_api_docs
+  const CustomBottomSheet({
+    super.key,
+    required this.child,
+    required this.title,
+    this.titleIcon,
+    this.containerPadding = false,
+  });
 
+  /// A child to render inside bottom sheet.
   final Widget child;
+
+  /// Bottom sheet title
   final String title;
+
+  /// Bottom sheet title icon
   final Widget? titleIcon;
+
+  /// Container paddin
+  final bool? containerPadding;
+
+  /// It's a getter that returns container padding
+  EdgeInsets get padding => !containerPadding!
+      ? EdgeInsets.all(ThemePadding.medium.padding)
+      : EdgeInsets.zero;
 
   @override
   Widget build(BuildContext context) {
-    Widget _renderTitle() {
+    Widget renderTitle() {
       final textWidget = Text(
         title,
         style: Theme.of(context)
@@ -20,10 +42,10 @@ class CustomBottomSheet extends StatelessWidget {
             ?.copyWith(fontWeight: FontWeight.w600),
       );
 
-      if (this.titleIcon != null) {
+      if (titleIcon != null) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [this.titleIcon!, textWidget],
+          children: [titleIcon!, textWidget],
         );
       }
 
@@ -31,12 +53,12 @@ class CustomBottomSheet extends StatelessWidget {
     }
 
     return Padding(
-      padding: EdgeInsets.all(ThemePadding.medium.padding),
+      padding: padding,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _renderTitle(),
-          Divider(),
+          renderTitle(),
+          const Divider(),
           Container(
             child: child,
           )

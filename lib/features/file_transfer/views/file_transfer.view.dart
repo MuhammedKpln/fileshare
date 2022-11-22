@@ -82,7 +82,7 @@ class _FileTransferState extends State<FileTransferView> {
     );
   }
 
-  void _onPressed() async {
+  void _onPressed() {
     TransferHelper.startIsolate();
   }
 
@@ -171,7 +171,10 @@ class _FileTransferState extends State<FileTransferView> {
                     Section(
                       title: 'fileTransferDetailsSectionTitle'.tr(),
                     ),
-                    _renderFilesSection()
+                    Observer(builder: (_) {
+                      print(appController.choosedFiles);
+                      return _renderFilesSection();
+                    })
                   ],
                 ),
               ),
@@ -294,22 +297,26 @@ class _File extends StatelessWidget {
                         .labelSmall
                         ?.copyWith(color: Colors.grey.shade400),
                   ),
-                  Observer(builder: (_) {
-                    if (file == null) return SizedBox.shrink();
+                  Observer(
+                    builder: (_) {
+                      if (file == null) return const SizedBox.shrink();
 
-                    return Text(
-                      file.transfered
-                          ? "doneTransferingTxt".tr()
-                          : appController.fileTransfering?.name == file.name &&
-                                  appController.gettedData > 0
-                              ? "transferingTxt..".tr()
-                              : "",
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: !file.transfered
-                              ? Colors.orange
-                              : ColorPalette.primary.color),
-                    );
-                  })
+                      return Text(
+                        file.transfered
+                            ? 'doneTransferingTxt'.tr()
+                            : appController.fileTransfering?.name ==
+                                        file.name &&
+                                    appController.gettedData > 0
+                                ? 'transferingTxt..'.tr()
+                                : '',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              color: !file.transfered
+                                  ? Colors.orange
+                                  : ColorPalette.primary.color,
+                            ),
+                      );
+                    },
+                  )
                 ],
               ),
             ),
@@ -401,7 +408,7 @@ class _ProfileCard extends StatelessWidget {
                 },
               ),
               _ProfileCardInfo(
-                title: "toUser".tr(),
+                title: 'toUser'.tr(),
                 subtitle: '',
               ),
               Observer(

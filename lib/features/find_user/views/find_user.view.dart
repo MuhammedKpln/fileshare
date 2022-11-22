@@ -3,6 +3,7 @@ import 'package:boilerplate/core/di/di.dart';
 import 'package:boilerplate/core/extensions/show_bottom_sheet.dart';
 import 'package:boilerplate/core/extensions/toast.extension.dart';
 import 'package:boilerplate/core/theme/palette.dart';
+import 'package:boilerplate/features/find_user/components/manual_find.component.dart';
 import 'package:boilerplate/features/find_user/controllers/find_user.controller.dart';
 import 'package:boilerplate/generated/assets.gen.dart';
 import 'package:boilerplate/routers/app_router.gr.dart';
@@ -31,11 +32,12 @@ class _FindUserViewState extends State<FindUserView> {
 
   @override
   void initState() {
-    appController.startListener(onNavigate: _onNavigateRequested);
-    appController.askForConnectingFromClipboard(
-      (clipboardData) => print(clipboardData),
-    );
     super.initState();
+    appController.startListener(onNavigate: _onNavigateRequested);
+    // TODO: ask with toast before conneciting
+    // appController.askForConnectingFromClipboard(
+    //   print,
+    // );
   }
 
   @override
@@ -44,13 +46,13 @@ class _FindUserViewState extends State<FindUserView> {
     super.dispose();
   }
 
-  void generateId() async {
+  Future<void> generateId() async {
     appController.generateId();
     final id = appController.pId;
 
     await Clipboard.setData(ClipboardData(text: id));
 
-    context.toast.showToast("generatedQrCode".tr());
+    context.toast.showToast('generatedQrCode'.tr());
   }
 
   Future<void> _onNavigateRequested(String peerId) async {
@@ -87,13 +89,13 @@ class _FindUserViewState extends State<FindUserView> {
     );
   }
 
-  void connect(BuildContext _context) {
+  void connect() {
     if (appController.formState.currentState!.validate()) {
       appController.connectToPeer(
         appController.formFindUserId!,
         () async {
-          await _context.router.pop();
-          onConnectionSuccess(appController.formFindUserId!);
+          await context.router.pop();
+          await onConnectionSuccess(appController.formFindUserId!);
         },
       );
 
@@ -101,40 +103,15 @@ class _FindUserViewState extends State<FindUserView> {
     }
   }
 
-  void showTextInputDialog() async {
+  Future<void> showTextInputDialog() async {
     await context.showBottomSheet<void>(
-        child: _renderBottomSheet(), title: "connectToPeer".tr());
+      child: _renderBottomSheet(),
+      title: 'connectToPeer'.tr(),
+    );
   }
 
   Widget _renderBottomSheet() {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Assets.animations.connect.lottie(repeat: false, width: 200),
-          Form(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              key: appController.formState,
-              child: Column(
-                children: [
-                  TextFormField(
-                    decoration:
-                        InputDecoration(labelText: "peerIdFormLabelTxt".tr()),
-                    validator: appController.validateFormFindUserId,
-                    controller: appController.formFields["findUserId"],
-                  ),
-                ],
-              )),
-          Observer(builder: (_) {
-            return Button(
-                onPressed: () => connect(context),
-                label: "connectBtnTxt".tr(),
-                loading: appController.connecting,
-                buttonType: ButtonType.primary);
-          })
-        ],
-      ),
-    );
+    return ManualFindUser(onConnect: connect);
   }
 
   @override
@@ -212,8 +189,9 @@ class _FindUserViewState extends State<FindUserView> {
                 ),
               ),
               TextButton(
-                  onPressed: showTextInputDialog,
-                  child: Text("manualConnectingBtnTxt").tr())
+                onPressed: showTextInputDialog,
+                child: const Text('manualConnectingBtnTxt').tr(),
+              ),
             ],
           )
         ],

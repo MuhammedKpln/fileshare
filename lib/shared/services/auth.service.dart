@@ -12,7 +12,7 @@ class AuthService = _AuthServiceBase with _$AuthService;
 abstract class _AuthServiceBase with Store {
   _AuthServiceBase(this._authBox);
 
-  AuthBox _authBox;
+  final AuthBox _authBox;
 
   @observable
   UserModel? user;

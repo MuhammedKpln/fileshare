@@ -1,6 +1,7 @@
 import 'package:boilerplate/core/di/di.dart';
 import 'package:boilerplate/core/theme/palette.dart';
 import 'package:boilerplate/features/auth/controllers/auth.controller.dart';
+import 'package:boilerplate/generated/assets.gen.dart';
 import 'package:boilerplate/generated/locale_keys.g.dart';
 import 'package:boilerplate/shared/components/avatar.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -42,12 +43,7 @@ class Appbar extends StatelessWidget {
           onTap: controller.logout,
           child: Padding(
             padding: EdgeInsets.only(right: ThemePadding.medium.padding),
-            child: Avatar(
-              child: SvgPicture.network(
-                'https://www.svgrepo.com/show/30132/avatar.svg',
-                fit: BoxFit.cover,
-              ),
-            ),
+            child: Avatar(child: Assets.images.user.svg(fit: BoxFit.cover)),
           ),
         )
       ],
