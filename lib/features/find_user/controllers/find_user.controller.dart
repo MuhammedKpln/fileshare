@@ -63,35 +63,35 @@ abstract class _FindUserViewControllerBase with Store {
 
     peer.on<DataConnection>('connection').listen((conn) {
       connection = conn;
+
+      conn.on('data').listen(
+        (event) {
+          final rtcEvent = RtcEvent.fromJson(event as String);
+
+          switch (rtcEvent.event) {
+            case RTCEventType.navigatePing:
+              if (rtcEvent.data['navigate'] != null &&
+                  rtcEvent.data['navigate'] == true) {
+                connecting = true;
+                try {
+                  peer.disconnect();
+                } catch (e) {}
+
+                Future.delayed(const Duration(seconds: 3), () {
+                  connecting = false;
+                  onNavigate.call(rtcEvent.data['peerId'] as String);
+                });
+              }
+
+              break;
+          }
+        },
+      );
     });
 
     peer.on('error').listen((event) {
       connecting = false;
     });
-
-    peer.on('data').listen(
-      (event) {
-        final rtcEvent = RtcEvent.fromJson(event as String);
-
-        switch (rtcEvent.event) {
-          case RTCEventType.navigatePing:
-            if (rtcEvent.data['navigate'] != null &&
-                rtcEvent.data['navigate'] == true) {
-              connecting = true;
-              try {
-                peer.disconnect();
-              } catch (e) {}
-
-              Future.delayed(const Duration(seconds: 3), () {
-                connecting = false;
-                onNavigate.call(rtcEvent.data['peerId'] as String);
-              });
-            }
-
-            break;
-        }
-      },
-    );
   }
 
   @action

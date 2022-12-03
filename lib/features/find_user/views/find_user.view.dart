@@ -63,6 +63,8 @@ class _FindUserViewState extends State<FindUserView> {
             },
           );
         });
+      } else {
+        appController.generateId();
       }
     }
 
