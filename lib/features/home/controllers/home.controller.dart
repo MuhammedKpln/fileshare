@@ -32,13 +32,6 @@ abstract class _HomeViewControllerBase with Store {
   }
 
   void dispose() {
-    channel.send(
-      type: RealtimeListenTypes.broadcast,
-      payload: myDeviceInformation.toMap(),
-      event: 'leave',
-    );
-    nearbyDevices = ObservableList();
-
     channel.unsubscribe();
   }
 
@@ -78,59 +71,6 @@ abstract class _HomeViewControllerBase with Store {
 
     // _joinEvent();
     // _leaveEvent();
-  }
-
-  void _leaveEvent() {
-    final channelJoinFilters = ChannelFilter(
-      event: 'leave',
-    );
-    channel.on(
-      RealtimeListenTypes.broadcast,
-      channelJoinFilters,
-      (payload, [ref]) {
-        final data = NearbyDevice.fromMap(payload as Map<String, dynamic>);
-
-        nearbyDevices.removeWhere((device) => device?.uuid == data.uuid);
-      },
-    ).subscribe((status, [_]) {
-      if (status == 'SUBSCRIBED') {
-        _sendUserToPeer(channel);
-      }
-    });
-  }
-
-  void _joinEvent() {
-    final channelJoinFilters = ChannelFilter(
-      event: 'join',
-    );
-    channel.on(
-      RealtimeListenTypes.broadcast,
-      channelJoinFilters,
-      (payload, [ref]) {
-        final data = NearbyDevice.fromMap(payload as Map<String, dynamic>);
-        final userDoesNotExists = nearbyDevices
-            .where((element) => element?.uuid == data.uuid)
-            .isEmpty;
-
-        if (userDoesNotExists) {
-          nearbyDevices.add(data);
-
-          _sendUserToPeer(channel);
-        }
-      },
-    ).subscribe((status, [_]) {
-      if (status == 'SUBSCRIBED') {
-        _sendUserToPeer(channel);
-      }
-    });
-  }
-
-  void _sendUserToPeer(RealtimeChannel channel) {
-    channel.send(
-      type: RealtimeListenTypes.broadcast,
-      event: 'join',
-      payload: myDeviceInformation.toMap(),
-    );
   }
 
   String _generateRandomName() {
