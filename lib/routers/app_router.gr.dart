@@ -11,30 +11,29 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:flutter/material.dart' as _i7;
+import 'package:auto_route/auto_route.dart' as _i5;
+import 'package:flutter/material.dart' as _i6;
 
-import '../features/auth/main/views/main.view.dart' as _i1;
 import '../features/file_transfer/views/file_transfer.view.dart' as _i2;
 import '../features/find_user/views/find_user.view.dart' as _i3;
 import '../features/find_user/views/scan_qr_code.dart' as _i4;
-import '../features/home/views/home.view.dart' as _i5;
+import '../features/home/views/home.view.dart' as _i1;
 
-class AppRouter extends _i6.RootStackRouter {
-  AppRouter([_i7.GlobalKey<_i7.NavigatorState>? navigatorKey])
+class AppRouter extends _i5.RootStackRouter {
+  AppRouter([_i6.GlobalKey<_i6.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i6.PageFactory> pagesMap = {
-    MainRoute.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
+  final Map<String, _i5.PageFactory> pagesMap = {
+    HomeRoute.name: (routeData) {
+      return _i5.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i1.MainView(),
+        child: const _i1.HomeView(),
       );
     },
     FileTransferRoute.name: (routeData) {
       final args = routeData.argsAs<FileTransferRouteArgs>();
-      return _i6.MaterialPageX<dynamic>(
+      return _i5.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i2.FileTransferView(
           key: args.key,
@@ -45,7 +44,7 @@ class AppRouter extends _i6.RootStackRouter {
       );
     },
     FindUserRoute.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
+      return _i5.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i3.FindUserView(),
         fullscreenDialog: true,
@@ -53,7 +52,7 @@ class AppRouter extends _i6.RootStackRouter {
     },
     ScanQRCodeRoute.name: (routeData) {
       final args = routeData.argsAs<ScanQRCodeRouteArgs>();
-      return _i6.MaterialPageX<dynamic>(
+      return _i5.MaterialPageX<dynamic>(
         routeData: routeData,
         child: _i4.ScanQRCodeView(
           key: args.key,
@@ -62,36 +61,23 @@ class AppRouter extends _i6.RootStackRouter {
         fullscreenDialog: true,
       );
     },
-    HomeRoute.name: (routeData) {
-      return _i6.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const _i5.HomeView(),
-      );
-    },
   };
 
   @override
-  List<_i6.RouteConfig> get routes => [
-        _i6.RouteConfig(
-          MainRoute.name,
+  List<_i5.RouteConfig> get routes => [
+        _i5.RouteConfig(
+          HomeRoute.name,
           path: '/',
-          children: [
-            _i6.RouteConfig(
-              HomeRoute.name,
-              path: 'home-view',
-              parent: MainRoute.name,
-            )
-          ],
         ),
-        _i6.RouteConfig(
+        _i5.RouteConfig(
           FileTransferRoute.name,
           path: '/file-transfer-view',
         ),
-        _i6.RouteConfig(
+        _i5.RouteConfig(
           FindUserRoute.name,
           path: '/find-user-view',
         ),
-        _i6.RouteConfig(
+        _i5.RouteConfig(
           ScanQRCodeRoute.name,
           path: '/scan-qr-code-view',
         ),
@@ -99,23 +85,22 @@ class AppRouter extends _i6.RootStackRouter {
 }
 
 /// generated route for
-/// [_i1.MainView]
-class MainRoute extends _i6.PageRouteInfo<void> {
-  const MainRoute({List<_i6.PageRouteInfo>? children})
+/// [_i1.HomeView]
+class HomeRoute extends _i5.PageRouteInfo<void> {
+  const HomeRoute()
       : super(
-          MainRoute.name,
+          HomeRoute.name,
           path: '/',
-          initialChildren: children,
         );
 
-  static const String name = 'MainRoute';
+  static const String name = 'HomeRoute';
 }
 
 /// generated route for
 /// [_i2.FileTransferView]
-class FileTransferRoute extends _i6.PageRouteInfo<FileTransferRouteArgs> {
+class FileTransferRoute extends _i5.PageRouteInfo<FileTransferRouteArgs> {
   FileTransferRoute({
-    _i7.Key? key,
+    _i6.Key? key,
     required bool sendingFile,
     required String connectedPeer,
     required String currentPeer,
@@ -141,7 +126,7 @@ class FileTransferRouteArgs {
     required this.currentPeer,
   });
 
-  final _i7.Key? key;
+  final _i6.Key? key;
 
   final bool sendingFile;
 
@@ -157,7 +142,7 @@ class FileTransferRouteArgs {
 
 /// generated route for
 /// [_i3.FindUserView]
-class FindUserRoute extends _i6.PageRouteInfo<void> {
+class FindUserRoute extends _i5.PageRouteInfo<void> {
   const FindUserRoute()
       : super(
           FindUserRoute.name,
@@ -169,9 +154,9 @@ class FindUserRoute extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.ScanQRCodeView]
-class ScanQRCodeRoute extends _i6.PageRouteInfo<ScanQRCodeRouteArgs> {
+class ScanQRCodeRoute extends _i5.PageRouteInfo<ScanQRCodeRouteArgs> {
   ScanQRCodeRoute({
-    _i7.Key? key,
+    _i6.Key? key,
     required void Function(String?) onCodeScanned,
   }) : super(
           ScanQRCodeRoute.name,
@@ -191,7 +176,7 @@ class ScanQRCodeRouteArgs {
     required this.onCodeScanned,
   });
 
-  final _i7.Key? key;
+  final _i6.Key? key;
 
   final void Function(String?) onCodeScanned;
 
@@ -199,16 +184,4 @@ class ScanQRCodeRouteArgs {
   String toString() {
     return 'ScanQRCodeRouteArgs{key: $key, onCodeScanned: $onCodeScanned}';
   }
-}
-
-/// generated route for
-/// [_i5.HomeView]
-class HomeRoute extends _i6.PageRouteInfo<void> {
-  const HomeRoute()
-      : super(
-          HomeRoute.name,
-          path: 'home-view',
-        );
-
-  static const String name = 'HomeRoute';
 }

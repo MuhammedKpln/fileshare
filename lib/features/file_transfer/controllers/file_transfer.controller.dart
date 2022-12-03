@@ -62,6 +62,8 @@ abstract class _FileTransferViewControllerBase with Store {
     return mappedData;
   }
 
+  ObservableList<FileInformation?> transferedFiles = ObservableList.of([]);
+
   Queue<PlatformFile>? choosedFilesQueue;
 
   @observable
@@ -86,8 +88,6 @@ abstract class _FileTransferViewControllerBase with Store {
       /// Each time `choosedFilesRaw` or `receveidFiles` changes,
       /// it send over new file informations to the receiver
 
-      print(choosedFilesQueue);
-      print(receveidFilesQueue);
       if (choosedFilesRaw != null) {
         choosedFilesQueue = Queue.from(choosedFilesRaw!.toList());
       }
@@ -104,6 +104,7 @@ abstract class _FileTransferViewControllerBase with Store {
     });
 
     _peer?.on<DataConnection>('connection').listen((conn) {
+      sendUserProfile();
       connection = conn;
     });
 
@@ -131,19 +132,21 @@ abstract class _FileTransferViewControllerBase with Store {
           break;
 
         case RTCEventType.fileFetched:
-          final name = event.data["name"];
-          final fetched = event.data["fetched"] as bool;
+          final name = event.data['name'] as String;
+          final fetched = event.data['fetched'] as bool;
+          final file =
+              choosedFiles?.where((element) => element.name == name).single;
+          final size = file?.size ?? 0;
+          final extension = file?.extension;
 
-          final changedlist = choosedFiles!.map((element) {
-            if (element.name == fileTransfering!.name) {
-              return element.copyWith(transfered: true);
-            }
-
-            return element;
-          });
-
-          choosedFilesRaw = ObservableList.of(changedlist);
-
+          transferedFiles.add(
+            FileInformation(
+              name: name,
+              size: size,
+              transfered: true,
+              extension: extension,
+            ),
+          );
 
           if (choosedFilesQueue != null && choosedFilesQueue!.isNotEmpty) {
             choosedFilesQueue?.removeFirst();

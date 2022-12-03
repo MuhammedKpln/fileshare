@@ -51,9 +51,6 @@ class _FileTransferState extends State<FileTransferView> {
 
     if (widget.sendingFile) {
       appController.connectToPeer(widget.connectedPeer);
-    } else {
-      Future.delayed(const Duration(seconds: 3))
-          .then((value) => appController.sendUserProfile());
     }
   }
 
@@ -161,7 +158,9 @@ class _FileTransferState extends State<FileTransferView> {
                       builder: (_) {
                         return _ProfileCard(
                           bgGradient: cardBgGradient,
-                          files: const [],
+                          files: appController.choosedFiles ??
+                              appController.receveidFiles ??
+                              [],
                           isSending: widget.sendingFile,
                           totalSize: 0,
                           value: 0,
@@ -171,10 +170,11 @@ class _FileTransferState extends State<FileTransferView> {
                     Section(
                       title: 'fileTransferDetailsSectionTitle'.tr(),
                     ),
-                    Observer(builder: (_) {
-                      print(appController.choosedFiles);
-                      return _renderFilesSection();
-                    })
+                    Observer(
+                      builder: (_) {
+                        return _renderFilesSection();
+                      },
+                    )
                   ],
                 ),
               ),

@@ -7,11 +7,15 @@ class Section extends StatelessWidget {
   const Section({
     super.key,
     required this.title,
+    this.subtitle,
     this.trailing = const SizedBox.shrink(),
   });
 
   /// Section title
   final String title;
+
+  /// Section subtitle
+  final String? subtitle;
 
   /// Trailing for title
   final Widget? trailing;
@@ -26,14 +30,27 @@ class Section extends StatelessWidget {
           Padding(
             padding:
                 EdgeInsets.symmetric(vertical: ThemePadding.medium.padding),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.titleLarge,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    trailing ?? const SizedBox.shrink()
+                  ],
                 ),
-                trailing ?? const SizedBox.shrink()
+                if (subtitle != null)
+                  Text(
+                    subtitle ?? '',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Colors.grey),
+                  )
               ],
             ),
           ),

@@ -19,13 +19,13 @@ class $AssetsAnimationsGen {
   LottieGenImage get connect =>
       const LottieGenImage('assets/animations/connect.json');
 
+  /// File path: assets/animations/discover.json
+  LottieGenImage get discover =>
+      const LottieGenImage('assets/animations/discover.json');
+
   /// File path: assets/animations/empty.json
   LottieGenImage get empty =>
       const LottieGenImage('assets/animations/empty.json');
-
-  /// File path: assets/animations/login.json
-  LottieGenImage get login =>
-      const LottieGenImage('assets/animations/login.json');
 
   /// File path: assets/animations/qr.json
   LottieGenImage get qr => const LottieGenImage('assets/animations/qr.json');
@@ -35,7 +35,7 @@ class $AssetsAnimationsGen {
       const LottieGenImage('assets/animations/register.json');
 
   /// List of all assets
-  List<LottieGenImage> get values => [connect, empty, login, qr, register];
+  List<LottieGenImage> get values => [connect, discover, empty, qr, register];
 }
 
 class $AssetsImagesGen {
