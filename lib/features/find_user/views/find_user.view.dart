@@ -20,7 +20,21 @@ import 'package:qr_flutter/qr_flutter.dart';
 /// when it's created
 class FindUserView extends StatefulWidget {
   // ignore: public_member_api_docs
-  const FindUserView({super.key});
+  const FindUserView({
+    super.key,
+    this.peerId,
+    this.remotePeerId,
+    this.peerStartedConnection,
+  });
+
+  /// Local user peer id from home view
+  final String? peerId;
+
+  /// Remote user peer id from home view
+  final String? remotePeerId;
+
+  /// When true means local user started the connection.
+  final bool? peerStartedConnection;
 
   @override
   State<FindUserView> createState() => _FindUserViewState();
@@ -33,7 +47,25 @@ class _FindUserViewState extends State<FindUserView> {
   @override
   void initState() {
     super.initState();
-    appController.startListener(onNavigate: _onNavigateRequested);
+    appController.startListener(
+      onNavigate: _onNavigateRequested,
+      localPeerId: widget.peerId,
+    );
+    if (widget.peerId != null) {
+      if (widget.peerStartedConnection != null &&
+          widget.peerStartedConnection == true) {
+        Future.delayed(const Duration(seconds: 2), () {
+          appController.connectToPeer(
+            widget.remotePeerId!,
+            () async {
+              await context.router.pop();
+              await onConnectionSuccess(widget.remotePeerId!);
+            },
+          );
+        });
+      }
+    }
+
     // TODO: ask with toast before conneciting
     // appController.askForConnectingFromClipboard(
     //   print,

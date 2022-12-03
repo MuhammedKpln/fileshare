@@ -16,7 +16,7 @@ class FindUserViewController = _FindUserViewControllerBase
     with _$FindUserViewController;
 
 abstract class _FindUserViewControllerBase with Store {
-  Peer peer = Peer();
+  late Peer peer;
   DataConnection? connection;
   GlobalKey<FormState> formState = GlobalKey<FormState>();
 
@@ -46,7 +46,17 @@ abstract class _FindUserViewControllerBase with Store {
   }
 
   @action
-  void startListener({required void Function(String peerId) onNavigate}) {
+  void startListener({
+    required void Function(String peerId) onNavigate,
+    String? localPeerId,
+  }) {
+    if (localPeerId != null) {
+      peer = Peer(id: localPeerId);
+      _peerId = localPeerId;
+    } else {
+      peer = Peer();
+    }
+
     peer.on<String?>('open').listen((id) {
       _peerId = id;
     });

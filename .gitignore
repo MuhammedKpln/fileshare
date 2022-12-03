@@ -49,6 +49,7 @@ app.*.map.json
 *.freezed.dart
 *.g.dart
 *.gen.dart
+*.gr.dart
 
 
 # Injectable

@@ -22,10 +22,11 @@ abstract class _HomeViewControllerBase with Store {
   ObservableList<NearbyDevice?> nearbyDevices = ObservableList();
 
   late NearbyDevice myDeviceInformation;
+  late NearbyDevice peerDeviceInformation;
   late RealtimeChannel channel;
 
   @action
-  void init() {
+  void init({required void Function(String peerId) onNavigate}) {
     FlutterNativeSplash.remove();
 
     myDeviceInformation = NearbyDevice(
@@ -34,15 +35,18 @@ abstract class _HomeViewControllerBase with Store {
       platform: Platform.operatingSystem,
     );
 
-    findNearbyDevices();
-  }
-
-  void dispose() {
-    channel.unsubscribe();
+    _findNearbyDevices(onNavigate: onNavigate);
   }
 
   @action
-  Future<void> findNearbyDevices() async {
+  void setPeerDevice(NearbyDevice device) {
+    peerDeviceInformation = device;
+  }
+
+  @action
+  Future<void> _findNearbyDevices({
+    required void Function(String peerId) onNavigate,
+  }) async {
     final supabase = Supabase.instance.client;
     final ipAddress = await _getIpAddress();
     channel = supabase.channel(
@@ -71,7 +75,13 @@ abstract class _HomeViewControllerBase with Store {
           payload['leftPresences'].first.payload as Map<String, dynamic>;
 
       nearbyDevices.removeWhere((element) => element?.uuid == data['uuid']);
-    }).subscribe((p0, [p1]) async {
+    }).on(
+      RealtimeListenTypes.broadcast,
+      ChannelFilter(event: 'navigate'),
+      (payload, [ref]) {
+        onNavigate(payload['uuid'] as String);
+      },
+    ).subscribe((p0, [p1]) async {
       await channel.track(myDeviceInformation.toMap());
     });
   }
@@ -93,6 +103,10 @@ abstract class _HomeViewControllerBase with Store {
     final ipv4 = await Ipify.ipv4();
 
     return ipv4;
+  }
+
+  void dispose() {
+    channel.unsubscribe();
   }
 }
 

@@ -44,9 +44,16 @@ class AppRouter extends _i5.RootStackRouter {
       );
     },
     FindUserRoute.name: (routeData) {
+      final args = routeData.argsAs<FindUserRouteArgs>(
+          orElse: () => const FindUserRouteArgs());
       return _i5.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i3.FindUserView(),
+        child: _i3.FindUserView(
+          key: args.key,
+          peerId: args.peerId,
+          remotePeerId: args.remotePeerId,
+          peerStartedConnection: args.peerStartedConnection,
+        ),
         fullscreenDialog: true,
       );
     },
@@ -142,14 +149,46 @@ class FileTransferRouteArgs {
 
 /// generated route for
 /// [_i3.FindUserView]
-class FindUserRoute extends _i5.PageRouteInfo<void> {
-  const FindUserRoute()
-      : super(
+class FindUserRoute extends _i5.PageRouteInfo<FindUserRouteArgs> {
+  FindUserRoute({
+    _i6.Key? key,
+    String? peerId,
+    String? remotePeerId,
+    bool? peerStartedConnection,
+  }) : super(
           FindUserRoute.name,
           path: '/find-user-view',
+          args: FindUserRouteArgs(
+            key: key,
+            peerId: peerId,
+            remotePeerId: remotePeerId,
+            peerStartedConnection: peerStartedConnection,
+          ),
         );
 
   static const String name = 'FindUserRoute';
+}
+
+class FindUserRouteArgs {
+  const FindUserRouteArgs({
+    this.key,
+    this.peerId,
+    this.remotePeerId,
+    this.peerStartedConnection,
+  });
+
+  final _i6.Key? key;
+
+  final String? peerId;
+
+  final String? remotePeerId;
+
+  final bool? peerStartedConnection;
+
+  @override
+  String toString() {
+    return 'FindUserRouteArgs{key: $key, peerId: $peerId, remotePeerId: $remotePeerId, peerStartedConnection: $peerStartedConnection}';
+  }
 }
 
 /// generated route for

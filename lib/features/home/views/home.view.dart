@@ -6,12 +6,14 @@ import 'package:boilerplate/features/home/controllers/home.controller.dart';
 import 'package:boilerplate/features/home/models/nearby_device.model.dart';
 import 'package:boilerplate/features/home/views/components/card.dart';
 import 'package:boilerplate/generated/assets.gen.dart';
+import 'package:boilerplate/generated/locale_keys.g.dart';
 import 'package:boilerplate/routers/app_router.gr.dart';
 import 'package:boilerplate/shared/components/section.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 // ignore: public_member_api_docs
 class HomeView extends StatefulWidget {
@@ -28,7 +30,32 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    appController.init();
+    appController.init(onNavigate: onNavigate);
+  }
+
+  void onNavigate(String peerId) {
+    context.router.navigate(
+      FindUserRoute(
+        peerId: appController.myDeviceInformation.uuid,
+        remotePeerId: peerId,
+      ),
+    );
+  }
+
+  void connect(NearbyDevice device) {
+    appController.channel.send(
+      type: RealtimeListenTypes.broadcast,
+      event: 'navigate',
+      payload: appController.myDeviceInformation.toMap(),
+    );
+
+    context.router.navigate(
+      FindUserRoute(
+        peerId: appController.myDeviceInformation.uuid,
+        remotePeerId: device.uuid,
+        peerStartedConnection: true,
+      ),
+    );
   }
 
   @override
@@ -107,8 +134,8 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
               Section(
-                title: 'nearbyDevicesTitle'.tr(),
-                subtitle: 'nearbyDevicesSubTitle'.tr(),
+                title: LocaleKeys.nearbyDevicesTitle.tr(),
+                subtitle: LocaleKeys.nearbyDevicesSubTitle.tr(),
               ),
               deviceIdIndicator(),
               Observer(
@@ -120,6 +147,7 @@ class _HomeViewState extends State<HomeView> {
                         itemBuilder: (context, index) {
                           final user = appController.nearbyDevices[index];
                           return ListTile(
+                            onTap: () => connect(user!),
                             leading: _renderIcon(user),
                             title: Text(user!.username),
                             subtitle:
@@ -162,6 +190,10 @@ class _HomeViewState extends State<HomeView> {
                   TextSpan(
                     text: appController.myDeviceInformation.username,
                     style: TextStyle(color: ColorPalette.primary.color),
+                  ),
+                  TextSpan(
+                    text: appController.myDeviceInformation.uuid,
+                    style: TextStyle(color: ColorPalette.primary.color),
                   )
                 ],
               ),
@@ -197,7 +229,7 @@ class _HomeViewState extends State<HomeView> {
     required BuildContext context,
   }) async {
     return context.router.navigate(
-      const FindUserRoute(),
+      FindUserRoute(),
     );
   }
 }
