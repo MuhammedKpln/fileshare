@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:boilerplate/features/home/models/nearby_device.model.dart';
 import 'package:dart_ipify/dart_ipify.dart';
@@ -26,8 +27,13 @@ abstract class _HomeViewControllerBase with Store {
   @action
   void init() {
     FlutterNativeSplash.remove();
-    myDeviceInformation =
-        NearbyDevice(username: _generateRandomName(), uuid: _generateUuid());
+
+    myDeviceInformation = NearbyDevice(
+      username: _generateRandomName(),
+      uuid: _generateUuid(),
+      platform: Platform.operatingSystem,
+    );
+
     findNearbyDevices();
   }
 
@@ -68,9 +74,6 @@ abstract class _HomeViewControllerBase with Store {
     }).subscribe((p0, [p1]) async {
       await channel.track(myDeviceInformation.toMap());
     });
-
-    // _joinEvent();
-    // _leaveEvent();
   }
 
   String _generateRandomName() {

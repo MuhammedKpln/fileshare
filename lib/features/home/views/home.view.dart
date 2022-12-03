@@ -3,6 +3,7 @@ import 'package:boilerplate/core/di/di.dart';
 import 'package:boilerplate/core/theme/palette.dart';
 import 'package:boilerplate/features/home/components/home_appbar.dart';
 import 'package:boilerplate/features/home/controllers/home.controller.dart';
+import 'package:boilerplate/features/home/models/nearby_device.model.dart';
 import 'package:boilerplate/features/home/views/components/card.dart';
 import 'package:boilerplate/generated/assets.gen.dart';
 import 'package:boilerplate/routers/app_router.gr.dart';
@@ -34,6 +35,42 @@ class _HomeViewState extends State<HomeView> {
   void dispose() {
     appController.dispose();
     super.dispose();
+  }
+
+  IconData _getPlatformIcon(String platform) {
+    switch (platform) {
+      case 'ios':
+        return Ionicons.logo_apple;
+      case 'android':
+        return Ionicons.logo_android;
+      case 'linux':
+        return Ionicons.logo_tux;
+      case 'macos':
+        return Ionicons.logo_apple;
+      case 'windows':
+        return Ionicons.logo_windows;
+
+      default:
+        return Ionicons.planet_outline;
+    }
+  }
+
+  String _getPlatformDescription(String platform) {
+    switch (platform) {
+      case 'ios':
+        return 'Apple iPhone';
+      case 'android':
+        return 'Android';
+      case 'linux':
+        return 'Linux';
+      case 'macos':
+        return 'Apple macOS';
+      case 'windows':
+        return 'Microsoft Windows';
+
+      default:
+        return 'Mars';
+    }
   }
 
   @override
@@ -69,10 +106,11 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ],
               ),
-              const Section(
-                title: 'Nearby users',
-                subtitle: 'Discover anyone on same network',
+              Section(
+                title: 'nearbyDevicesTitle'.tr(),
+                subtitle: 'nearbyDevicesSubTitle'.tr(),
               ),
+              deviceIdIndicator(),
               Observer(
                 builder: (_) {
                   if (appController.nearbyDevices.isNotEmpty) {
@@ -82,7 +120,10 @@ class _HomeViewState extends State<HomeView> {
                         itemBuilder: (context, index) {
                           final user = appController.nearbyDevices[index];
                           return ListTile(
+                            leading: _renderIcon(user),
                             title: Text(user!.username),
+                            subtitle:
+                                Text(_getPlatformDescription(user.platform)),
                           );
                         },
                         itemCount: appController.nearbyDevices.length,
@@ -101,6 +142,44 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
+    );
+  }
+
+  Padding deviceIdIndicator() {
+    return Padding(
+      padding: EdgeInsets.only(bottom: ThemePadding.medium.padding),
+      child: Center(
+        child: Observer(
+          builder: (_) {
+            return RichText(
+              text: TextSpan(
+                style: const TextStyle(color: Colors.grey),
+                children: [
+                  const WidgetSpan(
+                    child: Icon(Ionicons.wifi_outline),
+                  ),
+                  const TextSpan(text: "You're known as "),
+                  TextSpan(
+                    text: appController.myDeviceInformation.username,
+                    style: TextStyle(color: ColorPalette.primary.color),
+                  )
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _renderIcon(NearbyDevice? user) {
+    return Container(
+      decoration: BoxDecoration(
+        color: ColorPalette.primary.color,
+        borderRadius: BorderRadius.circular(ThemeRadius.medium.radius),
+      ),
+      padding: EdgeInsets.all(ThemePadding.small.padding),
+      child: Icon(_getPlatformIcon(user!.platform), color: Colors.white),
     );
   }
 

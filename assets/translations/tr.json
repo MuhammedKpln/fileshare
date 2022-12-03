@@ -47,5 +47,8 @@
   "toUser": "To",
   "deleteBtnTxt": "Delete",
   "noTransfersExists": "You do not currently have any transfers",
-  "dashboardTitleTxt": "Dashboard"
+  "dashboardTitleTxt": "Dashboard",
+  "copyUuidBtnTxt":"UUID kopyala",
+  "nearbyDevicesTitle": "Yakındaki cihazlar",
+  "nearbyDevicesSubTitle": "Aynı ağdaki diğer aygıtlarınızı tarayın"
 }

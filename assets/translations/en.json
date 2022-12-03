@@ -48,5 +48,7 @@
   "deleteBtnTxt": "Delete",
   "noTransfersExists": "You do not currently have any transfers",
   "dashboardTitleTxt": "Dashboard",
-  "copyUuidBtnTxt":"Copy UUID"
+  "copyUuidBtnTxt":"Copy UUID",
+  "nearbyDevicesTitle": "Nearby Devices",
+  "nearbyDevicesSubTitle": "Discover any device with same network"
 }
