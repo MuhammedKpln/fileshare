@@ -149,7 +149,7 @@ abstract class _FileTransferViewControllerBase with Store {
 
   String _generateRandomName() {
     final generator = UniqueNameGenerator(
-      dictionaries: [adjectives, names],
+      dictionaries: [names],
       separator: ' ',
       style: NameStyle.capital,
     );
