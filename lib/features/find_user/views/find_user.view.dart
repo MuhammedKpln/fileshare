@@ -54,15 +54,13 @@ class _FindUserViewState extends State<FindUserView> {
     if (widget.peerId != null) {
       if (widget.peerStartedConnection != null &&
           widget.peerStartedConnection == true) {
-        Future.delayed(const Duration(seconds: 2), () {
-          appController.connectToPeer(
-            widget.remotePeerId!,
-            () async {
-              await context.router.pop();
-              await onConnectionSuccess(widget.remotePeerId!);
-            },
-          );
-        });
+        appController.connectToPeer(
+          widget.remotePeerId!,
+          () async {
+            await context.router.pop();
+            await onConnectionSuccess(widget.remotePeerId!);
+          },
+        );
       } else {
         appController.generateId();
       }
@@ -90,6 +88,8 @@ class _FindUserViewState extends State<FindUserView> {
   }
 
   Future<void> _onNavigateRequested(String peerId) async {
+    await context.router.pop();
+
     await context.router.push(
       FileTransferRoute(
         sendingFile: false,
