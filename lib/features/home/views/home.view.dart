@@ -141,21 +141,21 @@ class _HomeViewState extends State<HomeView> {
               Observer(
                 builder: (_) {
                   if (appController.nearbyDevices.isNotEmpty) {
-                    return SizedBox(
-                      height: 200,
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          final user = appController.nearbyDevices[index];
-                          return ListTile(
-                            onTap: () => connect(user!),
-                            leading: _renderIcon(user),
-                            title: Text(user!.username),
-                            subtitle:
-                                Text(_getPlatformDescription(user.platform)),
-                          );
-                        },
-                        itemCount: appController.nearbyDevices.length,
-                      ),
+                    return Stack(
+                      children: [
+                        Opacity(
+                          opacity: 0.1,
+                          child: Center(
+                            child: Assets.animations.discover.lottie(
+                              height: 300,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 200,
+                          child: renderNearbyDevices(),
+                        ),
+                      ],
                     );
                   }
 
@@ -170,6 +170,21 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
       ),
+    );
+  }
+
+  ListView renderNearbyDevices() {
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        final user = appController.nearbyDevices[index];
+        return ListTile(
+          onTap: () => connect(user!),
+          leading: _renderIcon(user),
+          title: Text(user!.username),
+          subtitle: Text(_getPlatformDescription(user.platform)),
+        );
+      },
+      itemCount: appController.nearbyDevices.length,
     );
   }
 
@@ -191,10 +206,6 @@ class _HomeViewState extends State<HomeView> {
                     text: appController.myDeviceInformation.username,
                     style: TextStyle(color: ColorPalette.primary.color),
                   ),
-                  TextSpan(
-                    text: appController.myDeviceInformation.uuid,
-                    style: TextStyle(color: ColorPalette.primary.color),
-                  )
                 ],
               ),
             );
