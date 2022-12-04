@@ -19,7 +19,7 @@ class IsolateMessageHandler {
 
 class TransferHelper {
   static const int defaultMaxSize = 16 * 1000;
-  static RegExp _findRegex = RegExp(r"(a=max-message-size:)+([1-9]*)");
+  static final RegExp _findRegex = RegExp('(a=max-message-size:)+([1-9]*)');
 
   static int findTransferSize(String input) {
     final found = _findRegex.hasMatch(input);
@@ -36,9 +36,11 @@ class TransferHelper {
     return defaultMaxSize;
   }
 
-  static Stream<Uint8List> chunk(List<int> list,
-      {int chunkSize = 16000}) async* {
-    List<int> chunk = [];
+  static Stream<Uint8List> chunk(
+    List<int> list, {
+    int chunkSize = 16000,
+  }) async* {
+    var chunk = <int>[];
 
     while (list.isNotEmpty) {
       if (list.length > chunkSize) {
@@ -54,11 +56,11 @@ class TransferHelper {
   }
 
   static void isolate(List<dynamic> args) {
-    final SendPort port = args[0] as SendPort;
-    final PlatformFile file = args[1] as PlatformFile;
-    final int chunkSize = args[2] as int;
+    final port = args[0] as SendPort;
+    final file = args[1] as PlatformFile;
+    final chunkSize = args[2] as int;
 
-    List<Uint8List> fileBytes = [];
+    final fileBytes = <Uint8List>[];
 
     file.readStream?.forEach((element) {
       chunk(element, chunkSize: chunkSize).listen((chunk) {
@@ -68,16 +70,17 @@ class TransferHelper {
       /// Send file information, receiver knows which file is being transferred.
 
       for (final byte in fileBytes) {
-        await Future.delayed(Duration(milliseconds: 10), () async {
+        await Future.delayed(const Duration(milliseconds: 10), () async {
           if (fileBytes.first.hashCode == byte.hashCode) {
             /// Sending first byte.
             port.send(
               IsolateMessageHandler(
                 type: TransferIsolateMessage.fileBegin,
                 data: FileInformation(
-                    name: file.name,
-                    size: file.size,
-                    extension: file.extension),
+                  name: file.name,
+                  size: file.size,
+                  extension: file.extension,
+                ),
               ),
             );
           }
@@ -85,18 +88,24 @@ class TransferHelper {
           if (fileBytes.last.hashCode == byte.hashCode) {
             /// When loop is done, file has been sended over.
 
-            print("${file.size} ${fileBytes.length}");
-            port.send(IsolateMessageHandler(
+            print('${file.size} ${fileBytes.length}');
+            port.send(
+              IsolateMessageHandler(
                 type: TransferIsolateMessage.doneFile,
                 data: FileInformation(
-                    name: file.name,
-                    extension: file.extension,
-                    size: file.size)));
+                  name: file.name,
+                  extension: file.extension,
+                  size: file.size,
+                ),
+              ),
+            );
           }
 
           port.send(
             IsolateMessageHandler(
-                type: TransferIsolateMessage.chunk, data: byte),
+              type: TransferIsolateMessage.chunk,
+              data: byte,
+            ),
           );
         });
       }
@@ -118,16 +127,20 @@ class TransferHelper {
 
     final i = (log(bytes) / log(k)).floor();
 
-    return ((bytes / pow(k, i)).toStringAsFixed(dm) + sizes[i]);
+    return (bytes / pow(k, i)).toStringAsFixed(dm) + sizes[i];
   }
 
-  static void startIsolate() async {
+  static Future<void> startIsolate() async {
     final appController = getIt<FileTransferViewController>();
-    var receivePort = ReceivePort();
+    final receivePort = ReceivePort();
 
     receivePort.listen((message) async {
+      if (message == null) {
+        return;
+      }
+
       if (message is String) {
-        if (message == "DONE") {
+        if (message == 'DONE') {
           appController.choosedFilesQueue?.removeFirst();
           receivePort.close();
         }
@@ -146,24 +159,24 @@ class TransferHelper {
           final data = handler.data as FileInformation;
           final fileName = data.name;
 
-          print("Sending done $fileName");
+          print('Sending done $fileName');
           break;
         case TransferIsolateMessage.fileBegin:
           final data = handler.data as FileInformation;
           final fileName = data.name;
 
-          print("Sending file $fileName");
+          print('Sending file $fileName');
           break;
       }
     });
 
-    int localMaxSize = TransferHelper.defaultMaxSize;
-    int remoteMaxSize = TransferHelper.defaultMaxSize;
+    var localMaxSize = TransferHelper.defaultMaxSize;
+    var remoteMaxSize = TransferHelper.defaultMaxSize;
 
-    final RTCSessionDescription? remoteDescription =
+    final remoteDescription =
         await appController.connection?.peerConnection?.getRemoteDescription();
 
-    final RTCSessionDescription? localDescription =
+    final localDescription =
         await appController.connection?.peerConnection?.getLocalDescription();
 
     if (remoteDescription != null) {
@@ -177,14 +190,11 @@ class TransferHelper {
     final chunkSize = min(localMaxSize, remoteMaxSize);
 
     final isolate = await Isolate.spawn(
-        TransferHelper.isolate,
-        [
-          receivePort.sendPort,
-          appController.choosedFilesQueue!.first,
-          chunkSize
-        ],
-        onExit: receivePort.sendPort,
-        onError: receivePort.sendPort);
+      TransferHelper.isolate,
+      [receivePort.sendPort, appController.choosedFilesQueue!.first, chunkSize],
+      onExit: receivePort.sendPort,
+      onError: receivePort.sendPort,
+    );
 
     isolate.addOnExitListener(
       receivePort.sendPort,

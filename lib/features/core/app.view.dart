@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 /// Used to access the `ScaffoldState` of the `App` widget.
-final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldKey =
+    GlobalKey<ScaffoldMessengerState>();
 
 /// `App`
 class App extends StatefulWidget {
@@ -32,7 +33,7 @@ class _AppState extends State<App> {
     return Observer(
       builder: (_) {
         return MaterialApp.router(
-          key: scaffoldKey,
+          scaffoldMessengerKey: scaffoldKey,
           title: CoreConstants.appTitle,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,

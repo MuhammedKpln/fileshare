@@ -80,6 +80,7 @@ class _FileTransferState extends State<FileTransferView> {
   }
 
   void _onPressed() {
+    appController.isTransfering = true;
     TransferHelper.startIsolate();
   }
 
@@ -92,10 +93,16 @@ class _FileTransferState extends State<FileTransferView> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Button(
-            onPressed: _onPressed,
-            label: 'transferFilesBtnTxt'.tr(),
-            buttonType: ButtonType.primary,
+          Observer(
+            builder: (_) {
+              print(appController.isTransfering);
+              return Button(
+                onPressed: _onPressed,
+                label: 'transferFilesBtnTxt'.tr(),
+                buttonType: ButtonType.primary,
+                loading: appController.isTransfering,
+              );
+            },
           ),
           Button(
             onPressed: appController.clearFiles,
@@ -400,7 +407,7 @@ class _ProfileCard extends StatelessWidget {
 
                   return _ProfileCardInfo(
                     title: username,
-                    subtitle: files.length.toString(),
+                    subtitle: '${files.length} Sending files',
                   );
                 },
               ),
@@ -419,7 +426,8 @@ class _ProfileCard extends StatelessWidget {
 
                   return _ProfileCardInfo(
                     title: username,
-                    subtitle: (totalSize / 1000 / 1000).round().toString(),
+                    subtitle:
+                        '${appController.transferedFiles.length} Received files',
                   );
                 },
               ),

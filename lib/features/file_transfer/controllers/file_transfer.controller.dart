@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
-import 'dart:isolate';
 
+import 'package:boilerplate/core/extensions/toast.extension.dart';
 import 'package:boilerplate/core/picker/file.picker.dart';
 import 'package:boilerplate/features/file_transfer/helpers/transfer.helper.dart';
 import 'package:boilerplate/features/find_user/models/event.dart';
@@ -34,7 +34,7 @@ abstract class _FileTransferViewControllerBase with Store {
   String? connectedPeerUsername;
 
   @observable
-  late String localUsername;
+  String localUsername = '';
 
   @observable
   int gettedData = 0;
@@ -48,6 +48,10 @@ abstract class _FileTransferViewControllerBase with Store {
   ObservableList<FileInformation>? receveidFiles;
 
   Queue<FileInformation>? receveidFilesQueue;
+
+  /// A boolean variable that is used to check if the file transfer is in progress.
+  @observable
+  bool isTransfering = false;
 
   @computed
   List<FileInformation>? get choosedFiles {
@@ -134,20 +138,6 @@ abstract class _FileTransferViewControllerBase with Store {
     });
   }
 
-  Future<void> sendFiles() async {
-    if (choosedFilesRaw == null) {
-      return;
-    }
-
-    final port = ReceivePort();
-
-    port.listen((message) async {
-      await connection?.sendBinary(message as Uint8List);
-    });
-
-    // TransferHelper.sendFiles(port, choosedFilesRaw!);
-  }
-
   Future<void> sendUserProfile() async {
     await connection?.send(
       RtcEvent(
@@ -228,20 +218,24 @@ abstract class _FileTransferViewControllerBase with Store {
           final size = file?.size ?? 0;
           final extension = file?.extension;
 
-          transferedFiles.add(
-            FileInformation(
-              name: name,
-              size: size,
-              transfered: true,
-              extension: extension,
-            ),
-          );
-
           if (choosedFilesQueue != null && choosedFilesQueue!.isNotEmpty) {
             choosedFilesQueue?.removeFirst();
 
             if (choosedFilesQueue!.isNotEmpty) {
-              TransferHelper.startIsolate();
+              await TransferHelper.startIsolate();
+            } else {
+              // Transfering queue is empty that means the transfer is done.
+              isTransfering = false;
+              choosedFilesRaw?.removeWhere((element) => element.name == name);
+
+              transferedFiles.add(
+                FileInformation(
+                  name: name,
+                  size: size,
+                  transfered: true,
+                  extension: extension,
+                ),
+              );
             }
           }
           break;
@@ -249,15 +243,19 @@ abstract class _FileTransferViewControllerBase with Store {
     });
 
     connection?.on<Uint8List>('binary').listen((receveidBytes) async {
+      if (!isTransfering) {
+        isTransfering = true;
+      }
+
       gettedData += receveidBytes.lengthInBytes;
 
       bytes.addAll(receveidBytes);
 
-      print(
-        '${fileTransfering?.name} $gettedData - ${fileTransfering?.size}',
-      );
       if (fileTransfering != null) {
         if (fileTransfering?.size == gettedData) {
+          transferedFiles.add(fileTransfering);
+          isTransfering = false;
+
           /// Writing file to data
           await _writeData();
 
@@ -284,6 +282,9 @@ abstract class _FileTransferViewControllerBase with Store {
           gettedData = 0;
           receveidFilesQueue?.removeFirst();
           bytes.clear();
+
+          // TODO(muhammedkpln): show toast when finished for both users.
+          Toast().showToast('ok');
         }
       }
     });
