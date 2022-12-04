@@ -5,6 +5,7 @@ import 'package:boilerplate/core/theme/toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+// FIXME(muhammedkpln): changing locale does not reflect to application
 /// It's a ListTile that allows the user to change the app locale
 class ChangeLocale extends StatelessWidget {
   // ignore: public_member_api_docs
