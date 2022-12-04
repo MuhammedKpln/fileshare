@@ -50,5 +50,6 @@
   "dashboardTitleTxt": "Dashboard",
   "copyUuidBtnTxt":"Copy UUID",
   "nearbyDevicesTitle": "Nearby Devices",
-  "nearbyDevicesSubTitle": "Discover any device with same network"
+  "nearbyDevicesSubTitle": "Discover any device with same network",
+  "fileTransferViewSendingUsername": "{name} (You)"
 }

@@ -6,6 +6,7 @@ import 'package:boilerplate/features/file_transfer/controllers/file_transfer.con
 import 'package:boilerplate/features/file_transfer/helpers/transfer.helper.dart';
 import 'package:boilerplate/features/find_user/models/file_information.dart';
 import 'package:boilerplate/generated/assets.gen.dart';
+import 'package:boilerplate/generated/locale_keys.g.dart';
 import 'package:boilerplate/shared/components/back_button.dart';
 import 'package:boilerplate/shared/components/button.dart';
 import 'package:boilerplate/shared/components/section.dart';
@@ -404,9 +405,13 @@ class _ProfileCard extends StatelessWidget {
                   }
 
                   final username = localUsername;
+                  final localeUsername =
+                      LocaleKeys.fileTransferViewSendingUsername.tr(
+                    namedArgs: {'name': username},
+                  );
 
                   return _ProfileCardInfo(
-                    title: username,
+                    title: localeUsername,
                     subtitle: '${files.length} Sending files',
                   );
                 },

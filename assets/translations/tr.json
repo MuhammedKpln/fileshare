@@ -50,5 +50,6 @@
   "dashboardTitleTxt": "Dashboard",
   "copyUuidBtnTxt":"UUID kopyala",
   "nearbyDevicesTitle": "Yakındaki cihazlar",
-  "nearbyDevicesSubTitle": "Aynı ağdaki diğer aygıtlarınızı tarayın"
+  "nearbyDevicesSubTitle": "Aynı ağdaki diğer aygıtlarınızı tarayın",
+  "fileTransferViewSendingUsername": "{name} (You)"
 }
