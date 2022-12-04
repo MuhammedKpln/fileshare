@@ -149,11 +149,10 @@ abstract class _FileTransferViewControllerBase with Store {
   }
 
   Future<void> sendUserProfile() async {
-    final username = _generateRandomName();
     await connection?.send(
       RtcEvent(
         event: RTCEventType.username,
-        data: {'username': username},
+        data: {'username': localUsername},
       ).toMap(),
     );
   }

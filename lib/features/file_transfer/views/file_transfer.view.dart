@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:boilerplate/core/di/di.dart';
 import 'package:boilerplate/core/theme/gradient.dart';
 import 'package:boilerplate/core/theme/palette.dart';
@@ -395,9 +396,7 @@ class _ProfileCard extends StatelessWidget {
                     return const CircularProgressIndicator.adaptive();
                   }
 
-                  final username = isSending
-                      ? localUsername
-                      : appController.connectedPeerUsername!;
+                  final username = localUsername;
 
                   return _ProfileCardInfo(
                     title: username,
@@ -415,9 +414,8 @@ class _ProfileCard extends StatelessWidget {
                     return const CircularProgressIndicator.adaptive();
                   }
 
-                  final username = !isSending
-                      ? localUsername
-                      : appController.connectedPeerUsername!;
+                  final username =
+                      appController.connectedPeerUsername ?? 'ERROR';
 
                   return _ProfileCardInfo(
                     title: username,
@@ -478,14 +476,14 @@ class _ProfileCardInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        AutoSizeText(
           title,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
               ),
         ),
-        Text(
+        AutoSizeText(
           subtitle,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Colors.white70,
@@ -496,5 +494,3 @@ class _ProfileCardInfo extends StatelessWidget {
     );
   }
 }
-
-void runMyIsolate(List<dynamic> args) {}
