@@ -1,11 +1,8 @@
 import 'package:boilerplate/core/theme/palette.dart';
-import 'package:boilerplate/generated/assets.gen.dart';
 import 'package:boilerplate/generated/locale_keys.g.dart';
-import 'package:boilerplate/shared/components/avatar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-//TODO: refactor
 /// A stateless widget that returns an AppBar with a title and an action
 class HomeAppBar extends StatelessWidget {
   // ignore: public_member_api_docs
@@ -35,15 +32,6 @@ class HomeAppBar extends StatelessWidget {
           ),
         ],
       ),
-      actions: [
-        InkWell(
-          onTap: () => null,
-          child: Padding(
-            padding: EdgeInsets.only(right: ThemePadding.medium.padding),
-            child: Avatar(child: Assets.images.user.svg(fit: BoxFit.cover)),
-          ),
-        )
-      ],
     );
   }
 }
