@@ -9,12 +9,11 @@ import 'package:boilerplate/features/find_user/models/event.dart';
 import 'package:boilerplate/features/find_user/models/file_information.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:peerdart/peerdart.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:unique_name_generator/unique_name_generator.dart';
 
 part 'file_transfer.controller.g.dart';
 
@@ -33,6 +32,9 @@ abstract class _FileTransferViewControllerBase with Store {
 
   @observable
   String? connectedPeerUsername;
+
+  @observable
+  late String localUsername;
 
   @observable
   int gettedData = 0;
@@ -96,7 +98,7 @@ abstract class _FileTransferViewControllerBase with Store {
         receveidFilesQueue = Queue.from(receveidFiles!.toList());
       }
     });
-
+    localUsername = _generateRandomName();
     _peer = Peer(id: peerId, options: PeerOptions(debug: LogLevel.All));
 
     _peer?.on('open').listen((id) async {
@@ -104,11 +106,99 @@ abstract class _FileTransferViewControllerBase with Store {
     });
 
     _peer?.on<DataConnection>('connection').listen((conn) {
-      sendUserProfile();
       connection = conn;
+
+      conn.once('open').then((value) async {
+        await sendUserProfile();
+      });
+
+      _eventHandler();
+    });
+  }
+
+  Future<void> _writeData() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final dirPath = directory.path;
+    final fileWriter = File('$dirPath/${fileTransfering?.name}');
+
+    await fileWriter.writeAsBytes(bytes, mode: FileMode.append);
+  }
+
+  void connectToPeer(String peerId) {
+    connection = _peer?.connect(peerId);
+
+    connection?.on('open').listen((event) async {
+      await sendUserProfile();
+
+      _eventHandler();
+    });
+  }
+
+  Future<void> sendFiles() async {
+    if (choosedFilesRaw == null) {
+      return;
+    }
+
+    final port = ReceivePort();
+
+    port.listen((message) async {
+      await connection?.sendBinary(message as Uint8List);
     });
 
-    _peer?.on('data').listen((data) async {
+    // TransferHelper.sendFiles(port, choosedFilesRaw!);
+  }
+
+  Future<void> sendUserProfile() async {
+    final username = _generateRandomName();
+    await connection?.send(
+      RtcEvent(
+        event: RTCEventType.username,
+        data: {'username': username},
+      ).toMap(),
+    );
+  }
+
+  String _generateRandomName() {
+    final generator = UniqueNameGenerator(
+      dictionaries: [adjectives, names],
+      separator: ' ',
+      style: NameStyle.capital,
+    );
+    return generator.generate();
+  }
+
+  @action
+  Future<List<PlatformFile>?> pickFile() async {
+    final files = await _picker.pickFile();
+
+    if (files != null) {
+      choosedFilesRaw = ObservableList.of(files);
+    }
+    return null;
+  }
+
+  @action
+  void clearFiles() {
+    choosedFilesRaw = null;
+  }
+
+  @action
+  void removeFile(FileInformation file) {
+    choosedFilesRaw?.removeWhere((element) => element.name == file.name);
+  }
+
+  Future<void> sendFileInformations({RtcEvent? event}) async {
+    await connection?.send(
+      event?.toMap() ??
+          RtcEvent(
+            event: RTCEventType.fileInformations,
+            data: {RTCEventType.fileInformations.name: choosedFiles ?? []},
+          ).toMap(),
+    );
+  }
+
+  void _eventHandler() {
+    connection?.on('data').listen((data) async {
       final event = RtcEvent.fromMap(data as Map<String, dynamic>);
 
       switch (event.event) {
@@ -159,12 +249,14 @@ abstract class _FileTransferViewControllerBase with Store {
       }
     });
 
-    _peer?.on<Uint8List>('binary').listen((receveidBytes) async {
+    connection?.on<Uint8List>('binary').listen((receveidBytes) async {
       gettedData += receveidBytes.lengthInBytes;
 
       bytes.addAll(receveidBytes);
 
-      print('${fileTransfering?.name} $gettedData - ${fileTransfering?.size}');
+      print(
+        '${fileTransfering?.name} $gettedData - ${fileTransfering?.size}',
+      );
       if (fileTransfering != null) {
         if (fileTransfering?.size == gettedData) {
           /// Writing file to data
@@ -196,83 +288,6 @@ abstract class _FileTransferViewControllerBase with Store {
         }
       }
     });
-  }
-
-  Future<void> _writeData() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final dirPath = directory.path;
-    final fileWriter = File('$dirPath/${fileTransfering?.name}');
-
-    await fileWriter.writeAsBytes(bytes, mode: FileMode.append);
-  }
-
-  void connectToPeer(String peerId) {
-    connection = _peer?.connect(peerId);
-
-    connection?.on('open').listen((event) {
-      _dataChannelStream =
-          connection?.dataChannel?.stateChangeStream.listen((event) async {
-        if (event == RTCDataChannelState.RTCDataChannelOpen) {
-          await sendUserProfile();
-        }
-      });
-    });
-  }
-
-  Future<void> sendFiles() async {
-    if (choosedFilesRaw == null) {
-      return;
-    }
-
-    final port = ReceivePort();
-
-    port.listen((message) async {
-      await connection?.sendBinary(message as Uint8List);
-    });
-
-    // TransferHelper.sendFiles(port, choosedFilesRaw!);
-  }
-
-  Future<void> sendUserProfile() async {
-    final supabase = Supabase.instance.client;
-    final user = supabase.auth.currentUser;
-
-    await connection?.send(
-      RtcEvent(
-        event: RTCEventType.username,
-        data: {'username': user?.userMetadata?['username']},
-      ).toMap(),
-    );
-  }
-
-  @action
-  Future<List<PlatformFile>?> pickFile() async {
-    final files = await _picker.pickFile();
-
-    if (files != null) {
-      choosedFilesRaw = ObservableList.of(files);
-    }
-    return null;
-  }
-
-  @action
-  void clearFiles() {
-    choosedFilesRaw = null;
-  }
-
-  @action
-  void removeFile(FileInformation file) {
-    choosedFilesRaw?.removeWhere((element) => element.name == file.name);
-  }
-
-  Future<void> sendFileInformations({RtcEvent? event}) async {
-    await connection?.send(
-      event?.toMap() ??
-          RtcEvent(
-            event: RTCEventType.fileInformations,
-            data: {RTCEventType.fileInformations.name: choosedFiles ?? []},
-          ).toMap(),
-    );
   }
 
   void dispose() {

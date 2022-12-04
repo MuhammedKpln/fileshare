@@ -12,7 +12,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// It's a stateful widget that displays a profile card, a section title, and
 /// a file
@@ -375,8 +374,7 @@ class _ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appController = getIt<FileTransferViewController>();
-    final localUsername = Supabase
-        .instance.client.auth.currentUser!.userMetadata!['username'] as String;
+    final localUsername = appController.localUsername;
 
     return Container(
       height: 200,
