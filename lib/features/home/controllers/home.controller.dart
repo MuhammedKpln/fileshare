@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:boilerplate/features/home/models/nearby_device.model.dart';
-import 'package:dart_ipify/dart_ipify.dart';
+import 'package:boilerplate/features/home/repository/home.repository.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
@@ -18,6 +18,10 @@ part 'home.controller.g.dart';
 class HomeViewController = _HomeViewControllerBase with _$HomeViewController;
 
 abstract class _HomeViewControllerBase with Store {
+  _HomeViewControllerBase(this._homeRepository);
+
+  final HomeRepository _homeRepository;
+
   @observable
   ObservableList<NearbyDevice?> nearbyDevices = ObservableList();
 
@@ -100,9 +104,9 @@ abstract class _HomeViewControllerBase with Store {
   }
 
   Future<String> _getIpAddress() async {
-    final ipv4 = await Ipify.ipv4();
+    final request = await _homeRepository.fetchIpAddress();
 
-    return ipv4;
+    return request.ip;
   }
 
   void dispose() {
