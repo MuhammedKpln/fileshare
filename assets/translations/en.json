@@ -41,5 +41,6 @@
   "copyUuidBtnTxt":"Copy UUID",
   "nearbyDevicesTitle": "Nearby Devices",
   "nearbyDevicesSubTitle": "Discover any device with same network",
-  "fileTransferViewSendingUsername": "{name} (You)"
+  "fileTransferViewSendingUsername": "{name} (You)",
+  "transferingIsDone": "Transferring of all files has been successfully completed."
 }

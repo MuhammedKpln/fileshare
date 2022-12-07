@@ -7,6 +7,8 @@ import 'package:boilerplate/core/picker/file.picker.dart';
 import 'package:boilerplate/features/file_transfer/helpers/transfer.helper.dart';
 import 'package:boilerplate/features/find_user/models/event.dart';
 import 'package:boilerplate/features/find_user/models/file_information.dart';
+import 'package:boilerplate/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -24,6 +26,9 @@ class FileTransferViewController = _FileTransferViewControllerBase
     with _$FileTransferViewController;
 
 abstract class _FileTransferViewControllerBase with Store {
+  _FileTransferViewControllerBase(this._toast);
+  final Toast _toast;
+
   Peer? _peer;
   DataConnection? connection;
   final FilePickerWrappper _picker = FilePickerWrappper();
@@ -236,6 +241,8 @@ abstract class _FileTransferViewControllerBase with Store {
                   extension: extension,
                 ),
               );
+
+              _toast.showToast(LocaleKeys.transferingIsDone.tr());
             }
           }
           break;
@@ -283,8 +290,7 @@ abstract class _FileTransferViewControllerBase with Store {
           receveidFilesQueue?.removeFirst();
           bytes.clear();
 
-          // TODO(muhammedkpln): show toast when finished for both users.
-          Toast().showToast('ok');
+          _toast.showToast(LocaleKeys.transferingIsDone.tr());
         }
       }
     });

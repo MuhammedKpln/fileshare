@@ -3,8 +3,10 @@ import 'package:boilerplate/core/theme/palette.dart';
 import 'package:boilerplate/core/theme/toast.dart';
 import 'package:boilerplate/features/core/app.view.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 /// It's a class that shows a toast
+@LazySingleton()
 class Toast {
   /// It shows a snackbar with the text passed in.
   ///

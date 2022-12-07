@@ -40,5 +40,6 @@
   "copyUuidBtnTxt":"UUID kopyala",
   "nearbyDevicesTitle": "Yakındaki cihazlar",
   "nearbyDevicesSubTitle": "Aynı ağdaki diğer aygıtlarınızı tarayın",
-  "fileTransferViewSendingUsername": "{name} (You)"
+  "fileTransferViewSendingUsername": "{name} (You)",
+  "transferingIsDone": "Tüm dosyaların aktarılması başarıyla tamamlandı."
 }
