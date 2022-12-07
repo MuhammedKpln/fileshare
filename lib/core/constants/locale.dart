@@ -1,11 +1,23 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton()
 class AppLocale {
   final String localePath = 'assets/translations';
+
+  Future<void> updateLocale(Locale l, BuildContext context) async {
+    final engine = WidgetsFlutterBinding.ensureInitialized();
+
+    if (l == context.locale) {
+      return;
+    }
+
+    await context.setLocale(l);
+    await engine.performReassemble();
+  }
 
   Locale get fallbackLocale => _SupportedLocales.values
       .where((element) => element.primary != null)
