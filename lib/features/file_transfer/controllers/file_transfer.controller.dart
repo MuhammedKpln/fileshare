@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:boilerplate/core/extensions/toast.extension.dart';
 import 'package:boilerplate/core/picker/file.picker.dart';
+import 'package:boilerplate/core/theme/toast.dart';
 import 'package:boilerplate/features/file_transfer/helpers/transfer.helper.dart';
 import 'package:boilerplate/features/find_user/models/event.dart';
 import 'package:boilerplate/features/find_user/models/file_information.dart';
@@ -12,6 +13,7 @@ import 'package:boilerplate/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:path_provider/path_provider.dart';
@@ -41,6 +43,9 @@ abstract class _FileTransferViewControllerBase with Store {
 
   @observable
   int gettedData = 0;
+
+  @observable
+  bool disconnected = false;
 
   @observable
   String localUsername = '';
@@ -98,6 +103,7 @@ abstract class _FileTransferViewControllerBase with Store {
   void startPeerListeners({
     required String peerId,
     required String connectedUserPeerId,
+    required VoidCallback onUserDisconnect,
   }) {
     autorunDisposer = autorun((_) {
       /// Each time `choosedFiles` changes, it send over new file informations to the receiver
@@ -131,7 +137,7 @@ abstract class _FileTransferViewControllerBase with Store {
         await sendUserProfile();
       });
 
-      _eventHandler();
+      _eventHandler(onUserDisconnect: onUserDisconnect);
     });
   }
 
@@ -143,13 +149,16 @@ abstract class _FileTransferViewControllerBase with Store {
     await fileWriter.writeAsBytes(bytes.toBytes(), mode: FileMode.append);
   }
 
-  void connectToPeer(String peerId) {
+  void connectToPeer(
+    String peerId, {
+    required VoidCallback onUserDisconnect,
+  }) {
     connection = _peer?.connect(peerId);
 
     connection?.on('open').listen((event) async {
       await sendUserProfile();
 
-      _eventHandler();
+      _eventHandler(onUserDisconnect: onUserDisconnect);
     });
   }
 
@@ -201,7 +210,9 @@ abstract class _FileTransferViewControllerBase with Store {
     );
   }
 
-  void _eventHandler() {
+  void _eventHandler({
+    required VoidCallback onUserDisconnect,
+  }) {
     connection?.on('data').listen((data) async {
       final event = RtcEvent.fromMap(data as Map<String, dynamic>);
 
@@ -258,6 +269,16 @@ abstract class _FileTransferViewControllerBase with Store {
           break;
 
         case RTCEventType.leavePing:
+          disconnected = true;
+          _toast.showToast(
+            LocaleKeys.userDisconnectedMessage.tr(),
+            toastType: ToastType.error,
+            action: SnackBarAction(
+              label: LocaleKeys.closeConnectionBtnTxt.tr(),
+              onPressed: onUserDisconnect,
+            ),
+          );
+          break;
       }
     });
 
@@ -309,7 +330,13 @@ abstract class _FileTransferViewControllerBase with Store {
     });
   }
 
+  void pingPeerForLeaving() {
+    connection
+        ?.send(const RtcEvent(event: RTCEventType.leavePing, data: {}).toMap());
+  }
+
   void dispose() {
+    pingPeerForLeaving();
     autorunDisposer?.call();
     queueAutoRunDisposer?.call();
     _dataChannelStream?.cancel();

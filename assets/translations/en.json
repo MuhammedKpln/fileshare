@@ -1,9 +1,5 @@
 {
   "postsViewTitle": "Posts",
-  "loginViewTitle": "Login",
-  "loginViewEmail": "E-mail",
-  "loginViewPassword": "Password",
-  "loginViewBtnTxt": "Login",
   "settingsViewTitle": "Settings",
   "appLocaleSettingsTxt": "Language",
   "appLocaleNotFoundError": "Selected language not found!",
@@ -36,7 +32,6 @@
   "transferingTxt": "Transfering",
   "toUser": "To",
   "deleteBtnTxt": "Delete",
-  "noTransfersExists": "You do not currently have any transfers",
   "dashboardTitleTxt": "Dashboard",
   "copyUuidBtnTxt":"Copy UUID",
   "nearbyDevicesTitle": "Nearby Devices",
@@ -44,5 +39,7 @@
   "fileTransferViewSendingUsername": "{name} (You)",
   "transferingIsDone": "Transferring of all files has been successfully completed.",
   "sendingFilesCount":"{count} Sending files",
-  "receivedFilesCount":"{count} Received files"
+  "receivedFilesCount":"{count} Received files",
+  "userDisconnectedMessage":"User has been disconnected, please try connecting again.",
+  "closeConnectionBtnTxt":"Close connection"
 }

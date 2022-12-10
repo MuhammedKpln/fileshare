@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:boilerplate/core/di/di.dart';
 import 'package:boilerplate/core/theme/gradient.dart';
 import 'package:boilerplate/core/theme/palette.dart';
@@ -6,6 +7,8 @@ import 'package:boilerplate/features/file_transfer/helpers/transfer.helper.dart'
 import 'package:boilerplate/features/file_transfer/views/components/details_card.component.dart';
 import 'package:boilerplate/features/file_transfer/views/components/empty_files_section.component.dart';
 import 'package:boilerplate/features/file_transfer/views/components/file_details.component.dart';
+import 'package:boilerplate/generated/assets.gen.dart';
+import 'package:boilerplate/generated/locale_keys.g.dart';
 import 'package:boilerplate/shared/components/back_button.dart';
 import 'package:boilerplate/shared/components/button.dart';
 import 'package:boilerplate/shared/components/section.dart';
@@ -47,11 +50,19 @@ class _FileTransferState extends State<FileTransferView> {
     appController.startPeerListeners(
       peerId: widget.currentPeer,
       connectedUserPeerId: widget.connectedPeer,
+      onUserDisconnect: onUserDisconnect,
     );
 
     if (widget.sendingFile) {
-      appController.connectToPeer(widget.connectedPeer);
+      appController.connectToPeer(
+        widget.connectedPeer,
+        onUserDisconnect: onUserDisconnect,
+      );
     }
+  }
+
+  void onUserDisconnect() {
+    context.router.navigateBack();
   }
 
   @override
@@ -147,6 +158,27 @@ class _FileTransferState extends State<FileTransferView> {
       ? ThemeGradient.secondaryGradient
       : ThemeGradient.primaryGradient;
 
+  Widget renderDisconnectedView() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(bottom: ThemePadding.large.padding),
+          child: Text(
+            LocaleKeys.userDisconnectedMessage,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ).tr(),
+        ),
+        Assets.animations.disconnected.lottie(
+          height: 200,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,28 +190,36 @@ class _FileTransferState extends State<FileTransferView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
-                child: Column(
-                  children: [
-                    Observer(
-                      builder: (_) {
-                        return ProfileCard(
-                          bgGradient: cardBgGradient,
-                          files: appController.choosedFiles ??
-                              appController.receveidFiles ??
-                              [],
-                          isSending: widget.sendingFile,
-                        );
-                      },
-                    ),
-                    Section(
-                      title: 'fileTransferDetailsSectionTitle'.tr(),
-                    ),
-                    Observer(
-                      builder: (_) {
-                        return _renderFilesSection();
-                      },
-                    )
-                  ],
+                child: Observer(
+                  builder: (_) {
+                    if (appController.disconnected) {
+                      return renderDisconnectedView();
+                    }
+
+                    return Column(
+                      children: [
+                        Observer(
+                          builder: (_) {
+                            return ProfileCard(
+                              bgGradient: cardBgGradient,
+                              files: appController.choosedFiles ??
+                                  appController.receveidFiles ??
+                                  [],
+                              isSending: widget.sendingFile,
+                            );
+                          },
+                        ),
+                        Section(
+                          title: 'fileTransferDetailsSectionTitle'.tr(),
+                        ),
+                        Observer(
+                          builder: (_) {
+                            return _renderFilesSection();
+                          },
+                        )
+                      ],
+                    );
+                  },
                 ),
               ),
             ],

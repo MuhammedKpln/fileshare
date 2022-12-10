@@ -1,9 +1,5 @@
 {
   "postsViewTitle": "Yazılar",
-  "loginViewTitle": "Giriş yap",
-  "loginViewUsername": "Kullanıcı adı",
-  "loginViewPassword": "Şifre",
-  "loginViewBtnTxt": "Giriş yap",
   "settingsViewTitle": "Ayarlar",
   "appLocaleSettingsTxt": "Dil",
   "appLocaleNotFoundError": "Seçtiğiniz dil bulunmamakta!",
@@ -43,5 +39,7 @@
   "fileTransferViewSendingUsername": "{name} (You)",
   "transferingIsDone": "Tüm dosyaların aktarılması başarıyla tamamlandı.",
   "sendingFilesCount":"{count} Gönderilen dosya",
-  "receivedFilesCount":"{count} Alınan dosya"
+  "receivedFilesCount":"{count} Alınan dosya",
+  "userDisconnectedMessage":"Kullanıcının bağlantısı kesildi, lütfen tekrar bağlanmayı deneyin.",
+  "closeConnectionBtnTxt":"Bağlantıyı kes"
 }
