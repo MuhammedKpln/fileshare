@@ -59,7 +59,9 @@ class ProfileCard extends StatelessWidget {
 
                   return _ProfileCardInfo(
                     title: localeUsername,
-                    subtitle: '${files.length} Sending files',
+                    subtitle: LocaleKeys.sendingFilesCount.tr(
+                      namedArgs: {'count': files.length.toString()},
+                    ),
                   );
                 },
               ),
@@ -78,8 +80,11 @@ class ProfileCard extends StatelessWidget {
 
                   return _ProfileCardInfo(
                     title: username,
-                    subtitle:
-                        '${appController.transferedFiles.length} Received files',
+                    subtitle: LocaleKeys.receivedFilesCount.tr(
+                      namedArgs: {
+                        'count': appController.transferedFiles.length.toString()
+                      },
+                    ),
                   );
                 },
               ),
