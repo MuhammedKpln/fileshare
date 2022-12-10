@@ -3,6 +3,8 @@ PODS:
     - FlutterMacOS
   - dynamic_color (0.0.2):
     - FlutterMacOS
+  - file_saver (0.0.1):
+    - FlutterMacOS
   - flutter_secure_storage_macos (3.3.1):
     - FlutterMacOS
   - flutter_webrtc (0.9.4):
@@ -22,6 +24,7 @@ PODS:
 DEPENDENCIES:
   - app_links_macos (from `Flutter/ephemeral/.symlinks/plugins/app_links_macos/macos`)
   - dynamic_color (from `Flutter/ephemeral/.symlinks/plugins/dynamic_color/macos`)
+  - file_saver (from `Flutter/ephemeral/.symlinks/plugins/file_saver/macos`)
   - flutter_secure_storage_macos (from `Flutter/ephemeral/.symlinks/plugins/flutter_secure_storage_macos/macos`)
   - flutter_webrtc (from `Flutter/ephemeral/.symlinks/plugins/flutter_webrtc/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
@@ -39,6 +42,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/app_links_macos/macos
   dynamic_color:
     :path: Flutter/ephemeral/.symlinks/plugins/dynamic_color/macos
+  file_saver:
+    :path: Flutter/ephemeral/.symlinks/plugins/file_saver/macos
   flutter_secure_storage_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_secure_storage_macos/macos
   flutter_webrtc:
@@ -57,6 +62,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   app_links_macos: 15e554f46b367713cb8d1db37cee3d1701d22a27
   dynamic_color: 394d6a888650f8534e029b27d2f8bc5c64e44008
+  file_saver: 44e6fbf666677faf097302460e214e977fdd977b
   flutter_secure_storage_macos: 6ceee8fbc7f484553ad17f79361b556259df89aa
   flutter_webrtc: 45cd8f5825bb32054e817708bf343ceff2c9cab8
   FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
@@ -66,6 +72,6 @@ SPEC CHECKSUMS:
   url_launcher_macos: 597e05b8e514239626bcf4a850fcf9ef5c856ec3
   WebRTC-SDK: 9f50fb5a410edc38e6fbb865fe940e3010bc8e7e
 
-PODFILE CHECKSUM: 6eac6b3292e5142cfc23bdeb71848a40ec51c14c
+PODFILE CHECKSUM: a884f6dd3f7494f3892ee6c81feea3a3abbf9153
 
 COCOAPODS: 1.11.3
