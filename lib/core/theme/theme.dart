@@ -109,6 +109,14 @@ abstract class ThemeState with Store {
             fontSize: 14,
           ),
         ),
+        snackBarTheme: SnackBarThemeData(
+          backgroundColor: ColorPalette.primary.color,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(ThemeRadius.large.radius),
+          ),
+          actionTextColor: Colors.white,
+        ),
       );
 
   /// `setTheme` is an action that sets the theme mode to the theme mode passed

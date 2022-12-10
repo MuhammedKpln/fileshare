@@ -1,5 +1,4 @@
 // ignore_for_file: constant_identifier_names
-import 'package:boilerplate/core/theme/palette.dart';
 import 'package:boilerplate/core/theme/toast.dart';
 import 'package:boilerplate/features/core/app.view.dart';
 import 'package:flutter/material.dart';
@@ -24,13 +23,8 @@ class Toast {
   }) {
     scaffoldKey.currentState?.showSnackBar(
       SnackBar(
-        behavior: SnackBarBehavior.floating,
         content: Text(text),
-        backgroundColor: toastType?.color ?? ColorPalette.primary.color,
         action: action,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(ThemeRadius.large.radius),
-        ),
       ),
     );
   }
