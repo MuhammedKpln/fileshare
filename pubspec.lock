@@ -330,6 +330,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.2"
+  file_saver:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "0e80848780b6ebc980c5d4697a4d00721c574b12"
+      url: "https://github.com/incrediblezayed/file_saver.git"
+    source: git
+    version: "0.1.1"
   fixnum:
     dependency: transitive
     description:
@@ -722,7 +731,7 @@ packages:
     source: hosted
     version: "1.0.1"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       url: "https://pub.dartlang.org"

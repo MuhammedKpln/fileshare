@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.boilerplate">
+    package="com.muhammedkpln.flyea">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -8,8 +8,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
    <application
-        android:label="boilerplate"
+        android:label="Flyea"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
