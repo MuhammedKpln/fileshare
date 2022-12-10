@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+
 import 'dart:io';
 
 import 'package:boilerplate/core/extensions/toast.extension.dart';
@@ -39,19 +40,24 @@ abstract class _FileTransferViewControllerBase with Store {
   String? connectedPeerUsername;
 
   @observable
-  String localUsername = '';
+  int gettedData = 0;
 
   @observable
-  int gettedData = 0;
+  String localUsername = '';
 
   @computed
   FileInformation? get fileTransfering => receveidFilesQueue?.first;
 
-  List<int> bytes = List.empty(growable: true);
+  @observable
+  BytesBuilder bytes = BytesBuilder();
+
+  @computed
+  int get len => bytes.length;
 
   @observable
   ObservableList<FileInformation>? receveidFiles;
 
+  @observable
   Queue<FileInformation>? receveidFilesQueue;
 
   /// A boolean variable that is used to check if the file transfer is in progress.
@@ -79,6 +85,10 @@ abstract class _FileTransferViewControllerBase with Store {
 
   @observable
   ObservableList<PlatformFile>? choosedFilesRaw;
+
+  @computed
+  double get progressPercent =>
+      ((gettedData / fileTransfering!.size) * 100) / 100;
 
   StreamSubscription<dynamic>? _dataChannelStream;
   ReactionDisposer? autorunDisposer;
@@ -108,7 +118,7 @@ abstract class _FileTransferViewControllerBase with Store {
       }
     });
     localUsername = _generateRandomName();
-    _peer = Peer(id: peerId, options: PeerOptions(debug: LogLevel.All));
+    _peer = Peer(id: peerId);
 
     _peer?.on('open').listen((id) async {
       _peerId = id as String;
@@ -130,7 +140,7 @@ abstract class _FileTransferViewControllerBase with Store {
     final dirPath = directory.path;
     final fileWriter = File('$dirPath/${fileTransfering?.name}');
 
-    await fileWriter.writeAsBytes(bytes, mode: FileMode.append);
+    await fileWriter.writeAsBytes(bytes.toBytes(), mode: FileMode.append);
   }
 
   void connectToPeer(String peerId) {
@@ -246,6 +256,8 @@ abstract class _FileTransferViewControllerBase with Store {
             }
           }
           break;
+
+        case RTCEventType.leavePing:
       }
     });
 
@@ -254,17 +266,16 @@ abstract class _FileTransferViewControllerBase with Store {
         isTransfering = true;
       }
 
+      bytes.add(receveidBytes);
       gettedData += receveidBytes.lengthInBytes;
 
-      bytes.addAll(receveidBytes);
-
       if (fileTransfering != null) {
-        if (fileTransfering?.size == gettedData) {
-          transferedFiles.add(fileTransfering);
-          isTransfering = false;
-
+        if (fileTransfering?.size == bytes.length) {
           /// Writing file to data
           await _writeData();
+
+          transferedFiles.add(fileTransfering);
+          isTransfering = false;
 
           /// Sending a notification to sender.
           final event = RtcEvent(
@@ -276,21 +287,23 @@ abstract class _FileTransferViewControllerBase with Store {
           /// Resetting the data
           ///
 
-          final changedlist = receveidFiles!.map((element) {
-            if (element.name == fileTransfering!.name) {
-              return element.copyWith(transfered: true);
-            }
-
-            return element;
-          });
-
-          receveidFiles = ObservableList.of(changedlist);
-
-          gettedData = 0;
           receveidFilesQueue?.removeFirst();
           bytes.clear();
+          gettedData = 0;
 
-          _toast.showToast(LocaleKeys.transferingIsDone.tr());
+          if (receveidFilesQueue!.isEmpty) {
+            _toast.showToast(LocaleKeys.transferingIsDone.tr());
+          }
+
+          // final changedlist = receveidFiles!.map((element) {
+          //   if (element.name == fileTransfering?.name) {
+          //     return element.copyWith(transfered: true);
+          //   }
+
+          //   return element;
+          // });
+
+          // receveidFiles = ObservableList.of(changedlist);
         }
       }
     });

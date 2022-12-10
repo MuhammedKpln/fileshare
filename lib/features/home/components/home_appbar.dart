@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
 /// A stateless widget that returns an AppBar with a title and an action
-class HomeAppBar extends StatelessWidget {
+class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   // ignore: public_member_api_docs
   const HomeAppBar({super.key});
 
@@ -47,4 +47,7 @@ class HomeAppBar extends StatelessWidget {
       ],
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

@@ -41,5 +41,7 @@
   "nearbyDevicesTitle": "Yakındaki cihazlar",
   "nearbyDevicesSubTitle": "Aynı ağdaki diğer aygıtlarınızı tarayın",
   "fileTransferViewSendingUsername": "{name} (You)",
-  "transferingIsDone": "Tüm dosyaların aktarılması başarıyla tamamlandı."
+  "transferingIsDone": "Tüm dosyaların aktarılması başarıyla tamamlandı.",
+  "sendingFilesCount":"{count} Gönderilen dosya",
+  "receivedFilesCount":"{count} Alınan dosya"
 }

@@ -14,10 +14,13 @@ enum RTCEventType {
   fileFetched,
 
   /// Ping peer to navigate to transfer file
-  navigatePing;
+  navigatePing,
+
+  /// Ping peer to notify about leave
+  leavePing;
 
   @override
-  String toString() => this.name.toString();
+  String toString() => name.toString();
 }
 
 /// It's a class that represents a WebRTC events
@@ -39,7 +42,7 @@ class RtcEvent extends Equatable {
   ///   data (Map<String, dynamic>): The data to be sent.
   factory RtcEvent.fromMap(Map<String, dynamic> data) => RtcEvent(
         event: RTCEventType.values
-            .singleWhere((element) => element.name == data["event"]),
+            .singleWhere((element) => element.name == data['event']),
         data: data['data'] as Map<String, dynamic>,
       );
 

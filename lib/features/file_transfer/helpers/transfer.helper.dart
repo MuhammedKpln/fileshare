@@ -6,7 +6,6 @@ import 'package:boilerplate/features/file_transfer/controllers/file_transfer.con
 import 'package:boilerplate/features/find_user/models/file_information.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 enum TransferIsolateMessage { chunk, doneFile, fileBegin }
 
@@ -63,9 +62,7 @@ class TransferHelper {
     final fileBytes = <Uint8List>[];
 
     file.readStream?.forEach((element) {
-      chunk(element, chunkSize: chunkSize).listen((chunk) {
-        fileBytes.add(chunk);
-      });
+      chunk(element, chunkSize: chunkSize).listen(fileBytes.add);
     }).whenComplete(() async {
       /// Send file information, receiver knows which file is being transferred.
 

@@ -15,7 +15,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-// ignore: public_member_api_docs
+/// It's a StatefulWidget that
+/// displays a list of nearby devices and allows the user to connect to them
 class HomeView extends StatefulWidget {
   /// A named constructor.
   const HomeView({super.key});
@@ -103,10 +104,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromRadius(50),
-        child: HomeAppBar(),
-      ),
+      appBar: const HomeAppBar(),
       body: Padding(
         padding: EdgeInsets.all(ThemePadding.medium.padding),
         child: SingleChildScrollView(

@@ -42,5 +42,7 @@
   "nearbyDevicesTitle": "Nearby Devices",
   "nearbyDevicesSubTitle": "Discover any device with same network",
   "fileTransferViewSendingUsername": "{name} (You)",
-  "transferingIsDone": "Transferring of all files has been successfully completed."
+  "transferingIsDone": "Transferring of all files has been successfully completed.",
+  "sendingFilesCount":"{count} Sending files",
+  "receivedFilesCount":"{count} Received files"
 }

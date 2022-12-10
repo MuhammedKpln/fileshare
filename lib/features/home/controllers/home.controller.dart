@@ -30,16 +30,15 @@ abstract class _HomeViewControllerBase with Store {
   late RealtimeChannel channel;
 
   @action
-  void init({required void Function(String peerId) onNavigate}) {
+  Future<void> init({required void Function(String peerId) onNavigate}) async {
     FlutterNativeSplash.remove();
-
     myDeviceInformation = NearbyDevice(
       username: _generateRandomName(),
       uuid: _generateUuid(),
       platform: Platform.operatingSystem,
     );
 
-    _findNearbyDevices(onNavigate: onNavigate);
+    await _findNearbyDevices(onNavigate: onNavigate);
   }
 
   @action
