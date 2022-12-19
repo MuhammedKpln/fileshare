@@ -336,7 +336,10 @@ abstract class _FileTransferViewControllerBase with Store {
   }
 
   void dispose() {
-    pingPeerForLeaving();
+    if (!disconnected) {
+      pingPeerForLeaving();
+    }
+
     autorunDisposer?.call();
     queueAutoRunDisposer?.call();
     _dataChannelStream?.cancel();
