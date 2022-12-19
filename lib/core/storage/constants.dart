@@ -2,20 +2,14 @@
 
 /// Hive box names
 enum StorageBoxes {
-  auth('auth');
+  onboard('onboard');
 
   final String box;
   const StorageBoxes(this.box);
 }
 
-/// Hive box names
-enum AuthStorageKeys {
-  user('user'),
-  accessToken('access_token');
-
-  final String key;
-  const AuthStorageKeys(this.key);
-}
+/// Onboard box keys
+enum OnboardBoxKeys { state }
 
 /// Hive box names
 enum SecureStorageKeys {

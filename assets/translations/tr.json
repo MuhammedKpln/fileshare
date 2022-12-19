@@ -41,5 +41,13 @@
   "sendingFilesCount":"{count} Gönderilen dosya",
   "receivedFilesCount":"{count} Alınan dosya",
   "userDisconnectedMessage":"Kullanıcının bağlantısı kesildi, lütfen tekrar bağlanmayı deneyin.",
-  "closeConnectionBtnTxt":"Bağlantıyı kes"
+  "closeConnectionBtnTxt":"Bağlantıyı kes",
+  "onboard1Title": "Flyea'ya hoş geldiniz! ",
+  "onboard1Body":"Dosyalarınızı birkaç tıklama ile paylaşmaya başlayın.",
+  "onboard2Title": "Kolay dosya paylaşımı",
+  "onboard2Body":"Dosya paylaşma zahmetinden vazgeçin - app dosyalarınızı paylaşmayı kolaylaştırır.",
+  "onboard3Title": "Sınırsız dosya transferi",
+  "onboard3Body":"Artık e-posta ekleri ve dosya boyut sınırlamaları yok - herhangi bir dosyayı app ile transfer edin.",
+  "onboard4Title": "Güvenli dosya paylaşımı",
+  "onboard4Body":"Herhangi bir yerden herhangi bir kullanıcıya güvenli bir şekilde dosya gönderin ve alın."
 }

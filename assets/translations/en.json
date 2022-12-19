@@ -41,5 +41,13 @@
   "sendingFilesCount":"{count} Sending files",
   "receivedFilesCount":"{count} Received files",
   "userDisconnectedMessage":"User has been disconnected, please try connecting again.",
-  "closeConnectionBtnTxt":"Close connection"
+  "closeConnectionBtnTxt":"Close connection",
+  "onboard1Title": "Welcome to the Flyea!",
+  "onboard1Body":"Start sharing files with just a few clicks.",
+  "onboard2Title": "Easy file sharing",
+  "onboard2Body":"Say goodbye to the hassle of file sharing – our app makes it easy.",
+  "onboard3Title": "Unlimited file transfers",
+  "onboard3Body":"No more email attachments or file size limits – transfer any file with our app.",
+  "onboard4Title": "Secure file sharing",
+  "onboard4Body":"Easily send and receive files from anyone, anywhere with our secure app"
 }
