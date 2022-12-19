@@ -95,32 +95,34 @@ class _FileTransferState extends State<FileTransferView> {
     TransferHelper.startIsolate();
   }
 
+  Widget renderActionButtons() {
+    if (!widget.sendingFile) {
+      return const SizedBox.shrink();
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Observer(
+          builder: (_) {
+            return Button(
+              onPressed: _onPressed,
+              label: 'transferFilesBtnTxt'.tr(),
+              buttonType: ButtonType.primary,
+              loading: appController.isTransfering,
+            );
+          },
+        ),
+        Button(
+          onPressed: appController.clearFiles,
+          label: 'clearFilesBtnTxt'.tr(),
+        ),
+      ],
+    );
+  }
+
   Widget _renderFiles({required bool sendingFile}) {
     final files = appController.choosedFiles ?? appController.receveidFiles;
-
-    Widget renderActionButtons() {
-      if (!widget.sendingFile) const SizedBox.shrink();
-
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Observer(
-            builder: (_) {
-              return Button(
-                onPressed: _onPressed,
-                label: 'transferFilesBtnTxt'.tr(),
-                buttonType: ButtonType.primary,
-                loading: appController.isTransfering,
-              );
-            },
-          ),
-          Button(
-            onPressed: appController.clearFiles,
-            label: 'clearFilesBtnTxt'.tr(),
-          ),
-        ],
-      );
-    }
 
     return Column(
       children: [
@@ -146,8 +148,9 @@ class _FileTransferState extends State<FileTransferView> {
   }
 
   Widget _renderEmptyFilesSection() {
+    final onTap = widget.sendingFile ? appController.pickFile : () => null;
     return EmptyFilesSection(
-      onTap: appController.pickFile,
+      onTap: onTap,
     );
   }
 
