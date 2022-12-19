@@ -149,8 +149,10 @@ class TransferHelper {
 
       switch (handler.type) {
         case TransferIsolateMessage.chunk:
-          final data = handler.data as Uint8List;
-          await appController.connection?.sendBinary(data);
+          if (appController.connection?.open ?? false) {
+            final data = handler.data as Uint8List;
+            await appController.connection?.sendBinary(data);
+          }
           break;
         case TransferIsolateMessage.doneFile:
           final data = handler.data as FileInformation;
