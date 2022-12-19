@@ -315,16 +315,6 @@ abstract class _FileTransferViewControllerBase with Store {
           if (receveidFilesQueue!.isEmpty) {
             _toast.showToast(LocaleKeys.transferingIsDone.tr());
           }
-
-          // final changedlist = receveidFiles!.map((element) {
-          //   if (element.name == fileTransfering?.name) {
-          //     return element.copyWith(transfered: true);
-          //   }
-
-          //   return element;
-          // });
-
-          // receveidFiles = ObservableList.of(changedlist);
         }
       }
     });
