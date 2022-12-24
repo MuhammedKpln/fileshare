@@ -16,12 +16,15 @@ class OnboardStorage {
   /// > Get the onboard state from the onboard box
   ///
   /// Returns:
-  ///   A Future<void>
+  ///   A Future<bool?>
   Future<bool?> getOnboardState() async {
     final box = await Hive.openLazyBox(StorageBoxes.app.box);
 
     final state = await box.get(AppBoxKeys.onboardState.name);
 
-    return state as bool;
+    if (state != null) {
+      return state as bool;
+    }
+    return null;
   }
 }
