@@ -337,15 +337,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.2"
-  file_saver:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "0e80848780b6ebc980c5d4697a4d00721c574b12"
-      url: "https://github.com/incrediblezayed/file_saver.git"
-    source: git
-    version: "0.1.1"
   fixnum:
     dependency: transitive
     description:
@@ -397,7 +388,7 @@ packages:
       name: flutter_native_splash
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.12"
+    version: "2.2.16"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -799,7 +790,7 @@ packages:
       name: peerdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0-beta.5"
+    version: "0.5.0"
   petitparser:
     dependency: transitive
     description:
