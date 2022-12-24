@@ -9,6 +9,7 @@ import 'package:boilerplate/core/theme/toast.dart';
 import 'package:boilerplate/features/file_transfer/helpers/transfer.helper.dart';
 import 'package:boilerplate/features/find_user/models/event.dart';
 import 'package:boilerplate/features/find_user/models/file_information.dart';
+import 'package:boilerplate/features/settings/storage/settings.storage.dart';
 import 'package:boilerplate/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:file_picker/file_picker.dart';
@@ -29,12 +30,17 @@ class FileTransferViewController = _FileTransferViewControllerBase
     with _$FileTransferViewController;
 
 abstract class _FileTransferViewControllerBase with Store {
-  _FileTransferViewControllerBase(this._toast);
+  _FileTransferViewControllerBase(
+    this._toast,
+    this._picker,
+    this._settingsStorage,
+  );
   final Toast _toast;
 
   Peer? _peer;
   DataConnection? connection;
-  final FilePickerWrappper _picker = FilePickerWrappper();
+  final FilePickerWrappper _picker;
+  final SettingsStorage _settingsStorage;
 
   String? _peerId;
 
@@ -142,9 +148,16 @@ abstract class _FileTransferViewControllerBase with Store {
   }
 
   Future<void> _writeData() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final dirPath = directory.path;
-    final fileWriter = File('$dirPath/${fileTransfering?.name}');
+    final savedDirectory = await _settingsStorage.getDownloadDir();
+    File? fileWriter;
+
+    if (savedDirectory != null) {
+      fileWriter = File('$savedDirectory/${fileTransfering?.name}');
+    } else {
+      final directory = await getApplicationDocumentsDirectory();
+      final dirPath = directory.path;
+      fileWriter = File('$dirPath/${fileTransfering?.name}');
+    }
 
     await fileWriter.writeAsBytes(bytes.toBytes(), mode: FileMode.append);
   }
