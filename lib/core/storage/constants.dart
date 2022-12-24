@@ -2,14 +2,14 @@
 
 /// Hive box names
 enum StorageBoxes {
-  onboard('onboard');
+  app('app');
 
   final String box;
   const StorageBoxes(this.box);
 }
 
 /// Onboard box keys
-enum OnboardBoxKeys { state }
+enum AppBoxKeys { onboardState, downloadDir }
 
 /// Hive box names
 enum SecureStorageKeys {

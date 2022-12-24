@@ -87,14 +87,14 @@ abstract class _OnboardControllerBase with Store {
   }
 
   Future<void> init({
-    required Future<dynamic> Function() onSplashIsAlreadyShowed,
+    required void Function() onSplashIsAlreadyShowed,
   }) async {
     final state = await _storage.getOnboardState();
 
     if (state != null && state == true) {
-      await onSplashIsAlreadyShowed
-          .call()
-          .whenComplete(FlutterNativeSplash.remove);
+      onSplashIsAlreadyShowed.call();
     }
+
+    FlutterNativeSplash.remove();
   }
 }

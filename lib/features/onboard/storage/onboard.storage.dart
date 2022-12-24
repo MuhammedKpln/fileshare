@@ -7,10 +7,10 @@ import 'package:injectable/injectable.dart';
 class OnboardStorage {
   /// > Save the onboard state to the onboard box
   Future<void> saveOnboardState({required bool state}) async {
-    final box = await Hive.openLazyBox<bool>(StorageBoxes.onboard.box);
+    final box = await Hive.openLazyBox(StorageBoxes.app.box);
 
     /// True for hiding, false for showing onboard page.
-    await box.put(OnboardBoxKeys.state.name, state);
+    await box.put(AppBoxKeys.onboardState.name, state);
   }
 
   /// > Get the onboard state from the onboard box
@@ -18,10 +18,10 @@ class OnboardStorage {
   /// Returns:
   ///   A Future<void>
   Future<bool?> getOnboardState() async {
-    final box = await Hive.openLazyBox<bool>(StorageBoxes.onboard.box);
+    final box = await Hive.openLazyBox(StorageBoxes.app.box);
 
-    final state = await box.get(OnboardBoxKeys.state.name);
+    final state = await box.get(AppBoxKeys.onboardState.name);
 
-    return state;
+    return state as bool;
   }
 }

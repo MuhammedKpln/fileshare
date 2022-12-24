@@ -24,8 +24,8 @@ class _OnboardViewState extends State<OnboardView> {
     controller.init(onSplashIsAlreadyShowed: onSplashIsAlreadyShowed);
   }
 
-  Future<void> onSplashIsAlreadyShowed() async {
-    await context.router.replace(const HomeRoute());
+  void onSplashIsAlreadyShowed() {
+    context.router.replace(const HomeRoute());
   }
 
   Future<void> onDone() async {

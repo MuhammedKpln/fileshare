@@ -1,5 +1,6 @@
 import 'package:boilerplate/features/settings/components/change_locale.dart';
 import 'package:boilerplate/features/settings/components/change_theme.dart';
+import 'package:boilerplate/features/settings/components/downloads_dir.component.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,11 @@ class SettingsView extends StatelessWidget {
   // ignore: public_member_api_docs
   SettingsView({super.key});
 
-  final List<Widget> _settings = [const ChangeLocale(), const ChangeTheme()];
+  final List<Widget> _settings = [
+    const ChangeLocale(),
+    const ChangeTheme(),
+    const SettingsPageChangeDownloadsDir(),
+  ];
 
   @override
   Widget build(BuildContext context) {

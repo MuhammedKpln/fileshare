@@ -49,5 +49,7 @@
   "onboard3Title": "Sınırsız dosya transferi",
   "onboard3Body":"Artık e-posta ekleri ve dosya boyut sınırlamaları yok - herhangi bir dosyayı app ile transfer edin.",
   "onboard4Title": "Güvenli dosya paylaşımı",
-  "onboard4Body":"Herhangi bir yerden herhangi bir kullanıcıya güvenli bir şekilde dosya gönderin ve alın."
+  "onboard4Body":"Herhangi bir yerden herhangi bir kullanıcıya güvenli bir şekilde dosya gönderin ve alın.",
+  "changeDownloadsDir":"İndirilenler dizinini değiştir",
+  "savedDownloadsDir":"İndirilenler dizini şu şekilde değiştirildi: {dir}"
 }
