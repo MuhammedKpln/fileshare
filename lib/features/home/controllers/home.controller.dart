@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:boilerplate/features/home/models/nearby_device.model.dart';
 import 'package:boilerplate/features/home/repository/home.repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -28,12 +29,14 @@ abstract class _HomeViewControllerBase with Store {
   late NearbyDevice peerDeviceInformation;
   late RealtimeChannel channel;
 
+  String get _operatingSystem => kIsWeb ? 'Web' : Platform.operatingSystem;
+
   @action
   Future<void> init({required void Function(String peerId) onNavigate}) async {
     myDeviceInformation = NearbyDevice(
       username: _generateRandomName(),
       uuid: _generateUuid(),
-      platform: Platform.operatingSystem,
+      platform: _operatingSystem,
     );
 
     await _findNearbyDevices(onNavigate: onNavigate);

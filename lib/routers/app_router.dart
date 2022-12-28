@@ -11,25 +11,21 @@ import 'package:boilerplate/features/settings/views/settings.view.dart';
   routes: <AutoRoute>[
     AutoRoute(
       page: HomeView,
-      deferredLoading: true,
     ),
-    AutoRoute(page: FileTransferView, deferredLoading: true),
+    AutoRoute(page: FileTransferView),
     AutoRoute(
       page: FindUserView,
       fullscreenDialog: true,
-      deferredLoading: true,
     ),
     AutoRoute(
       page: ScanQRCodeView,
       fullscreenDialog: true,
-      deferredLoading: true,
     ),
     AutoRoute(
       page: SettingsView,
       fullscreenDialog: true,
-      deferredLoading: true,
     ),
-    AutoRoute(page: OnboardView, deferredLoading: true, initial: true)
+    AutoRoute(page: OnboardView, initial: true)
   ],
 )
 // ignore: public_member_api_docs

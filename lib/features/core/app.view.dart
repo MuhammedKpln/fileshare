@@ -5,6 +5,7 @@ import 'package:boilerplate/services/app.service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 /// Used to access the `ScaffoldState` of the `App` widget.
 final GlobalKey<ScaffoldMessengerState> scaffoldKey =
@@ -43,6 +44,20 @@ class _AppState extends State<App> {
           routerDelegate: appRouter.delegate(),
           routeInformationParser: appRouter.defaultRouteParser(),
           routeInformationProvider: appRouter.routeInfoProvider(),
+          builder: (context, child) {
+            return ResponsiveWrapper.builder(
+              child,
+              maxWidth: 1200,
+              minWidth: 480,
+              defaultScale: true,
+              breakpoints: [
+                const ResponsiveBreakpoint.autoScaleDown(480, name: MOBILE),
+                const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+              ],
+              background: Container(color: const Color(0xFFF5F5F5)),
+            );
+          },
         );
       },
     );
