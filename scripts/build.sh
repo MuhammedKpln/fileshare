@@ -10,4 +10,4 @@ source $(pwd)/scripts/generate_locale.sh
 printf "${GREEN} DONE: Generating locale files\n${NC}"
 
 printf "${CYAN} TASK: Watching\n${NC}"
-flutter pub run build_runner watch --delete-conflicting-outputs
+flutter pub run build_runner build --delete-conflicting-outputs

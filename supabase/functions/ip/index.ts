@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.131.0/http/server.ts"
+import { corsHeaders } from '../_shared/cors.ts';
 
 
 interface IIpify {
@@ -22,7 +23,7 @@ serve(async (req) => {
 
   return new Response(
     JSON.stringify(ip),
-    { headers: { "Content-Type": "application/json" } },
+    { headers: { ...corsHeaders, "Content-Type": "application/json" } },
   )
 })
 
