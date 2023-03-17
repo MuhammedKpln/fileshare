@@ -1,6 +1,6 @@
 
 image:
-  file: .gitpod.Dockerfile
+  file: .gitpod.dockerfile
 vscode:
   extensions:
     - Dart-Code.dart-code@3.16.0-dev.cloud.2
