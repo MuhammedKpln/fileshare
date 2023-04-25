@@ -9,6 +9,10 @@ Easily share files between your devices with Flyea. No signups or setup needed.
 
 This application allows users to easily share files between devices using WebRTC technology. With just a few clicks, users can securely and quickly transfer files of any size to other devices on the same network. The application uses end-to-end encryption to ensure that the transferred files are kept private and secure. Additionally, the application supports multiple file types, allowing users to share a wide range of documents, photos, videos, and other types of files. Overall, this application makes it simple and convenient for users to share files between devices without the need for additional hardware or software.
 
+
+https://user-images.githubusercontent.com/17166855/234266784-caf4562a-ed4c-4fca-82e0-bd6a9a183010.mp4
+
+
 </p>
 <br>
 <p align="center">
