@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:ionicons/ionicons.dart';
 
+@RoutePage()
 class OnboardView extends StatefulWidget {
   const OnboardView({super.key});
 

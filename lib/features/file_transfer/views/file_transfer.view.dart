@@ -19,6 +19,7 @@ import 'package:ionicons/ionicons.dart';
 
 /// It's a stateful widget that displays a profile card, a section title, and
 /// a file
+@RoutePage()
 class FileTransferView extends StatefulWidget {
   // ignore: public_member_api_docs
   const FileTransferView({

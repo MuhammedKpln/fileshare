@@ -1,6 +1,6 @@
 import 'package:boilerplate/core/constants/core.dart';
 import 'package:boilerplate/core/di/di.dart';
-import 'package:boilerplate/routers/app_router.gr.dart';
+import 'package:boilerplate/routers/app_router.dart';
 import 'package:boilerplate/services/app.service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -41,21 +41,16 @@ class _AppState extends State<App> {
           locale: context.locale,
           theme: appService.theme.themeData,
           themeMode: appService.theme.mode,
-          routerDelegate: appRouter.delegate(),
-          routeInformationParser: appRouter.defaultRouteParser(),
-          routeInformationProvider: appRouter.routeInfoProvider(),
+          routerConfig: appRouter.config(),
           builder: (context, child) {
-            return ResponsiveWrapper.builder(
-              child,
-              maxWidth: 1200,
-              minWidth: 480,
-              defaultScale: true,
+            return ResponsiveBreakpoints.builder(
+              child: child!,
               breakpoints: [
-                const ResponsiveBreakpoint.autoScaleDown(480, name: MOBILE),
-                const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+                const Breakpoint(start: 0, end: 450, name: MOBILE),
+                const Breakpoint(start: 451, end: 800, name: TABLET),
+                const Breakpoint(start: 801, end: 1920, name: DESKTOP),
+                const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
               ],
-              background: Container(color: const Color(0xFFF5F5F5)),
             );
           },
         );

@@ -17,7 +17,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 /// `FindUserView` is a `StatefulWidget` that creates a `_FindUserViewState`
-/// when it's created
+/// when it's created¨
+@RoutePage()
 class FindUserView extends StatefulWidget {
   // ignore: public_member_api_docs
   const FindUserView({

@@ -17,6 +17,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// It's a StatefulWidget that
 /// displays a list of nearby devices and allows the user to connect to them
+@RoutePage()
 class HomeView extends StatefulWidget {
   /// A named constructor.
   const HomeView({super.key});
@@ -176,7 +177,7 @@ class _HomeViewState extends State<HomeView> {
       itemBuilder: (context, index) {
         final user = appController.nearbyDevices[index];
         return ListTile(
-          onTap: () => connect(user!),
+          onTap: () => connect(user),
           leading: _renderIcon(user),
           title: Text(user!.username),
           subtitle: Text(_getPlatformDescription(user.platform)),
